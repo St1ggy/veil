@@ -32,6 +32,10 @@ export function aboutHref(lang: Lang): string {
   return withBase(`${lang}/about`);
 }
 
+export function systemHref(lang: Lang): string {
+  return withBase(`${lang}/system`);
+}
+
 export function glossaryHref(lang: Lang): string {
   return withBase(`${lang}/glossary`);
 }

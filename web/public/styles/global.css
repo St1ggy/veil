@@ -518,6 +518,11 @@ code {
   text-transform: none;
 }
 
+.system-dl {
+  margin: 1rem 0 1.5rem;
+  display: grid;
+  gap: 0.85rem;
+}
 
 .system-dl dt {
   margin: 0;
@@ -531,8 +536,19 @@ code {
   color: #d5deea;
 }
 
+.system-related {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 1.1rem;
+}
 
+.system-footer-links {
+  margin-top: 2rem;
+}
 
+.system-page .page-header {
+  margin-bottom: 1.75rem;
+}
 
 .relations {
   margin-top: 2.5rem;

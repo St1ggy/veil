@@ -17,6 +17,7 @@ const ui = {
     tagline: "Энциклопедия альтернативной Земли 2435",
     navHome: "Главная",
     navAbout: "О мире",
+    navSystem: "Система",
     navGlossary: "Глоссарий",
     navCategories: "Разделы",
     glossaryTitle: "Глоссарий",
@@ -58,6 +59,7 @@ const ui = {
     aboutMagicTitle: "Магия и технологии",
     aboutMagic:
       "Магия не нарушает физику — она меняет вероятность через Эфир и всегда имеет цену. Технологии продолжают существовать: классические, эфирные и гибридные. Их взаимное давление известно как принцип Арканум.",
+    systemRelatedTitle: "Статьи энциклопедии по теме",
     openEntity: "Открыть статью",
   },
   en: {
@@ -65,6 +67,7 @@ const ui = {
     tagline: "Encyclopedia of alternate Earth, 2435",
     navHome: "Home",
     navAbout: "The World",
+    navSystem: "System",
     navGlossary: "Glossary",
     navCategories: "Sections",
     glossaryTitle: "Glossary",
@@ -106,6 +109,7 @@ const ui = {
     aboutMagicTitle: "Magic and technology",
     aboutMagic:
       "Magic does not break physics — it changes probability through the Ether, and always has a cost. Technology endures: classical, etheric, and hybrid. Their mutual pressure is known as the Arcanum principle.",
+    systemRelatedTitle: "Related encyclopedia articles",
     openEntity: "Open article",
   },
 } as const;

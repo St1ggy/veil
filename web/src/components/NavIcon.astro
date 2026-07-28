@@ -1,11 +1,12 @@
 ---
 import BookMarked from "@lucide/astro/icons/book-marked";
 import Compass from "@lucide/astro/icons/compass";
+import Dices from "@lucide/astro/icons/dices";
 import House from "@lucide/astro/icons/house";
 import Languages from "@lucide/astro/icons/languages";
 
 interface Props {
-  name: "home" | "glossary" | "about" | "language";
+  name: "home" | "glossary" | "about" | "system" | "language";
   size?: number;
   class?: string;
 }
@@ -16,6 +17,7 @@ const icons = {
   home: House,
   glossary: BookMarked,
   about: Compass,
+  system: Dices,
   language: Languages,
 } as const;
 

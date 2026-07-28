@@ -12,6 +12,7 @@ import {
   featuredIds,
   getWikiEntries,
   glossaryHref,
+  systemHref,
   displayTitle,
   displaySummary,
 } from "../../lib/wiki";
@@ -40,6 +41,10 @@ const featured = featuredIds
       <a class="btn btn-primary" href={categoryHref(L, "cosmology")}>
         <CategoryIcon id="cosmology" size={16} />
         <span>{t(L, "explore")}</span>
+      </a>
+      <a class="btn btn-secondary" href={systemHref(L)}>
+        <NavIcon name="system" size={16} />
+        <span>{t(L, "navSystem")}</span>
       </a>
       <a class="btn btn-secondary" href={glossaryHref(L)}>
         <NavIcon name="glossary" size={16} />

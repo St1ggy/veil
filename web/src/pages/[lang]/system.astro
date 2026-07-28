@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { systemPage } from "../../data/system";
+import { t, type Lang } from "../../i18n/ui";
+import {
+  aboutHref,
+  displaySummary,
+  displayTitle,
+  entityHref,
+  getWikiEntries,
+  glossaryHref,
+  langHome,
+} from "../../lib/wiki";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
+}
+
+const L = Astro.params.lang as Lang;
+const entries = await getWikiEntries(L);
+const related = systemPage.relatedIds
+  .map((id) => entries.find((e) => e.data.id === id))
+  .filter(Boolean);
+---
+
+<BaseLayout
+  lang={L}
+  title={systemPage.title[L]}
+  description={systemPage.lead[L]}
+  pathAfterLang="system"
+  activeNav="system"
+>
+  <article class="prose system-page">
+    <header class="page-header">
+      <h1>{systemPage.title[L]}</h1>
+      <p>{systemPage.lead[L]}</p>
+    </header>
+
+    {
+      systemPage.sections.map((section) => (
+        <section>
+          <h2>{section.title[L]}</h2>
+          {section.paragraphs.map((p) => (
+            <p>{p[L]}</p>
+          ))}
+          {section.items && (
+            <dl class="system-dl">
+              {section.items.map((item) => (
+                <>
+                  <dt>{item.label[L]}</dt>
+                  <dd>{item.body[L]}</dd>
+                </>
+              ))}
+            </dl>
+          )}
+        </section>
+      ))
+    }
+
+    <section>
+      <h2>{t(L, "systemRelatedTitle")}</h2>
+      <ul class="entity-list">
+        {
+          related.map((entry) =>
+            entry ? (
+              <li>
+                <a class="title" href={entityHref(L, entry.data.id)}>
+                  {displayTitle(entry, L)}
+                </a>
+                <div class="meta-row">
+                  <span class="badge">{entry.data.id}</span>
+                </div>
+                {displaySummary(entry, L) && (
+                  <p class="summary">{displaySummary(entry, L)}</p>
+                )}
+              </li>
+            ) : null,
+          )
+        }
+      </ul>
+    </section>
+
+    <p class="system-footer-links">
+      <a href={aboutHref(L)}>{t(L, "navAbout")}</a>
+      ·
+      <a href={glossaryHref(L)}>{t(L, "navGlossary")}</a>
+      ·
+      <a href={langHome(L)}>{t(L, "backHome")}</a>
+    </p>
+  </article>
+</BaseLayout>

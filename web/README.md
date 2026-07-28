@@ -1,6 +1,6 @@
 # Veil web (Astro)
 
-Static encyclopedia from `../wiki/**/*.md`.
+Static encyclopedia built from `../wiki/**/*.md` (Russian) and `../wiki/en/**/*.md` (English).
 
 ## Routes
 
@@ -10,10 +10,11 @@ Static encyclopedia from `../wiki/**/*.md`.
 | `/ru`, `/en` | Home + category grid |
 | `/{lang}/category/{id}` | Section listing |
 | `/{lang}/entity/{ID}` | Article |
-| `/{lang}/about` | About |
-| `/{lang}/glossary` | Glossary (canonical terms) |
+| `/{lang}/about` | About the world |
+| `/{lang}/system` | SWADE game system (detailed) |
+| `/{lang}/glossary` | Glossary |
 
-Languages: UI fully bilingual. Article bodies are Russian until `wiki` gains EN mirrors; EN uses Latin aliases for titles.
+UI, metadata labels (type / status / tags / relations), and article bodies are bilingual.
 
 ## Commands
 

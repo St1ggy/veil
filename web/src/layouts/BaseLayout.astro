@@ -9,6 +9,7 @@ import {
   categoryHref,
   glossaryHref,
   langHome,
+  systemHref,
   withBase,
 } from "../lib/wiki";
 
@@ -18,7 +19,7 @@ interface Props {
   description?: string;
   pathAfterLang?: string;
   activeCategory?: string;
-  activeNav?: "home" | "glossary" | "about";
+  activeNav?: "home" | "glossary" | "about" | "system";
 }
 
 const {
@@ -113,6 +114,13 @@ const otherHref = withBase(
           >
             <NavIcon name="about" />
             <span>{t(lang, "navAbout")}</span>
+          </a>
+          <a
+            class:list={[{ active: activeNav === "system" }]}
+            href={systemHref(lang)}
+          >
+            <NavIcon name="system" />
+            <span>{t(lang, "navSystem")}</span>
           </a>
         </nav>
       </aside>

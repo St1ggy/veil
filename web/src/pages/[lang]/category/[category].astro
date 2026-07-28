@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { categories, categoryById } from "../../../i18n/categories";
+import { t, type Lang } from "../../../i18n/ui";
+import {
+  entityHref,
+  entriesInCategory,
+  getWikiEntries,
+  displayTitle,
+  displaySummary,
+} from "../../../lib/wiki";
+
+export function getStaticPaths() {
+  const langs = ["ru", "en"] as const;
+  return langs.flatMap((lang) =>
+    categories.map((cat) => ({
+      params: { lang, category: cat.id },
+    })),
+  );
+}
+
+const L = Astro.params.lang as Lang;
+const categoryId = Astro.params.category as string;
+const cat = categoryById(categoryId)!;
+const entries = entriesInCategory(await getWikiEntries(), cat.id);
+---
+
+<BaseLayout
+  lang={L}
+  title={cat.label[L]}
+  description={cat.description[L]}
+  pathAfterLang={`category/${cat.id}`}
+  activeCategory={cat.id}
+>
+  <header class="page-header">
+    <div class="meta-row">
+      <span class="badge">{cat.icon}</span>
+      <span>{t(L, "category")}</span>
+    </div>
+    <h1>{cat.label[L]}</h1>
+    <p>{cat.description[L]}</p>
+    <div class="meta-row">
+      <span>
+        {entries.length} {t(L, "articles")}
+      </span>
+    </div>
+  </header>
+
+  {
+    entries.length === 0 ? (
+      <p class="notice">{t(L, "emptyCategory")}</p>
+    ) : (
+      <ul class="entity-list">
+        {entries.map((entry) => (
+          <li>
+            <a class="title" href={entityHref(L, entry.data.id)}>
+              {displayTitle(entry, L)}
+            </a>
+            <div class="meta-row">
+              <span class="badge">{entry.data.id}</span>
+              {entry.data.type && (
+                <span>
+                  {t(L, "type")}: {entry.data.type}
+                </span>
+              )}
+              {entry.data.status && (
+                <span>
+                  {t(L, "status")}: {entry.data.status}
+                </span>
+              )}
+              {entry.data.importance && (
+                <span>
+                  {t(L, "importance")}: {entry.data.importance}
+                </span>
+              )}
+            </div>
+            {displaySummary(entry, L) && (
+              <p class="summary">{displaySummary(entry, L)}</p>
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</BaseLayout>

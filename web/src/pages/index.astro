@@ -1,41 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { getWikiEntries, entityHref } from "../lib/wiki";
-
-const entries = await getWikiEntries();
-const types = [...new Set(entries.map((e) => e.data.type || "other"))].sort();
+import { withBase } from "../lib/wiki";
 ---
-
-<BaseLayout
-  title="Энциклопедия"
-  description="Veil of Worlds — энциклопедия альтернативной Земли 2435."
->
-  <section class="hero">
-    <h1>Veil of Worlds</h1>
-    <p>
-      Энциклопедия альтернативной Земли 2435. Tech Fantasy / Science Fantasy —
-      не классическое фэнтези. Источники: <code>wiki/</code> и <code>data/</code>.
-    </p>
-  </section>
-
-  <div class="filters">
-    <span>{entries.length} статей</span>
-    {types.map((t) => <span class="badge">{t}</span>)}
-  </div>
-
-  <ul class="entity-list">
-    {
-      entries.map((entry) => (
-        <li>
-          <a href={entityHref(entry.data.id)}>{entry.data.title}</a>
-          <div class="meta">
-            <span class="badge">{entry.data.id}</span>
-            {entry.data.type && <span>{entry.data.type}</span>}
-            {entry.data.status && <span>{entry.data.status}</span>}
-          </div>
-          {entry.data.summary && <p class="summary">{entry.data.summary}</p>}
-        </li>
-      ))
-    }
-  </ul>
-</BaseLayout>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0;url=${withBase("ru")}`} />
+    <link rel="canonical" href={withBase("ru")} />
+    <title>Veil of Worlds</title>
+  </head>
+  <body>
+    <p><a href={withBase("ru")}>Русский</a> · <a href={withBase("en")}>English</a></p>
+  </body>
+</html>

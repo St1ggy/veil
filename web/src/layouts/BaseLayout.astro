@@ -1,36 +1,107 @@
 ---
+import { categories } from "../i18n/categories";
+import { languages, t, type Lang } from "../i18n/ui";
+import {
+  aboutHref,
+  categoryHref,
+  langHome,
+  withBase,
+} from "../lib/wiki";
+
 interface Props {
+  lang: Lang;
   title: string;
   description?: string;
+  pathAfterLang?: string;
+  activeCategory?: string;
 }
 
-import { withBase } from "../lib/wiki";
-
-const { title, description } = Astro.props;
+const { lang, title, description, pathAfterLang = "", activeCategory } = Astro.props;
+const other: Lang = lang === "ru" ? "en" : "ru";
+const otherHref = withBase(
+  pathAfterLang ? `${other}/${pathAfterLang.replace(/^\/+/, "")}` : other,
+);
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · Veil of Worlds</title>
+    <title>{title} · {t(lang, "brand")}</title>
     {description && <meta name="description" content={description} />}
     <link rel="stylesheet" href={withBase("styles/global.css")} />
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href={withBase()}>Veil of Worlds</a>
-      <nav>
-        <a href={withBase()}>Энциклопедия</a>
-        <a href={withBase("about")}>О проекте</a>
-      </nav>
-    </header>
-    <main class="site-main">
-      <slot />
-    </main>
-    <footer class="site-footer">
-      <p>Source of truth: <code>wiki/</code> + <code>data/</code>. Generated with Astro.</p>
-    </footer>
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="brand" href={langHome(lang)}>
+          <span class="brand-mark">V</span>
+          <span class="brand-text">
+            <strong>{t(lang, "brand")}</strong>
+            <small>{t(lang, "tagline")}</small>
+          </span>
+        </a>
+
+        <div class="lang-switch" aria-label={t(lang, "language")}>
+          {
+            (Object.keys(languages) as Lang[]).map((code) =>
+              code === lang ? (
+                <span class="lang-btn active" aria-current="page">
+                  {code.toUpperCase()}
+                </span>
+              ) : (
+                <a class="lang-btn" href={otherHref}>
+                  {code.toUpperCase()}
+                </a>
+              ),
+            )
+          }
+        </div>
+
+        <nav class="side-nav" aria-label={t(lang, "navCategories")}>
+          <p class="nav-label">{t(lang, "navCategories")}</p>
+          <ul>
+            {
+              categories.map((cat) => (
+                <li>
+                  <a
+                    class:list={[{ active: activeCategory === cat.id }]}
+                    href={categoryHref(lang, cat.id)}
+                  >
+                    <span class="nav-icon" aria-hidden="true">
+                      {cat.icon}
+                    </span>
+                    <span>{cat.label[lang]}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <nav class="side-footer-nav">
+          <a href={langHome(lang)}>{t(lang, "navHome")}</a>
+          <a href={aboutHref(lang)}>{t(lang, "navAbout")}</a>
+        </nav>
+      </aside>
+
+      <div class="content-pane">
+        <header class="topbar">
+          <p class="eyebrow">{t(lang, "brand")}</p>
+          <div class="topbar-actions">
+            <a class="ghost-link" href={otherHref}>
+              {languages[other]}
+            </a>
+          </div>
+        </header>
+        <main class="main">
+          <slot />
+        </main>
+        <footer class="page-footer">
+          <p>{t(lang, "footer")}</p>
+        </footer>
+      </div>
+    </div>
   </body>
 </html>

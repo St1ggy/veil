@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { categories } from "../../i18n/categories";
+import { t, type Lang } from "../../i18n/ui";
+import {
+  categoryHref,
+  entityHref,
+  entriesInCategory,
+  featuredIds,
+  getWikiEntries,
+  displayTitle,
+  displaySummary,
+} from "../../lib/wiki";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
+}
+
+const L = Astro.params.lang as Lang;
+const entries = await getWikiEntries();
+const featured = featuredIds
+  .map((id) => entries.find((e) => e.data.id === id))
+  .filter(Boolean);
+---
+
+<BaseLayout
+  lang={L}
+  title={t(L, "navHome")}
+  description={t(L, "tagline")}
+  pathAfterLang=""
+>
+  <section class="hero">
+    <h1>{t(L, "heroTitle")}</h1>
+    <p>{t(L, "heroBody")}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href={categoryHref(L, "cosmology")}>{t(L, "explore")}</a>
+      <a class="btn btn-secondary" href={categoryHref(L, "countries")}>
+        {categories.find((c) => c.id === "countries")?.label[L]}
+      </a>
+    </div>
+  </section>
+
+  <h2 class="section-title">{t(L, "structure")}</h2>
+  <div class="category-grid">
+    {
+      categories.map((cat) => {
+        const count = entriesInCategory(entries, cat.id).length;
+        return (
+          <a class="category-card" href={categoryHref(L, cat.id)}>
+            <span class="icon" aria-hidden="true">
+              {cat.icon}
+            </span>
+            <h2>{cat.label[L]}</h2>
+            <p>{cat.description[L]}</p>
+            <span class="count">
+              {count} {t(L, "articles")}
+            </span>
+          </a>
+        );
+      })
+    }
+  </div>
+
+  <h2 class="section-title">{t(L, "featured")}</h2>
+  <ul class="entity-list">
+    {
+      featured.map((entry) =>
+        entry ? (
+          <li>
+            <a class="title" href={entityHref(L, entry.data.id)}>
+              {displayTitle(entry, L)}
+            </a>
+            <div class="meta-row">
+              <span class="badge">{entry.data.id}</span>
+              {entry.data.type && <span>{entry.data.type}</span>}
+            </div>
+            {displaySummary(entry, L) && (
+              <p class="summary">{displaySummary(entry, L)}</p>
+            )}
+          </li>
+        ) : null,
+      )
+    }
+  </ul>
+</BaseLayout>

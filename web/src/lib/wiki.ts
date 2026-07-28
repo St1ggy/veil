@@ -1,4 +1,6 @@
 import { getCollection, type CollectionEntry } from "astro:content";
+import { categoryForType, type CategoryId } from "../i18n/categories";
+import type { Lang } from "../i18n/ui";
 
 export type WikiEntry = CollectionEntry<"wiki">;
 
@@ -14,18 +16,60 @@ export function withBase(path = ""): string {
   return `${base}${clean}`;
 }
 
+export function langHome(lang: Lang): string {
+  return withBase(lang);
+}
+
+export function categoryHref(lang: Lang, categoryId: CategoryId | string): string {
+  return withBase(`${lang}/category/${categoryId}`);
+}
+
+export function entityHref(lang: Lang, entityId: string): string {
+  return withBase(`${lang}/entity/${entityId}`);
+}
+
+export function aboutHref(lang: Lang): string {
+  return withBase(`${lang}/about`);
+}
+
+export function switchLangHref(currentLang: Lang, pathAfterLang: string): string {
+  const other: Lang = currentLang === "ru" ? "en" : "ru";
+  const rest = pathAfterLang.replace(/^\/+/, "");
+  return withBase(rest ? `${other}/${rest}` : other);
+}
+
 export async function getWikiEntries(): Promise<WikiEntry[]> {
   const entries = await getCollection("wiki");
   return entries
     .filter((e) => e.data.visibility !== "gm")
     .filter((e) => !String(e.id).includes("_templates"))
+    .filter((e) => e.data.id !== "WIKI_HOME")
     .sort((a, b) => a.data.title.localeCompare(b.data.title, "ru"));
 }
 
-export function entityHref(entityId: string): string {
-  return withBase(`entity/${entityId}`);
+export function entriesInCategory(entries: WikiEntry[], categoryId: CategoryId): WikiEntry[] {
+  return entries.filter((e) => categoryForType(e.data.type)?.id === categoryId);
 }
 
-export function absHref(path: string): string {
-  return withBase(path);
+/** Prefer Latin/English alias for EN UI; fall back to title. */
+export function displayTitle(entry: WikiEntry, lang: Lang): string {
+  if (lang === "ru") return entry.data.title;
+  const aliases = entry.data.aliases ?? [];
+  const latin = aliases.find((a) => /^[A-Za-z0-9]/.test(a));
+  return latin || entry.data.title;
 }
+
+export function displaySummary(entry: WikiEntry, lang: Lang): string | undefined {
+  // Summaries are authored in Russian for now.
+  if (lang === "en") return entry.data.summary;
+  return entry.data.summary;
+}
+
+export const featuredIds = [
+  "COS_ETHER",
+  "COS_VEIL",
+  "MAG_PROBABILITY",
+  "EVENT_GREAT_AWAKENING",
+  "CONCEPT_ARCANUM",
+  "COUNTRY_AEGIS",
+];

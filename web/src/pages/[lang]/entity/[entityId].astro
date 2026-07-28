@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { categoryForType } from "../../../i18n/categories";
+import { t, type Lang } from "../../../i18n/ui";
+import {
+  categoryHref,
+  entityHref,
+  getWikiEntries,
+  displayTitle,
+  displaySummary,
+  langHome,
+} from "../../../lib/wiki";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getWikiEntries();
+  const langs = ["ru", "en"] as const;
+  return langs.flatMap((lang) =>
+    entries.map((entry) => ({
+      params: { lang, entityId: entry.data.id },
+      props: { entry },
+    })),
+  );
+}
+
+const L = Astro.params.lang as Lang;
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const relations = entry.data.relations ?? [];
+const cat = categoryForType(entry.data.type);
+---
+
+<BaseLayout
+  lang={L}
+  title={displayTitle(entry, L)}
+  description={displaySummary(entry, L)}
+  pathAfterLang={`entity/${entry.data.id}`}
+  activeCategory={cat?.id}
+>
+  <header class="page-header">
+    <div class="meta-row">
+      <a href={langHome(L)}>{t(L, "backHome")}</a>
+      {
+        cat && (
+          <>
+            <span>·</span>
+            <a href={categoryHref(L, cat.id)}>{cat.label[L]}</a>
+          </>
+        )
+      }
+    </div>
+    <h1>{displayTitle(entry, L)}</h1>
+    <div class="meta-row">
+      <span class="badge">{entry.data.id}</span>
+      {entry.data.type && <span>{entry.data.type}</span>}
+      {entry.data.status && <span>{entry.data.status}</span>}
+      {entry.data.importance && <span>{entry.data.importance}</span>}
+    </div>
+    {displaySummary(entry, L) && <p>{displaySummary(entry, L)}</p>}
+  </header>
+
+  {L === "en" && <p class="notice">{t(L, "contentLangNotice")}</p>}
+
+  <article class="prose">
+    <Content />
+  </article>
+
+  {
+    relations.length > 0 && (
+      <section class="relations">
+        <h2>{t(L, "relations")}</h2>
+        <ul>
+          {relations.map((rel) => (
+            <li>
+              <code>{rel.type}</code> →{" "}
+              <a href={entityHref(L, rel.target)}>{rel.target}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

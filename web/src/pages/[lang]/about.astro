@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { t, type Lang } from "../../i18n/ui";
+import { langHome } from "../../lib/wiki";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
+}
+
+const L = Astro.params.lang as Lang;
+---
+
+<BaseLayout lang={L} title={t(L, "aboutTitle")} pathAfterLang="about">
+  <article class="prose">
+    <h1>{t(L, "aboutTitle")}</h1>
+    <p>{t(L, "aboutBody")}</p>
+    <h2>{t(L, "layersTitle")}</h2>
+    <ul>
+      <li><code>data/</code> — YAML</li>
+      <li><code>wiki/</code> — Markdown</li>
+      <li><code>books/</code> — Typst</li>
+      <li><code>web/</code> — Astro</li>
+      <li><code>game/</code> — SWADE / TTRPG</li>
+    </ul>
+    <p><a href={langHome(L)}>{t(L, "backHome")}</a></p>
+  </article>
+</BaseLayout>

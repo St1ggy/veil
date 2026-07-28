@@ -1,15 +1,8 @@
 import { visit } from "unist-util-visit";
 
-function withBase(path) {
-  let base = process.env.BASE_PATH || "/";
-  if (!base.endsWith("/")) base = `${base}/`;
-  const clean = path.replace(/^\//, "");
-  return base === "/" ? `/${clean}` : `${base}${clean}`;
-}
-
 /**
- * Turn [[ID]] / [[ID|label]] into markdown links /entity/ID
- * (respects BASE_PATH for GitHub Pages project sites).
+ * Wikilinks become relative sibling entity URLs: ./ID
+ * (entity pages live under /{lang}/entity/{ID})
  */
 export function remarkWikilinks() {
   const pattern = /\[\[([A-Z][A-Z0-9_]*)(?:\|([^\]]+))?\]\]/g;
@@ -34,15 +27,13 @@ export function remarkWikilinks() {
         const label = match[2] || id;
         children.push({
           type: "link",
-          url: withBase(`entity/${id}`),
+          url: `./${id}`,
           children: [{ type: "text", value: label }],
         });
         last = match.index + match[0].length;
       }
 
-      if (children.length === 0) {
-        return;
-      }
+      if (children.length === 0) return;
 
       if (last < value.length) {
         children.push({ type: "text", value: value.slice(last) });

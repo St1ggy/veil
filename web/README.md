@@ -1,16 +1,25 @@
-# GitHub Pages
+# Veil web (Astro)
 
-On every push to `main`, `.github/workflows/build-site.yml`:
+Static encyclopedia from `../wiki/**/*.md`.
 
-1. Builds the Astro site from `web/`
-2. Deploys to GitHub Pages
+## Routes
 
-## One-time setup in the repo
+| Path | Purpose |
+|------|---------|
+| `/` | Redirect → `/ru` |
+| `/ru`, `/en` | Home + category grid |
+| `/{lang}/category/{id}` | Section listing |
+| `/{lang}/entity/{ID}` | Article |
+| `/{lang}/about` | About |
 
-1. **Settings → Pages**
-2. **Build and deployment → Source**: GitHub Actions
-3. Push to `main` (or run the workflow manually)
+Languages: UI fully bilingual. Article bodies are Russian until `wiki` gains EN mirrors; EN uses Latin aliases for titles.
 
-The public URL will appear in the workflow summary / Pages settings (for a project site usually `https://<user>.github.io/<repo>/`).
+## Commands
 
-`SITE_URL` and `BASE_PATH` are injected by `actions/configure-pages` so asset and wikilink paths work under a subpath.
+```bash
+npm install
+npm run dev
+npm run build    # → ../site
+```
+
+Root: `make site`.

@@ -36,6 +36,25 @@
 | `CUL_` | Культура |
 | `CONCEPT_` | Сквозное понятие |
 | `GOD_` | Божество |
+| `ANC_` | Ancestry package (game) |
+| `EDGE_` | Edge (game) |
+| `HIND_` | Hindrance (game) |
+| `AB_` | Arcane Background (game) |
+| `POWER_` | Power design doc / trapping package (game) |
+| `PMOD_` | Power Modifier design (game) |
+| `SR_` | Setting Rule (game) |
+| `EQ_` | Equipment (game) |
+| `VEH_` | Vehicle (game) |
+| `CRAFT_` | Crafting blueprint / rule (game) |
+| `NPCARCH_` | NPC archetype (game) |
+| `BEST_` | Bestiary entry (game) |
+| `FPAC_` | Faction play pack (game) |
+| `CAMP_` | Campaign frame (game) |
+| `ADV_` | Adventure (game/gm) |
+| `PLOT_` | Plot / quest arc (game/gm) |
+| `ENC_` | Encounter (game/gm) |
+| `GEN_` | Generator / random table (game/gm) |
+| `BUDGET_` | Balance budget doc (game/design) |
 
 ## Правила
 

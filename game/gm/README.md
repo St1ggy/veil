@@ -1,19 +1,36 @@
 ---
-title: GM secrets index
-spoilers: gm
-visibility: gm
+title: GM toolkit root
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+purpose: |
+  Секреты, приключения, генераторы.
+scope: |
+  Каталог `game/gm`.
+related:
+  - meta/SPOILER_POLICY.md
+changelog:
+  - date: '2026-07-29'
+    note: Initial SDK scaffold.
 ---
 
-# GM secrets
+# GM toolkit root
 
-Только для мастера. Не копировать в player handbook / public wiki без `spoilers: gm`.
+## Назначение
 
-## Заготовки
+Секреты, приключения, генераторы.
 
-- `plots/` — сюжетные арки
-- `adventures/` — приключения
-- `encounters/` — энкаунтеры
-- `generators/` — таблицы генерации
-- `secrets/` — скрытые истины мира
+## Область ответственности
 
-Политика: `meta/SPOILER_POLICY.md`.
+Каталог `game/gm`.
+
+## Связанные документы
+
+- `meta/SPOILER_POLICY.md`
+
+## История изменений
+
+| Дата | Изменение |
+|------|-----------|
+| 2026-07-29 | Initial SDK scaffold |

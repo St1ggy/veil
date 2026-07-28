@@ -1,0 +1,25 @@
+id: HIND_MARKED_BY_ORDER
+type: hindrance
+title: Marked by the Order
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Hindrance seed: Marked by the Order
+category: social
+tags:
+  - hindrance
+  - social
+lore_targets:
+  - ORG_PURE_CODE
+relations:
+  - type: derives_from
+    target: ORG_PURE_CODE
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

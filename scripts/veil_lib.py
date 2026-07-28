@@ -11,6 +11,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 WIKI = ROOT / "wiki"
+GAME = ROOT / "game"
 
 SKIP_DIR_NAMES = {"_schemas", "_index", "_templates"}
 # Localized mirrors under wiki/en are site content; RU wiki remains the canon pair for data.
@@ -27,6 +28,17 @@ def load_yaml(path: Path) -> Any:
 def iter_data_files() -> list[Path]:
     files: list[Path] = []
     for path in DATA.rglob("*.yaml"):
+        if any(part in SKIP_DIR_NAMES for part in path.parts):
+            continue
+        files.append(path)
+    return sorted(files)
+
+
+def iter_game_files() -> list[Path]:
+    files: list[Path] = []
+    if not GAME.exists():
+        return files
+    for path in GAME.rglob("*.yaml"):
         if any(part in SKIP_DIR_NAMES for part in path.parts):
             continue
         files.append(path)
@@ -80,3 +92,14 @@ def load_wiki_by_id() -> dict[str, dict[str, Any]]:
             continue
         out[meta["id"]] = {**meta, "_path": str(path.relative_to(ROOT))}
     return out
+
+
+def load_game_entities() -> dict[str, dict[str, Any]]:
+    entities: dict[str, dict[str, Any]] = {}
+    for path in iter_game_files():
+        doc = load_yaml(path)
+        if not isinstance(doc, dict) or "id" not in doc:
+            continue
+        eid = doc["id"]
+        entities[eid] = {**doc, "_path": str(path.relative_to(ROOT)), "_source": "game"}
+    return entities

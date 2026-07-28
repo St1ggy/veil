@@ -1,0 +1,19 @@
+id: EDGE_EXAMPLE
+type: edge
+title: Example Edge
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Template edge.
+category: magic
+tags:
+  - edge
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

@@ -1,0 +1,24 @@
+id: AB_DOMAIN_MAGIC
+type: arcane_background
+title: Доменная магия
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  AB scaffold: Доменная магия
+tags:
+  - ab
+  - domain_magic
+lore_targets:
+  - CONCEPT_DOMAIN
+relations:
+  - type: derives_from
+    target: CONCEPT_DOMAIN
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

@@ -1,0 +1,26 @@
+id: PMOD_DECAY_SPIKE
+type: power_modifier
+title: Decay Spike
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Setting modifier concept: raises Probabilistic Decay risk around tech.
+tags:
+  - pmod
+lore_targets:
+  - PHENO_PROBABILISTIC_DECAY
+  - CONCEPT_ARCANUM
+relations:
+  - type: derives_from
+    target: PHENO_PROBABILISTIC_DECAY
+  - type: derives_from
+    target: CONCEPT_ARCANUM
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

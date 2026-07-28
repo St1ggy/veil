@@ -1,0 +1,24 @@
+id: SR_ASCENSION
+type: setting_rule
+title: Вознесение
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Setting Rule scaffold: Вознесение
+tags:
+  - setting_rule
+  - ascension
+lore_targets:
+  - CONCEPT_DIVINITY
+relations:
+  - type: derives_from
+    target: CONCEPT_DIVINITY
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

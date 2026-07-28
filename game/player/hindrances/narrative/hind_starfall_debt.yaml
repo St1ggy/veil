@@ -1,0 +1,25 @@
+id: HIND_STARFALL_DEBT
+type: hindrance
+title: Starfall Debt
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Hindrance seed: Starfall Debt
+category: narrative
+tags:
+  - hindrance
+  - narrative
+lore_targets:
+  - EVENT_STARFALL
+relations:
+  - type: derives_from
+    target: EVENT_STARFALL
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

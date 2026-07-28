@@ -1,0 +1,23 @@
+id: ANC_EXAMPLE
+type: ancestry_package
+title: Example Ancestry
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Template ancestry package.
+tags:
+  - ancestry
+lore_targets:
+  - RACE_HUMAN
+relations:
+  - type: derives_from
+    target: RACE_HUMAN
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

@@ -1,0 +1,24 @@
+id: SR_PRODUCTION
+type: setting_rule
+title: Производство
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Setting Rule scaffold: Производство
+tags:
+  - setting_rule
+  - production
+lore_targets:
+  - TECH_HYBRID
+relations:
+  - type: derives_from
+    target: TECH_HYBRID
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

@@ -8,6 +8,7 @@ validate:
 	$(PYTHON) scripts/validate/links.py
 	$(PYTHON) scripts/validate/canon_status.py
 	$(PYTHON) scripts/validate/contradictions.py
+	$(PYTHON) scripts/validate/game_schema.py
 
 index:
 	$(PYTHON) scripts/generate/indexes.py

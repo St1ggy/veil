@@ -1,0 +1,24 @@
+id: SR_ECONOMY
+type: setting_rule
+title: Экономика
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Setting Rule scaffold: Экономика
+tags:
+  - setting_rule
+  - economy
+lore_targets:
+  - CONCEPT_ARCANUM
+relations:
+  - type: derives_from
+    target: CONCEPT_ARCANUM
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

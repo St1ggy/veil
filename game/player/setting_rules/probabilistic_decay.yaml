@@ -1,0 +1,24 @@
+id: SR_PROBABILISTIC_DECAY
+type: setting_rule
+title: Вероятностный Распад
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Setting Rule scaffold: Вероятностный Распад
+tags:
+  - setting_rule
+  - probabilistic_decay
+lore_targets:
+  - PHENO_PROBABILISTIC_DECAY
+relations:
+  - type: derives_from
+    target: PHENO_PROBABILISTIC_DECAY
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

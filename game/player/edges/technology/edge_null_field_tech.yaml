@@ -1,0 +1,30 @@
+id: EDGE_NULL_FIELD_TECH
+type: edge
+title: Null Field Technician
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Работа с антимагией Эгиды.
+category: technology
+tags:
+  - edge
+  - technology
+lore_targets:
+  - TECH_NULL_FIELD
+relations:
+  - type: derives_from
+    target: TECH_NULL_FIELD
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.
+prerequisites: []
+synergies: []
+counterplay: |
+  Oppose via Null Fields, law, or rival factions.
+

@@ -1,0 +1,30 @@
+id: EDGE_POLITY_LIAISON
+type: edge
+title: Polity Liaison
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Дипломатия полисов.
+category: political
+tags:
+  - edge
+  - political
+lore_targets:
+  - COUNTRY_AEGIS
+relations:
+  - type: derives_from
+    target: COUNTRY_AEGIS
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.
+prerequisites: []
+synergies: []
+counterplay: |
+  Oppose via Null Fields, law, or rival factions.
+

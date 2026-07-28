@@ -1,0 +1,25 @@
+id: HIND_ETHER_DEPENDENCE
+type: hindrance
+title: Ether Dependence
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Hindrance seed: Ether Dependence
+category: magical
+tags:
+  - hindrance
+  - magical
+lore_targets:
+  - PHENO_ETHER_BURNOUT
+relations:
+  - type: derives_from
+    target: PHENO_ETHER_BURNOUT
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

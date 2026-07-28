@@ -1,0 +1,24 @@
+id: BEST_ETHER_ECHO
+type: bestiary_entry
+title: Ether Echo
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Ether creature seed.
+category: ether_creatures
+tags:
+  - bestiary
+lore_targets:
+  - COS_ETHER
+relations:
+  - type: derives_from
+    target: COS_ETHER
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

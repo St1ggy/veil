@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veil.local/schemas/mechanical_entity.schema.json",
+  "title": "Veil mechanical entity",
+  "type": "object",
+  "required": ["id", "type", "title", "status", "version", "created", "updated"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)+$" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "ancestry_package", "edge", "hindrance", "arcane_background",
+        "power_design", "power_modifier", "setting_rule", "equipment",
+        "vehicle", "crafting", "npc_archetype", "bestiary_entry",
+        "faction_pack", "campaign_frame", "adventure", "plot",
+        "encounter", "generator", "chargen_doc", "design_doc", "budget_doc"
+      ]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "research", "discussion", "approved", "canon", "deprecated", "experimental", "archived"]
+    },
+    "version": { "type": ["integer", "string", "number"] },
+    "created": { "type": ["string", "number"] },
+    "updated": { "type": ["string", "number"] },
+    "summary": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "future_hooks": { "type": "array", "items": { "type": "string" } },
+    "design_notes": { "type": "string" },
+    "balance_notes": { "type": "string" },
+    "prerequisites": { "type": "array", "items": { "type": "string" } },
+    "synergies": { "type": "array", "items": { "type": "string" } },
+    "counterplay": { "type": "string" },
+    "lore_targets": { "type": "array", "items": { "type": "string" } },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "target"],
+        "properties": {
+          "type": { "type": "string" },
+          "target": { "type": "string" }
+        }
+      }
+    },
+    "category": { "type": "string" },
+    "visibility": { "type": "string" },
+    "spoilers": { "type": "string" }
+  },
+  "additionalProperties": true
+}

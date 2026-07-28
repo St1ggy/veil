@@ -1,0 +1,26 @@
+id: NPCARCH_NULL_WARDEN
+type: npc_archetype
+title: Null Warden
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Aegis anti-magic enforcer archetype.
+tags:
+  - npc
+lore_targets:
+  - COUNTRY_AEGIS
+  - TECH_NULL_FIELD
+relations:
+  - type: derives_from
+    target: COUNTRY_AEGIS
+  - type: derives_from
+    target: TECH_NULL_FIELD
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

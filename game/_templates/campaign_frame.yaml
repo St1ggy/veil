@@ -1,0 +1,18 @@
+id: CAMP_EXAMPLE
+type: campaign_frame
+title: Example Campaign
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Template campaign frame.
+tags:
+  - campaign
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

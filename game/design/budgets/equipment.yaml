@@ -1,0 +1,19 @@
+id: BUDGET_EQUIPMENT
+type: budget_doc
+title: Equipment Budget
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Qualitative budget frame for equipment.
+tags:
+  - budget
+  - equipment
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

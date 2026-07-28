@@ -1,0 +1,24 @@
+id: SR_SMUGGLING
+type: setting_rule
+title: Контрабанда
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Setting Rule scaffold: Контрабанда
+tags:
+  - setting_rule
+  - smuggling
+lore_targets:
+  - ORG_RESONANCE_SYNDICATE
+relations:
+  - type: derives_from
+    target: ORG_RESONANCE_SYNDICATE
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

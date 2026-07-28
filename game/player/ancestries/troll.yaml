@@ -1,0 +1,24 @@
+id: ANC_TROLL
+type: ancestry_package
+title: Troll
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Ancestry package for Troll.
+tags:
+  - ancestry
+  - troll
+lore_targets:
+  - RACE_TROLL
+relations:
+  - type: derives_from
+    target: RACE_TROLL
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

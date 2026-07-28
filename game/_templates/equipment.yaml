@@ -1,0 +1,19 @@
+id: EQ_EXAMPLE
+type: equipment
+title: Example Gear
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Template equipment.
+category: tools
+tags:
+  - equipment
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

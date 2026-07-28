@@ -1,0 +1,24 @@
+id: SR_ETHER_STORMS
+type: setting_rule
+title: Эфирные штормы
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Setting Rule scaffold: Эфирные штормы
+tags:
+  - setting_rule
+  - ether_storms
+lore_targets:
+  - PHENO_OCEAN_ETHER_STORMS
+relations:
+  - type: derives_from
+    target: PHENO_OCEAN_ETHER_STORMS
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

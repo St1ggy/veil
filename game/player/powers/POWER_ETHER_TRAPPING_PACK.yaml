@@ -1,0 +1,30 @@
+id: POWER_ETHER_TRAPPING_PACK
+type: power_design
+title: Ether Trapping Pack
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Design pack: probability/Ether trappings and risks — not a core power list.
+tags:
+  - power
+  - trapping
+lore_targets:
+  - COS_ETHER
+  - MAG_PROBABILITY
+  - PHENO_ETHER_BURNOUT
+relations:
+  - type: derives_from
+    target: COS_ETHER
+  - type: derives_from
+    target: MAG_PROBABILITY
+  - type: derives_from
+    target: PHENO_ETHER_BURNOUT
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

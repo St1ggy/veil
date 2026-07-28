@@ -1,0 +1,24 @@
+id: ANC_FAE
+type: ancestry_package
+title: Fae
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Ancestry package for Fae.
+tags:
+  - ancestry
+  - fae
+lore_targets:
+  - RACE_FAE
+relations:
+  - type: derives_from
+    target: RACE_FAE
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

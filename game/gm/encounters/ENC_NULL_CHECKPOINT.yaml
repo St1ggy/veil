@@ -1,0 +1,26 @@
+id: ENC_NULL_CHECKPOINT
+type: encounter
+title: Null Checkpoint
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Encounter seed: Aegis checkpoint.
+tags:
+  - encounter
+  - gm
+lore_targets:
+  - TECH_NULL_FIELD
+relations:
+  - type: derives_from
+    target: TECH_NULL_FIELD
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.
+visibility: gm
+spoilers: soft

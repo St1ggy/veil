@@ -1,0 +1,25 @@
+id: EQ_HYBRID_RESONATOR
+type: equipment
+title: Hybrid Resonator
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Hybrid device design seed.
+category: hybrid_devices
+tags:
+  - equipment
+  - hybrid
+lore_targets:
+  - TECH_HYBRID
+relations:
+  - type: derives_from
+    target: TECH_HYBRID
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

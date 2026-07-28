@@ -1,0 +1,23 @@
+id: FPAC_RETURN_CULT
+type: faction_pack
+title: Return Cult Play Pack
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Play pack for ORG_RETURN_CULT
+tags:
+  - faction
+lore_targets:
+  - ORG_RETURN_CULT
+relations:
+  - type: derives_from
+    target: ORG_RETURN_CULT
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

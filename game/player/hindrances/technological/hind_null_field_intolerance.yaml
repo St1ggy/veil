@@ -1,0 +1,25 @@
+id: HIND_NULL_FIELD_INTOLERANCE
+type: hindrance
+title: Null Field Intolerance
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Hindrance seed: Null Field Intolerance
+category: technological
+tags:
+  - hindrance
+  - technological
+lore_targets:
+  - TECH_NULL_FIELD
+relations:
+  - type: derives_from
+    target: TECH_NULL_FIELD
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.

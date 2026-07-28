@@ -1,0 +1,30 @@
+id: EDGE_NETWORK_RIDER
+type: edge
+title: Network Rider
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Сетевые практики без reprint powers.
+category: magic
+tags:
+  - edge
+  - magic
+lore_targets:
+  - MAG_NETWORK
+relations:
+  - type: derives_from
+    target: MAG_NETWORK
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.
+prerequisites: []
+synergies: []
+counterplay: |
+  Oppose via Null Fields, law, or rival factions.
+

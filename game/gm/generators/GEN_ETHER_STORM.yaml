@@ -1,0 +1,26 @@
+id: GEN_ETHER_STORM
+type: generator
+title: Ether Storm Table
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Generator seed for ether storms.
+tags:
+  - generator
+  - gm
+lore_targets:
+  - PHENO_OCEAN_ETHER_STORMS
+relations:
+  - type: derives_from
+    target: PHENO_OCEAN_ETHER_STORMS
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK seed. No SWADE core stats. Setting-only design.
+balance_notes: |
+  Qualitative only until mechanical fill epic.
+visibility: gm
+spoilers: soft

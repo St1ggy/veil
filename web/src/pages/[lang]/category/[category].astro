@@ -22,7 +22,7 @@ export function getStaticPaths() {
 const L = Astro.params.lang as Lang;
 const categoryId = Astro.params.category as string;
 const cat = categoryById(categoryId)!;
-const entries = entriesInCategory(await getWikiEntries(), cat.id);
+const entries = entriesInCategory(await getWikiEntries(L), cat.id);
 ---
 
 <BaseLayout

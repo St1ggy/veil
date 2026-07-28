@@ -13,14 +13,18 @@ import {
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
-  const entries = await getWikiEntries();
   const langs = ["ru", "en"] as const;
-  return langs.flatMap((lang) =>
-    entries.map((entry) => ({
-      params: { lang, entityId: entry.data.id },
-      props: { entry },
-    })),
-  );
+  const paths = [];
+  for (const lang of langs) {
+    const entries = await getWikiEntries(lang);
+    for (const entry of entries) {
+      paths.push({
+        params: { lang, entityId: entry.data.id },
+        props: { entry },
+      });
+    }
+  }
+  return paths;
 }
 
 const L = Astro.params.lang as Lang;
@@ -58,8 +62,6 @@ const cat = categoryForType(entry.data.type);
     </div>
     {displaySummary(entry, L) && <p>{displaySummary(entry, L)}</p>}
   </header>
-
-  {L === "en" && <p class="notice">{t(L, "contentLangNotice")}</p>}
 
   <article class="prose">
     <Content />

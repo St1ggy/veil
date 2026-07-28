@@ -2,7 +2,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { categoryForType, type CategoryId } from "../i18n/categories";
 import type { Lang } from "../i18n/ui";
 
-export type WikiEntry = CollectionEntry<"wiki">;
+export type WikiEntry = CollectionEntry<"wiki"> | CollectionEntry<"wikiEn">;
 
 function normalizeBase(base: string): string {
   if (!base || base === "/") return "/";
@@ -42,30 +42,26 @@ export function switchLangHref(currentLang: Lang, pathAfterLang: string): string
   return withBase(rest ? `${other}/${rest}` : other);
 }
 
-export async function getWikiEntries(): Promise<WikiEntry[]> {
-  const entries = await getCollection("wiki");
+export async function getWikiEntries(lang: Lang = "ru"): Promise<WikiEntry[]> {
+  const entries =
+    lang === "en" ? await getCollection("wikiEn") : await getCollection("wiki");
+  const locale = lang === "en" ? "en" : "ru";
   return entries
     .filter((e) => e.data.visibility !== "gm")
     .filter((e) => !String(e.id).includes("_templates"))
     .filter((e) => e.data.id !== "WIKI_HOME")
-    .sort((a, b) => a.data.title.localeCompare(b.data.title, "ru"));
+    .sort((a, b) => a.data.title.localeCompare(b.data.title, locale));
 }
 
 export function entriesInCategory(entries: WikiEntry[], categoryId: CategoryId): WikiEntry[] {
   return entries.filter((e) => categoryForType(e.data.type)?.id === categoryId);
 }
 
-/** Prefer Latin/English alias for EN UI; fall back to title. */
-export function displayTitle(entry: WikiEntry, lang: Lang): string {
-  if (lang === "ru") return entry.data.title;
-  const aliases = entry.data.aliases ?? [];
-  const latin = aliases.find((a) => /^[A-Za-z0-9]/.test(a));
-  return latin || entry.data.title;
+export function displayTitle(entry: WikiEntry, _lang?: Lang): string {
+  return entry.data.title;
 }
 
-export function displaySummary(entry: WikiEntry, lang: Lang): string | undefined {
-  // Summaries are authored in Russian for now.
-  if (lang === "en") return entry.data.summary;
+export function displaySummary(entry: WikiEntry, _lang?: Lang): string | undefined {
   return entry.data.summary;
 }
 

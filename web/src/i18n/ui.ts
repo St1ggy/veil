@@ -37,8 +37,6 @@ const ui = {
     seeAlso: "См. также",
     backHome: "На главную",
     language: "Язык",
-    contentLangNotice:
-      "Полный текст статьи пока на русском. Английская версия появится позже.",
     emptyCategory: "В этом разделе пока нет статей.",
     heroTitle: "Атлас мира за Вуалью",
     heroBody:
@@ -86,8 +84,6 @@ const ui = {
     seeAlso: "See also",
     backHome: "Home",
     language: "Language",
-    contentLangNotice:
-      "The full article text is currently in Russian. An English version will follow.",
     emptyCategory: "No articles in this section yet.",
     heroTitle: "Atlas of the world beyond the Veil",
     heroBody:

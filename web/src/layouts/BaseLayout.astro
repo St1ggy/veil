@@ -1,4 +1,7 @@
 ---
+import BrandMark from "../components/BrandMark.astro";
+import CategoryIcon from "../components/CategoryIcon.astro";
+import NavIcon from "../components/NavIcon.astro";
 import { categories } from "../i18n/categories";
 import { languages, t, type Lang } from "../i18n/ui";
 import {
@@ -45,7 +48,7 @@ const otherHref = withBase(
     <div class="shell">
       <aside class="sidebar">
         <a class="brand" href={langHome(lang)}>
-          <span class="brand-mark">V</span>
+          <BrandMark />
           <span class="brand-text">
             <strong>{t(lang, "brand")}</strong>
             <small>{t(lang, "tagline")}</small>
@@ -79,7 +82,7 @@ const otherHref = withBase(
                     href={categoryHref(lang, cat.id)}
                   >
                     <span class="nav-icon" aria-hidden="true">
-                      {cat.icon}
+                      <CategoryIcon id={cat.id} size={17} />
                     </span>
                     <span>{cat.label[lang]}</span>
                   </a>
@@ -94,19 +97,22 @@ const otherHref = withBase(
             class:list={[{ active: activeNav === "home" }]}
             href={langHome(lang)}
           >
-            {t(lang, "navHome")}
+            <NavIcon name="home" />
+            <span>{t(lang, "navHome")}</span>
           </a>
           <a
             class:list={[{ active: activeNav === "glossary" }]}
             href={glossaryHref(lang)}
           >
-            {t(lang, "navGlossary")}
+            <NavIcon name="glossary" />
+            <span>{t(lang, "navGlossary")}</span>
           </a>
           <a
             class:list={[{ active: activeNav === "about" }]}
             href={aboutHref(lang)}
           >
-            {t(lang, "navAbout")}
+            <NavIcon name="about" />
+            <span>{t(lang, "navAbout")}</span>
           </a>
         </nav>
       </aside>
@@ -116,7 +122,8 @@ const otherHref = withBase(
           <p class="eyebrow">{t(lang, "brand")}</p>
           <div class="topbar-actions">
             <a class="ghost-link" href={otherHref}>
-              {languages[other]}
+              <NavIcon name="language" size={15} />
+              <span>{languages[other]}</span>
             </a>
           </div>
         </header>

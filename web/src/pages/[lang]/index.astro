@@ -1,4 +1,6 @@
 ---
+import CategoryIcon from "../../components/CategoryIcon.astro";
+import NavIcon from "../../components/NavIcon.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { categories } from "../../i18n/categories";
 import { t, type Lang } from "../../i18n/ui";
@@ -34,8 +36,14 @@ const featured = featuredIds
     <h1>{t(L, "heroTitle")}</h1>
     <p>{t(L, "heroBody")}</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href={categoryHref(L, "cosmology")}>{t(L, "explore")}</a>
-      <a class="btn btn-secondary" href={glossaryHref(L)}>{t(L, "navGlossary")}</a>
+      <a class="btn btn-primary" href={categoryHref(L, "cosmology")}>
+        <CategoryIcon id="cosmology" size={16} />
+        <span>{t(L, "explore")}</span>
+      </a>
+      <a class="btn btn-secondary" href={glossaryHref(L)}>
+        <NavIcon name="glossary" size={16} />
+        <span>{t(L, "navGlossary")}</span>
+      </a>
     </div>
   </section>
 
@@ -46,8 +54,8 @@ const featured = featuredIds
         const count = entriesInCategory(entries, cat.id).length;
         return (
           <a class="category-card" href={categoryHref(L, cat.id)}>
-            <span class="icon" aria-hidden="true">
-              {cat.icon}
+            <span class="icon-chip" aria-hidden="true">
+              <CategoryIcon id={cat.id} size={20} />
             </span>
             <h2>{cat.label[L]}</h2>
             <p>{cat.description[L]}</p>

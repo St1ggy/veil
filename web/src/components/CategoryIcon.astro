@@ -1,0 +1,42 @@
+---
+import type { CategoryId } from "../i18n/categories";
+import Atom from "@lucide/astro/icons/atom";
+import BookOpen from "@lucide/astro/icons/book-open";
+import CircuitBoard from "@lucide/astro/icons/circuit-board";
+import Earth from "@lucide/astro/icons/earth";
+import Hexagon from "@lucide/astro/icons/hexagon";
+import Orbit from "@lucide/astro/icons/orbit";
+import ScrollText from "@lucide/astro/icons/scroll-text";
+import Sparkles from "@lucide/astro/icons/sparkles";
+import Tornado from "@lucide/astro/icons/tornado";
+import UsersRound from "@lucide/astro/icons/users-round";
+
+interface Props {
+  id: CategoryId;
+  size?: number;
+  class?: string;
+}
+
+const { id, size = 18, class: className } = Astro.props;
+
+const icons = {
+  cosmology: Orbit,
+  history: ScrollText,
+  magic: Sparkles,
+  phenomena: Tornado,
+  technology: CircuitBoard,
+  races: UsersRound,
+  countries: Earth,
+  factions: Hexagon,
+  concepts: BookOpen,
+} as const;
+
+const Icon = icons[id] ?? Atom;
+---
+
+<Icon
+  class:list={["ui-icon", className]}
+  size={size}
+  stroke-width={1.7}
+  aria-hidden="true"
+/>

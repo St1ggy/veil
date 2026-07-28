@@ -1,7 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap");
 
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap");
-
 :root {
   --bg: #0e1116;
   --bg-elevated: #151a22;
@@ -17,6 +15,7 @@
   --font-display: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-ui: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --icon-stroke: 1.7;
 }
 
 * {
@@ -86,11 +85,44 @@ code {
   border-radius: 0.7rem;
   display: grid;
   place-items: center;
-  font-family: var(--font-display);
-  font-weight: 700;
   background: linear-gradient(145deg, #24483f, #15221d);
   border: 1px solid #3d6a5c;
   color: var(--accent);
+  flex-shrink: 0;
+}
+
+.brand-mark .ui-icon {
+  color: var(--accent);
+}
+
+.ui-icon {
+  display: block;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.icon-chip {
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 0.7rem;
+  display: grid;
+  place-items: center;
+  color: var(--accent-2);
+  background:
+    linear-gradient(160deg, rgba(196, 163, 90, 0.16), transparent 70%),
+    rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(196, 163, 90, 0.28);
+}
+
+.icon-chip--header {
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+.crumb-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .brand-text {
@@ -175,10 +207,16 @@ code {
 }
 
 .nav-icon {
-  width: 1.4rem;
-  text-align: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
   color: var(--accent-2);
-  opacity: 0.9;
+  opacity: 0.95;
+}
+
+.side-nav a.active .nav-icon {
+  color: var(--accent);
 }
 
 .side-footer-nav {
@@ -191,14 +229,19 @@ code {
 }
 
 .side-footer-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   color: var(--muted);
   text-decoration: none;
   font-size: 0.9rem;
-  padding: 0.35rem 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.5rem;
 }
 
 .side-footer-nav a:hover {
   color: var(--ink);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .side-footer-nav a.active {
@@ -230,6 +273,9 @@ code {
 }
 
 .ghost-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   color: var(--muted);
   text-decoration: none;
   font-size: 0.9rem;
@@ -351,9 +397,13 @@ code {
   color: inherit;
 }
 
-.category-card .icon {
-  color: var(--accent-2);
-  font-size: 1.1rem;
+.category-card .icon-chip {
+  margin-bottom: 0.15rem;
+}
+
+.category-card:hover .icon-chip {
+  border-color: rgba(109, 179, 160, 0.45);
+  color: var(--accent);
 }
 
 .category-card h2 {

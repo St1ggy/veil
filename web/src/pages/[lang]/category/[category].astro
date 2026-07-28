@@ -1,4 +1,5 @@
 ---
+import CategoryIcon from "../../../components/CategoryIcon.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { categories, categoryById } from "../../../i18n/categories";
 import { t, type Lang } from "../../../i18n/ui";
@@ -34,7 +35,9 @@ const entries = entriesInCategory(await getWikiEntries(L), cat.id);
 >
   <header class="page-header">
     <div class="meta-row">
-      <span class="badge">{cat.icon}</span>
+      <span class="icon-chip icon-chip--header" aria-hidden="true">
+        <CategoryIcon id={cat.id} size={22} />
+      </span>
       <span>{t(L, "category")}</span>
     </div>
     <h1>{cat.label[L]}</h1>

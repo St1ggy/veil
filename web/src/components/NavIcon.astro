@@ -1,0 +1,30 @@
+---
+import BookMarked from "@lucide/astro/icons/book-marked";
+import Compass from "@lucide/astro/icons/compass";
+import House from "@lucide/astro/icons/house";
+import Languages from "@lucide/astro/icons/languages";
+
+interface Props {
+  name: "home" | "glossary" | "about" | "language";
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 16, class: className } = Astro.props;
+
+const icons = {
+  home: House,
+  glossary: BookMarked,
+  about: Compass,
+  language: Languages,
+} as const;
+
+const Icon = icons[name];
+---
+
+<Icon
+  class:list={["ui-icon", className]}
+  size={size}
+  stroke-width={1.7}
+  aria-hidden="true"
+/>

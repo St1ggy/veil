@@ -15,7 +15,6 @@ export interface CategoryDef {
   id: CategoryId;
   types: string[];
   order: number;
-  icon: string;
   label: Record<Lang, string>;
   description: Record<Lang, string>;
 }
@@ -25,7 +24,6 @@ export const categories: CategoryDef[] = [
     id: "cosmology",
     types: ["cosmology"],
     order: 1,
-    icon: "◈",
     label: { ru: "Космология", en: "Cosmology" },
     description: {
       ru: "Эфир, Вуаль, материальный мир, архетипы.",
@@ -36,7 +34,6 @@ export const categories: CategoryDef[] = [
     id: "history",
     types: ["event", "era"],
     order: 2,
-    icon: "▣",
     label: { ru: "История", en: "History" },
     description: {
       ru: "Эпохи, Пробуждение, войны, Звёздный Дождь.",
@@ -47,7 +44,6 @@ export const categories: CategoryDef[] = [
     id: "magic",
     types: ["magic"],
     order: 3,
-    icon: "✦",
     label: { ru: "Магия", en: "Magic" },
     description: {
       ru: "Вероятностная магия, сетевые практики, цена силы.",
@@ -58,7 +54,6 @@ export const categories: CategoryDef[] = [
     id: "phenomena",
     types: ["phenomenon"],
     order: 4,
-    icon: "⊚",
     label: { ru: "Явления", en: "Phenomena" },
     description: {
       ru: "Выгорание, Вероятностный Распад, эфирные штормы.",
@@ -69,7 +64,6 @@ export const categories: CategoryDef[] = [
     id: "technology",
     types: ["technology"],
     order: 5,
-    icon: "⚙",
     label: { ru: "Технологии", en: "Technology" },
     description: {
       ru: "Классика, гибриды, Нулевые Поля, ИИ.",
@@ -80,7 +74,6 @@ export const categories: CategoryDef[] = [
     id: "races",
     types: ["race"],
     order: 6,
-    icon: "◉",
     label: { ru: "Расы", en: "Ancestries" },
     description: {
       ru: "Народы Земли 2435 без шаблонов D&D.",
@@ -91,7 +84,6 @@ export const categories: CategoryDef[] = [
     id: "countries",
     types: ["country"],
     order: 7,
-    icon: "▤",
     label: { ru: "Государства", en: "States" },
     description: {
       ru: "Эгида, Вердана, Лига и другие полисы.",
@@ -102,7 +94,6 @@ export const categories: CategoryDef[] = [
     id: "factions",
     types: ["organization", "faction"],
     order: 8,
-    icon: "⬡",
     label: { ru: "Фракции", en: "Factions" },
     description: {
       ru: "Ордена, синдикаты, культы и их интересы.",
@@ -113,7 +104,6 @@ export const categories: CategoryDef[] = [
     id: "concepts",
     types: ["concept", "meta"],
     order: 9,
-    icon: "✧",
     label: { ru: "Концепты", en: "Concepts" },
     description: {
       ru: "Принципы мира, божественность, Домены, кампании.",

@@ -1,5 +1,10 @@
 # Veil
 
+[![Deploy site](https://github.com/St1ggy/veil/actions/workflows/build-site.yml/badge.svg)](https://github.com/St1ggy/veil/actions/workflows/build-site.yml)
+[![Pages](https://img.shields.io/badge/pages-st1ggy.github.io%2Fveil-1f4d3a)](https://st1ggy.github.io/veil/)
+
+Encyclopedia: [https://st1ggy.github.io/veil/](https://st1ggy.github.io/veil/)
+
 Worldbuilding knowledge base for an original TTRPG setting: **Earth 2435** after the Veil weakened and magic (probability / Ether) returned.
 
 ## Governance

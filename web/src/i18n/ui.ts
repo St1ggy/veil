@@ -16,12 +16,12 @@ const ui = {
     brand: "Veil of Worlds",
     tagline: "Энциклопедия альтернативной Земли 2435",
     navHome: "Главная",
-    navAbout: "О проекте",
+    navAbout: "О мире",
     navGlossary: "Глоссарий",
     navCategories: "Разделы",
     glossaryTitle: "Глоссарий",
     glossaryIntro:
-      "Канонические термины сеттинга. Каждый термин связан со статьёй энциклопедии. Источник: meta/GLOSSARY.md.",
+      "Ключевые термины мира. Каждый термин ведёт к полной статье энциклопедии.",
     glossaryTerm: "Термин",
     glossaryId: "ID",
     glossaryDefinition: "Определение",
@@ -38,7 +38,7 @@ const ui = {
     backHome: "На главную",
     language: "Язык",
     contentLangNotice:
-      "Полный текст статьи пока на русском. Английский перевод появится по мере подготовки wiki/en.",
+      "Полный текст статьи пока на русском. Английская версия появится позже.",
     emptyCategory: "В этом разделе пока нет статей.",
     heroTitle: "Атлас мира за Вуалью",
     heroBody:
@@ -46,23 +46,31 @@ const ui = {
     explore: "Смотреть разделы",
     featured: "Ключевые статьи",
     structure: "Структура энциклопедии",
-    footer: "Источник истины: wiki/ + data/. Сборка Astro.",
-    aboutTitle: "О проекте",
-    aboutBody:
-      "Veil of Worlds — knowledge base оригинального TTRPG-сеттинга и системы на базе SWADE.",
-    layersTitle: "Слои репозитория",
+    footer: "Veil of Worlds · Земля 2435",
+    aboutTitle: "О мире",
+    aboutLead:
+      "Veil of Worlds — альтернативная Земля после возвращения магии. Не классическое фэнтези и не постапокалипсис: непрерывная история цивилизации, изменившаяся после ослабления Вуали.",
+    aboutThemesTitle: "Темы",
+    aboutThemes:
+      "Сознание, информация, вероятность, эволюция, цена силы, свобода выбора, политика и культура.",
+    aboutEraTitle: "Эпоха",
+    aboutEra:
+      "2170 — Великое Пробуждение. 2325 — Третья мировая и Звёздный Дождь. 2435 — настоящее энциклопедии: восстановленный, но уже другой мир.",
+    aboutMagicTitle: "Магия и технологии",
+    aboutMagic:
+      "Магия не нарушает физику — она меняет вероятность через Эфир и всегда имеет цену. Технологии продолжают существовать: классические, эфирные и гибридные. Их взаимное давление известно как принцип Arcanum.",
     openEntity: "Открыть статью",
   },
   en: {
     brand: "Veil of Worlds",
     tagline: "Encyclopedia of alternate Earth, 2435",
     navHome: "Home",
-    navAbout: "About",
+    navAbout: "The World",
     navGlossary: "Glossary",
     navCategories: "Sections",
     glossaryTitle: "Glossary",
     glossaryIntro:
-      "Canonical setting terms. Each entry links to an encyclopedia article. Source: meta/GLOSSARY.md.",
+      "Key terms of the setting. Each entry links to a full encyclopedia article.",
     glossaryTerm: "Term",
     glossaryId: "ID",
     glossaryDefinition: "Definition",
@@ -79,7 +87,7 @@ const ui = {
     backHome: "Home",
     language: "Language",
     contentLangNotice:
-      "Full article text is currently in Russian. English wiki translations will arrive over time.",
+      "The full article text is currently in Russian. An English version will follow.",
     emptyCategory: "No articles in this section yet.",
     heroTitle: "Atlas of the world beyond the Veil",
     heroBody:
@@ -87,11 +95,19 @@ const ui = {
     explore: "Browse sections",
     featured: "Core articles",
     structure: "Encyclopedia structure",
-    footer: "Source of truth: wiki/ + data/. Built with Astro.",
-    aboutTitle: "About",
-    aboutBody:
-      "Veil of Worlds is a knowledge base for an original TTRPG setting and SWADE-based game system.",
-    layersTitle: "Repository layers",
+    footer: "Veil of Worlds · Earth 2435",
+    aboutTitle: "The World",
+    aboutLead:
+      "Veil of Worlds is an alternate Earth after the return of magic. Not classic fantasy and not apocalypse: a continuous civilization reshaped when the Veil weakened.",
+    aboutThemesTitle: "Themes",
+    aboutThemes:
+      "Consciousness, information, probability, evolution, the cost of power, free will, politics, and culture.",
+    aboutEraTitle: "Era",
+    aboutEra:
+      "2170 — the Great Awakening. 2325 — the Third World War and Starfall. 2435 — the encyclopedia's present: a recovered world that is no longer the old one.",
+    aboutMagicTitle: "Magic and technology",
+    aboutMagic:
+      "Magic does not break physics — it changes probability through the Ether, and always has a cost. Technology endures: classical, etheric, and hybrid. Their mutual pressure is known as the Arcanum principle.",
     openEntity: "Open article",
   },
 } as const;

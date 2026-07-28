@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { t, type Lang } from "../../i18n/ui";
-import { langHome } from "../../lib/wiki";
+import { glossaryHref, langHome } from "../../lib/wiki";
 
 export function getStaticPaths() {
   return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
@@ -10,18 +10,30 @@ export function getStaticPaths() {
 const L = Astro.params.lang as Lang;
 ---
 
-<BaseLayout lang={L} title={t(L, "aboutTitle")} pathAfterLang="about">
+<BaseLayout
+  lang={L}
+  title={t(L, "aboutTitle")}
+  description={t(L, "aboutLead")}
+  pathAfterLang="about"
+  activeNav="about"
+>
   <article class="prose">
     <h1>{t(L, "aboutTitle")}</h1>
-    <p>{t(L, "aboutBody")}</p>
-    <h2>{t(L, "layersTitle")}</h2>
-    <ul>
-      <li><code>data/</code> — YAML</li>
-      <li><code>wiki/</code> — Markdown</li>
-      <li><code>books/</code> — Typst</li>
-      <li><code>web/</code> — Astro</li>
-      <li><code>game/</code> — SWADE / TTRPG</li>
-    </ul>
-    <p><a href={langHome(L)}>{t(L, "backHome")}</a></p>
+    <p>{t(L, "aboutLead")}</p>
+
+    <h2>{t(L, "aboutThemesTitle")}</h2>
+    <p>{t(L, "aboutThemes")}</p>
+
+    <h2>{t(L, "aboutEraTitle")}</h2>
+    <p>{t(L, "aboutEra")}</p>
+
+    <h2>{t(L, "aboutMagicTitle")}</h2>
+    <p>{t(L, "aboutMagic")}</p>
+
+    <p>
+      <a href={glossaryHref(L)}>{t(L, "navGlossary")}</a>
+      ·
+      <a href={langHome(L)}>{t(L, "backHome")}</a>
+    </p>
   </article>
 </BaseLayout>

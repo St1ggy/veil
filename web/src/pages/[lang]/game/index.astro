@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { gameSections } from "../../../i18n/gameSections";
+import { t, type Lang } from "../../../i18n/ui";
+import { gameItemsInSection } from "../../../lib/gameCatalog";
+import { gameSectionHref, systemHref } from "../../../lib/wiki";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
+}
+
+const L = Astro.params.lang as Lang;
+---
+
+<BaseLayout
+  lang={L}
+  title={t(L, "gameTitle")}
+  description={t(L, "gameLead")}
+  pathAfterLang="game"
+  activeNav="game"
+>
+  <header class="page-header">
+    <h1>{t(L, "gameTitle")}</h1>
+    <p>{t(L, "gameLead")}</p>
+    <p class="meta-row">
+      <a href={systemHref(L)}>{t(L, "navSystem")}</a>
+    </p>
+  </header>
+
+  <h2 class="section-title">{t(L, "gameSectionsTitle")}</h2>
+  <div class="category-grid">
+    {
+      gameSections.map((section) => {
+        const count = gameItemsInSection(section.id).length;
+        return (
+          <a class="category-card" href={gameSectionHref(L, section.id)}>
+            <h2>{section.label[L]}</h2>
+            <p>{section.description[L]}</p>
+            <span class="count">
+              {count} {t(L, "gameItems")}
+            </span>
+          </a>
+        );
+      })
+    }
+  </div>
+</BaseLayout>

@@ -1,0 +1,23 @@
+id: COUNTRY_CASPIAN_UNION
+type: country
+title: Каспийский Союз
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- politics
+- geography
+aliases:
+- Caspian Union
+summary: Контроль энергетических ресурсов Каспийского региона.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: occurs_during
+  target: ERA_2435_PRESENT
+- type: related_to
+  target: EVENT_THIRD_WORLD_WAR

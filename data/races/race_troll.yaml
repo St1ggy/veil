@@ -1,0 +1,22 @@
+id: RACE_TROLL
+type: race
+title: Тролли
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- races
+aliases:
+- Trolls
+summary: Крупные постпробужденческие народы; ниша — границы экосистем и инфраструктуры.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: EVENT_GREAT_AWAKENING
+- type: related_to
+  target: COS_ARCHETYPES

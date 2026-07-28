@@ -1,0 +1,13 @@
+---
+description: Veil rule magic
+alwaysApply: false
+globs: wiki/magic/**,data/magic/**,books/volumes/02_magic_and_technology/**
+---
+
+# Magic
+
+Эфир — не бытовая энергия; магия меняет вероятность.
+
+У любого воздействия: источник, ограничения, последствия.
+
+Соблюдать принцип Arcanum (`CONCEPT_ARCANUM`).

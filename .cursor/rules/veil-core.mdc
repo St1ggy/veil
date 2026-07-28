@@ -1,0 +1,21 @@
+---
+description: Veil rule veil-core
+alwaysApply: true
+---
+
+# Veil core
+
+Проект: **Veil of Worlds**. Мир: альтернативная Земля **2435**.
+
+Жанр: Tech Fantasy / Science Fantasy / Political Fantasy / Post Post Apocalypse — не классическое high fantasy.
+
+Магия не ломает физику: меняет вероятность через Эфир. Цена — Эфирное Выгорание. На технику — Вероятностный Распад (принцип Arcanum).
+
+Ключевые даты: 2170 Пробуждение; 2325 Третья мировая и Звёздный Дождь; 2435 «сейчас».
+
+Слои: `data/` (факты), `wiki/` (проза), `books/` (Typst PDF), `game/` (игровое).
+
+Элемент без влияния на ≥2 системы мира не нужен.
+
+Обязательно до нового контента: `meta/PROJECT_CONSTITUTION.md`, `meta/DESIGN_PRINCIPLES.md`.  
+Также: `meta/RULES.md`, `meta/GLOSSARY.md`.

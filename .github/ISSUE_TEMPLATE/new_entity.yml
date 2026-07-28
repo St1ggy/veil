@@ -1,0 +1,24 @@
+name: New entity
+description: Track creation of a new wiki/data entity
+title: "[entity] "
+labels: ["type/entity"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options: [country, city, race, faction, event, character, technology, magic, other]
+    validations:
+      required: true
+  - type: input
+    id: id
+    attributes:
+      label: ID
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Starting status
+      options: [draft, research]
+      default: 0

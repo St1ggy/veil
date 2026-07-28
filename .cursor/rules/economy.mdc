@@ -1,0 +1,9 @@
+---
+description: Veil rule economy
+alwaysApply: false
+globs: wiki/economy/**,data/economy/**
+---
+
+# Economy
+
+Ресурсная база, рынки, валюты. Учитывать влияние магии и сбоев техники (Arcanum).

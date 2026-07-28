@@ -1,0 +1,13 @@
+---
+description: Veil rule typst
+alwaysApply: false
+globs: books/**/*.typ
+---
+
+# Typst
+
+Импорт только через `#import "/books/lib/veil.typ": *`.
+
+Стили/цвета — в `books/lib/`. Тома собирают контент, не изобретают канон.
+
+Сборка: `make pdf` или `typst compile books/volumes/.../main.typ out/...pdf`.

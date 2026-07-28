@@ -1,0 +1,25 @@
+id: COUNTRY_BALTIC_HARBORS
+type: country
+title: Конфедерация Балтийских Гаваней
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- politics
+- geography
+aliases:
+- Baltic Harbors Confederation
+summary: Главная морская торговая сила; работа с меняющимися безопасными коридорами.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: occurs_during
+  target: ERA_2435_PRESENT
+- type: related_to
+  target: EVENT_THIRD_WORLD_WAR
+- type: related_to
+  target: PHENO_OCEAN_ETHER_STORMS

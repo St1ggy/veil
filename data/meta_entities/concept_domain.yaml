@@ -1,0 +1,25 @@
+id: CONCEPT_DOMAIN
+type: concept
+title: Домены
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- religion
+- politics
+aliases:
+- Domains
+- Divine Domains
+summary: 'Фундаментальные концепции мира, с которыми связан бог: Память, Война, Вероятность,
+  Море, Машины, Сон, Время, Порядок, Путь, Знание и др.'
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: CONCEPT_DIVINITY
+- type: related_to
+  target: COS_ETHER

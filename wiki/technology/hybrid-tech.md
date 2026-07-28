@@ -1,0 +1,58 @@
+---
+id: TECH_HYBRID
+type: technology
+title: Гибридные технологии
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- technology
+- magic
+aliases:
+- Hybrid Technology
+- Technomagic
+summary: 'Объединение магии и техники: эфирные аккумуляторы, рунические серверы, магические
+  процессоры, самонаводящиеся боеприпасы, эфирные двигатели. Очень дороги.'
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: CONCEPT_ARCANUM
+- type: related_to
+  target: ORG_RESONANCE_SYNDICATE
+- type: related_to
+  target: PHENO_PROBABILISTIC_DECAY
+- type: related_to
+  target: MAG_PROBABILITY
+---
+
+# Гибридные технологии
+
+## Обзор
+
+Возможно объединение магии и технологий. Такие устройства очень дороги.
+
+## Примеры
+
+- эфирные аккумуляторы;
+- рунические серверы;
+- магические процессоры;
+- самонаводящиеся боеприпасы;
+- эфирные двигатели.
+
+Монополизация и контрабанда гибридов — сфера [[ORG_RESONANCE_SYNDICATE]].
+
+## Открытые вопросы
+
+- Какие гибриды масштабируемы, а какие — штучный люкс?
+- Как гибриды влияют на Вероятностный Распад вокруг себя?
+
+## См. также
+
+- [[CONCEPT_ARCANUM]]
+- [[ORG_RESONANCE_SYNDICATE]]
+

@@ -1,0 +1,11 @@
+---
+description: Veil rule locations
+alwaysApply: false
+globs: wiki/locations/**,data/locations/**
+---
+
+# Locations
+
+Это альтернативная Земля: опирайся на реальную географию, изменённую Пробуждением.
+
+Город/регион/сайт — отдельные сущности со связями part_of.

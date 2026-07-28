@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+import { withBase } from "../lib/wiki";
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Veil of Worlds</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="stylesheet" href={withBase("styles/global.css")} />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={withBase()}>Veil of Worlds</a>
+      <nav>
+        <a href={withBase()}>Энциклопедия</a>
+        <a href={withBase("about")}>О проекте</a>
+      </nav>
+    </header>
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>Source of truth: <code>wiki/</code> + <code>data/</code>. Generated with Astro.</p>
+    </footer>
+  </body>
+</html>

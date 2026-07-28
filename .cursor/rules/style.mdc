@@ -1,0 +1,11 @@
+---
+description: Veil rule style
+alwaysApply: false
+globs: wiki/**/*.md,meta/**/*.md
+---
+
+# Style
+
+Энциклопедический тон. Факты → последствия → открытые вопросы.
+
+Без клише и необъяснённых чудес. См. `meta/STYLEGUIDE.md`.

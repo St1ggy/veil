@@ -1,0 +1,25 @@
+id: RACE_ORC
+type: race
+title: Орки
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- races
+aliases:
+- Orcs
+summary: Индустриальные народы Железной Лиги; машины воспринимаются как живые; ценность
+  — труд.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: EVENT_GREAT_AWAKENING
+- type: related_to
+  target: COS_ARCHETYPES
+- type: related_to
+  target: COUNTRY_IRON_LEAGUE

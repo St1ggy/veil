@@ -1,0 +1,9 @@
+---
+description: Veil rule game-player
+alwaysApply: false
+globs: game/player/**,books/volumes/player_handbook/**
+---
+
+# Game player
+
+Только информация, безопасная игрокам. Не ссылайся на `game/gm/`.

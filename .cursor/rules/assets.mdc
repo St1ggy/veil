@@ -1,0 +1,11 @@
+---
+description: Veil rule assets
+alwaysApply: false
+globs: assets/**
+---
+
+# Assets
+
+Карты: `assets/maps/`. Арт: `assets/art/`. Исходники карт — `assets/maps/source/`.
+
+Имена файлов kebab-case ASCII. Ссылайся из data/wiki по относительному пути.

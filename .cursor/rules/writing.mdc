@@ -1,0 +1,13 @@
+---
+description: Veil rule writing
+alwaysApply: false
+globs: wiki/**/*.md
+---
+
+# Writing
+
+Короткие абзацы. Обязательные секции шаблона не удалять — можно пометить TODO.
+
+В конце каждой статьи: «Открытые вопросы», «См. также».
+
+Русский primary; EN только в aliases.

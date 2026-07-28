@@ -1,0 +1,22 @@
+id: RACE_FAE
+type: race
+title: Феи
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- races
+aliases:
+- Fae
+summary: Эфирно-близкие народы; опасны для predсказуемых систем и договоров.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: EVENT_GREAT_AWAKENING
+- type: related_to
+  target: COS_ARCHETYPES

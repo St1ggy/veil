@@ -1,0 +1,30 @@
+id: CONCEPT_DIVINITY
+type: concept
+title: Божественность
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- religion
+- cosmology
+aliases:
+- Divinity
+- Godhood
+- Вознесение
+summary: Состояние существования, не раса. Любое разумное существо может стать богом;
+  путь уникален; божественность можно утратить.
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: CONCEPT_DOMAIN
+- type: related_to
+  target: COS_ARCHETYPES
+- type: related_to
+  target: COS_ETHER
+- type: related_to
+  target: AI_CATEGORIES

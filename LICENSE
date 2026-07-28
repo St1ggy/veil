@@ -1,0 +1,21 @@
+# License
+
+## Creative content (All Rights Reserved)
+
+Copyright (c) 2026 Veil project authors.
+
+All rights reserved for world content in `data/`, `wiki/`, `books/`, `game/`, and original `assets/` (except third-party fonts/licenses noted in-folder).
+
+No reproduction or distribution of the setting lore without explicit permission from the copyright holder.
+
+## Tooling (MIT)
+
+Copyright (c) 2026 Veil project authors.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of the tooling in `scripts/`, `data/_schemas/`, Makefiles, and CI workflows,
+to deal in that software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the software, subject to the MIT license conditions:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.

@@ -1,0 +1,27 @@
+id: ORG_RESONANCE_SYNDICATE
+type: organization
+title: Синдикат Резонанса
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- technology
+- magic
+- crime
+- trade
+aliases:
+- Resonance Syndicate
+summary: 'Монополист гибридных технологий: исследования, контрабанда, производство.'
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: uses
+  target: TECH_HYBRID
+- type: related_to
+  target: CONCEPT_ARCANUM
+- type: related_to
+  target: MAG_PROBABILITY

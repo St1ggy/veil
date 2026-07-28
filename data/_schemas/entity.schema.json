@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veil.local/schemas/entity.schema.json",
+  "title": "VeilEntity",
+  "type": "object",
+  "required": ["id", "type", "title", "status", "version", "created", "updated"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)+$" },
+    "type": { "type": "string" },
+    "title": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "research", "discussion", "approved", "canon", "experimental", "deprecated", "retconned", "archived"]
+    },
+    "version": { "type": "integer", "minimum": 1 },
+    "created": { "type": "string" },
+    "updated": { "type": "string" },
+    "authors": { "type": "array", "items": { "type": "string" } },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "aliases": { "type": "array", "items": { "type": "string" } },
+    "summary": { "type": "string" },
+    "importance": { "type": "string", "enum": ["core", "major", "minor", "flavor"] },
+    "spoilers": { "type": "string", "enum": ["none", "player", "gm"] },
+    "visibility": { "type": "string", "enum": ["public", "gm"] },
+    "related": { "type": "array", "items": { "type": "string" } },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "target"],
+        "properties": {
+          "type": { "type": "string" },
+          "target": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "properties": {
+        "date": { "type": "string" },
+        "date_start": { "type": "string" },
+        "date_end": { "type": "string" },
+        "era": { "type": "string" }
+      }
+    },
+    "sources": { "type": "array", "items": { "type": "string" } },
+    "mechanical": { "type": "boolean" },
+    "successor_id": { "type": "string" },
+    "retcon_reason": { "type": "string" },
+    "canon_since": { "type": "string" }
+  },
+  "additionalProperties": true
+}

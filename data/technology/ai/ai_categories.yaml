@@ -1,0 +1,29 @@
+id: AI_CATEGORIES
+type: technology
+title: Категории ИИ
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- technology
+- ai
+aliases:
+- AI Categories
+summary: 'Три категории сохранившихся ИИ: Спящие, Пробуждённые, Растворившиеся.'
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: TECH_POST_AWAKENING
+- type: related_to
+  target: COS_ETHER
+- type: related_to
+  target: MAG_NETWORK
+- type: related_to
+  target: CONCEPT_DEAD_INTERNET
+- type: related_to
+  target: RACE_CONSTRUCT

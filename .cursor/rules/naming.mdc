@@ -1,0 +1,12 @@
+---
+description: Veil rule naming
+alwaysApply: true
+---
+
+# Naming
+
+ID: `TYPE_NAME` UPPER_SNAKE (`meta/ID_SCHEME.md`).
+
+Пути wiki: kebab-case. Data: файл с полем `id`.
+
+После approved ID не переименовывать.

@@ -1,0 +1,9 @@
+---
+description: Veil rule game-gm
+alwaysApply: false
+globs: game/gm/**,books/volumes/gm_guide/**
+---
+
+# Game GM
+
+Секреты, сюжеты, генераторы. Помечай spoilers. Не копируй gm-текст в wiki public без `spoilers: gm`.

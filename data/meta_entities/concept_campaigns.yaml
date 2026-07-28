@@ -1,0 +1,24 @@
+id: CONCEPT_CAMPAIGNS
+type: concept
+title: Режимы кампаний
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- game
+- meta
+aliases:
+- Campaign modes
+summary: Исследование руин, политика, дипломатия, выживание, торговля, археология,
+  охота за артефактами, работа на государства, экспедиции, магические расследования.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: CONCEPT_ALT_EARTH
+- type: related_to
+  target: EVENT_STARFALL

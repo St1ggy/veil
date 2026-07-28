@@ -1,0 +1,11 @@
+---
+description: Veil rule timeline
+alwaysApply: false
+globs: data/history/**,wiki/history/**
+---
+
+# Timeline
+
+Эры: pre-awakening, awakening, fragmentation, 2435-present.
+
+В data — ISO-поля date/date_start/date_end; в прозе — человекочитаемо.

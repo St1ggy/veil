@@ -1,0 +1,26 @@
+id: PHENO_OCEAN_ETHER_STORMS
+type: phenomenon
+title: Эфирные штормы океанов
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- geography
+- magic
+- ocean
+aliases:
+- Ether Storms
+- Ocean corridors
+summary: Большая часть океанов опасна; безопасные морские коридоры существуют и постоянно
+  меняются.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: COUNTRY_BALTIC_HARBORS
+- type: related_to
+  target: COS_ETHER

@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getWikiEntries, entityHref, absHref } from "../../lib/wiki";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getWikiEntries();
+  return entries.map((entry) => ({
+    params: { entityId: entry.data.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const relations = entry.data.relations ?? [];
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+  <article>
+    <p class="meta">
+      <a href={absHref("/")}>← Энциклопедия</a>
+      <span class="badge">{entry.data.id}</span>
+      {entry.data.type && <span>{entry.data.type}</span>}
+      {entry.data.status && <span>{entry.data.status}</span>}
+      {entry.data.importance && <span>{entry.data.importance}</span>}
+    </p>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      relations.length > 0 && (
+        <section class="relations">
+          <h2>Связи (data)</h2>
+          <ul>
+            {relations.map((rel) => (
+              <li>
+                <code>{rel.type}</code> →{" "}
+                <a href={entityHref(rel.target)}>{rel.target}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>

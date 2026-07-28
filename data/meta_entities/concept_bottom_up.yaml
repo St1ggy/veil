@@ -1,0 +1,21 @@
+id: CONCEPT_BOTTOM_UP
+type: concept
+title: Принцип разработки снизу вверх
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- meta
+aliases:
+- Bottom-up design
+summary: Элемент нужен, только если влияет на системы мира; удаляемый без последствий
+  — не нужен.
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: CONCEPT_ALT_EARTH

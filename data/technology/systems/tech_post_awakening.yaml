@@ -1,0 +1,25 @@
+id: TECH_POST_AWAKENING
+type: technology
+title: Постпробужденческие технологии
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- technology
+aliases:
+- Post-Awakening Technology
+summary: Электричество, ИИ, роботы, железные дороги, заводы, дата-центры, огнестрел,
+  дроны, авиация — существуют, но поддерживать их крайне сложно.
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: PHENO_PROBABILISTIC_DECAY
+- type: related_to
+  target: TECH_HYBRID
+- type: related_to
+  target: AI_CATEGORIES

@@ -1,0 +1,11 @@
+---
+description: Veil rule characters
+alwaysApply: false
+globs: wiki/characters/**,data/characters/**
+---
+
+# Characters
+
+NPC vs HIST: разные префиксы ID.
+
+Секреты — spoilers: gm или `game/gm/`. Не светить тайны в публичных статьях.

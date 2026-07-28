@@ -1,0 +1,11 @@
+---
+description: Veil rule history
+alwaysApply: false
+globs: wiki/history/**,data/history/**
+---
+
+# History
+
+Великое Пробуждение: 2170. Текущая эпоха: 2435.
+
+События без последствий не добавлять. Даты по `meta/UNITS_AND_DATES.md`.

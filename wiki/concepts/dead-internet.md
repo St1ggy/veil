@@ -1,0 +1,53 @@
+---
+id: CONCEPT_DEAD_INTERNET
+type: concept
+title: Мёртвый Интернет
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- information
+- magic
+- technology
+aliases:
+- Dead Internet
+- Мертвый Интернет
+summary: Информационные следы глобальной Сети, сохранившиеся в Эфире после разрушения
+  инфраструктуры.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: MAG_NETWORK
+- type: related_to
+  target: EVENT_THIRD_WORLD_WAR
+- type: related_to
+  target: COS_ETHER
+- type: caused_by
+  target: EVENT_THIRD_WORLD_WAR
+---
+
+# Мёртвый Интернет
+
+## Обзор
+
+Глобальный Интернет разрушен (см. [[EVENT_THIRD_WORLD_WAR]]).
+
+Эфир сохранил информационные следы прежней Сети. Этот слой называют Мёртвым Интернетом.
+
+Он питает практику [[MAG_NETWORK|сетевых магов]] и контакты с остатками ИИ.
+
+## Открытые вопросы
+
+- Структура «слоёв» Мёртвого Интернета?
+- Можно ли восстановить устойчивую глобальную сеть без Эфира?
+
+## См. также
+
+- [[MAG_NETWORK]]
+- [[EVENT_THIRD_WORLD_WAR]]
+

@@ -1,0 +1,13 @@
+[project]
+name = "veil-tooling"
+version = "0.1.0"
+description = "Validators and generators for the Veil worldbuilding repo"
+requires-python = ">=3.11"
+dependencies = [
+  "PyYAML>=6.0",
+  "jsonschema>=4.20",
+  "python-frontmatter>=1.1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]

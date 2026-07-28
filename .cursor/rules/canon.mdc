@@ -1,0 +1,14 @@
+---
+description: Veil rule canon
+alwaysApply: true
+---
+
+# Canon
+
+Статусы: draft → research → discussion → approved → canon (+ experimental/deprecated/retconned/archived).
+
+AI **не** повышает статус выше `draft`/`research` без явной просьбы владельца.
+
+Новый канон только через шаблон + data YAML + wiki MD с одним `id`.
+
+Retcon без issue/CHANGELOG запрещён. См. `meta/CANON_POLICY.md`.

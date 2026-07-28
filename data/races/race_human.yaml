@@ -1,0 +1,27 @@
+id: RACE_HUMAN
+type: race
+title: Люди
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- races
+aliases:
+- Humans
+summary: Базовый вид альтернативной Земли; носители допробужденческой цивилизации
+  и её обломков.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: EVENT_GREAT_AWAKENING
+- type: related_to
+  target: COS_ARCHETYPES
+- type: related_to
+  target: COUNTRY_AEGIS
+- type: related_to
+  target: COUNTRY_NEW_YAMATO

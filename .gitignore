@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+out/*.pdf
+.site-cache/
+node_modules/
+web/node_modules/
+web/dist/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.astro/
+web/.astro/
+
+# Generated outputs (rebuild via make)
+site/**
+!site/.gitkeep
+api/**
+!api/.gitkeep
+graphs/**
+!graphs/.gitkeep
+data/_index/**
+!data/_index/.gitkeep

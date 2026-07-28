@@ -1,0 +1,29 @@
+id: PHENO_PROBABILISTIC_DECAY
+type: phenomenon
+title: Вероятностный Распад
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- magic
+- technology
+aliases:
+- Probabilistic Decay
+- Вероятностный распад
+summary: 'Эффект магии на технику: рост вероятности ошибок процессоров, носителей,
+  оружия, аккумуляторов и двигателей.'
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: MAG_PROBABILITY
+- type: related_to
+  target: CONCEPT_ARCANUM
+- type: related_to
+  target: TECH_NULL_FIELD
+- type: related_to
+  target: TECH_HYBRID

@@ -1,0 +1,18 @@
+id: TIMELINE_MAIN
+type: timeline
+title: Основной таймлайн
+status: approved
+version: 2
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+events:
+- EVENT_GREAT_AWAKENING
+- EVENT_THIRD_WORLD_WAR
+- EVENT_STARFALL
+eras:
+- ERA_PRE_AWAKENING
+- ERA_AWAKENING
+- ERA_FRAGMENTATION
+- ERA_2435_PRESENT

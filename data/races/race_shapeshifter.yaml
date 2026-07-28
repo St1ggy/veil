@@ -1,0 +1,23 @@
+id: RACE_SHAPESHIFTER
+type: race
+title: Перевертыши
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- races
+aliases:
+- Shapeshifters
+summary: Существа с изменчивой формой; идентичность и право — острые политические
+  вопросы.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: EVENT_GREAT_AWAKENING
+- type: related_to
+  target: COS_ARCHETYPES

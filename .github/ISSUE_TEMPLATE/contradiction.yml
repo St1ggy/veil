@@ -1,0 +1,21 @@
+name: Contradiction
+description: Report a lore contradiction
+title: "[contradiction] "
+labels: ["canon", "priority/high"]
+body:
+  - type: textarea
+    id: entities
+    attributes:
+      label: Conflicting entities / passages
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Why they conflict
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Possible resolutions

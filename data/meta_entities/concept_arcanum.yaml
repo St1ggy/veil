@@ -1,0 +1,31 @@
+id: CONCEPT_ARCANUM
+type: concept
+title: Принцип Arcanum
+status: approved
+version: 2
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- magic
+- technology
+aliases:
+- Arcanum
+- Arcanum principle
+summary: 'Взаимное давление магии и высоких технологий: Распад на стороне техники,
+  сопротивление Эфиру на стороне стабильных систем; возможны гибриды.'
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: COS_ETHER
+- type: related_to
+  target: COS_VEIL
+- type: related_to
+  target: PHENO_PROBABILISTIC_DECAY
+- type: related_to
+  target: TECH_HYBRID
+- type: related_to
+  target: TECH_NULL_FIELD

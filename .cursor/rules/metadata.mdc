@@ -1,0 +1,13 @@
+---
+description: Veil rule metadata
+alwaysApply: false
+globs: wiki/**/*.md,data/**/*.yaml
+---
+
+# Metadata
+
+Обязательные поля: id, type, title, status, version, created, updated.
+
+Не использовать `canon: bool` — только `status`.
+
+Схема: `meta/METADATA_SCHEMA.md`, JSON Schema в `data/_schemas/`.

@@ -1,0 +1,25 @@
+id: COUNTRY_AFRICAN_RIFT_CITIES
+type: country
+title: Вольные Города Африканского Разлома
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- politics
+- geography
+aliases:
+- Free Cities of the African Rift
+summary: Города вокруг мест падения эфирных метеоритов / орбитальных объектов.
+importance: major
+spoilers: none
+visibility: public
+relations:
+- type: occurs_during
+  target: ERA_2435_PRESENT
+- type: related_to
+  target: EVENT_THIRD_WORLD_WAR
+- type: related_to
+  target: EVENT_STARFALL

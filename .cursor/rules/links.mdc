@@ -1,0 +1,13 @@
+---
+description: Veil rule links
+alwaysApply: false
+globs: wiki/**/*.md,data/**/*.yaml
+---
+
+# Links
+
+Data: `relations: [{type, target}]` по `meta/LINK_TYPES.md`.
+
+Wiki: `[[ID]]` или относительные markdown-ссылки.
+
+Не заменять внутренние сущности голыми URL.

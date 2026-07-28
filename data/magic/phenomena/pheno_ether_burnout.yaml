@@ -1,0 +1,25 @@
+id: PHENO_ETHER_BURNOUT
+type: phenomenon
+title: Эфирное Выгорание
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- magic
+- cost
+aliases:
+- Ether Burnout
+- Эфирное выгорание
+summary: 'Цена магии: усталость, эмоциональное истощение, изменение личности, потеря
+  памяти, мутации; сильнее у могущественных магов.'
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: MAG_PROBABILITY
+- type: related_to
+  target: COS_ETHER

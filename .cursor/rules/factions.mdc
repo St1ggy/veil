@@ -1,0 +1,11 @@
+---
+description: Veil rule factions
+alwaysApply: false
+globs: wiki/factions/**,data/factions/**,wiki/religions/**
+---
+
+# Factions
+
+Организации, государства, религии: цель, ресурсы, методы, территория, союзники/враги.
+
+Без «появилась и всё» — закон причинности.

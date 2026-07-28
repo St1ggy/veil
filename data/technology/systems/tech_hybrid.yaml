@@ -1,0 +1,29 @@
+id: TECH_HYBRID
+type: technology
+title: Гибридные технологии
+status: approved
+version: 1
+created: '2026-07-29'
+updated: '2026-07-29'
+authors:
+- veil
+tags:
+- technology
+- magic
+aliases:
+- Hybrid Technology
+- Technomagic
+summary: 'Объединение магии и техники: эфирные аккумуляторы, рунические серверы, магические
+  процессоры, самонаводящиеся боеприпасы, эфирные двигатели. Очень дороги.'
+importance: core
+spoilers: none
+visibility: public
+relations:
+- type: related_to
+  target: CONCEPT_ARCANUM
+- type: related_to
+  target: ORG_RESONANCE_SYNDICATE
+- type: related_to
+  target: PHENO_PROBABILISTIC_DECAY
+- type: related_to
+  target: MAG_PROBABILITY

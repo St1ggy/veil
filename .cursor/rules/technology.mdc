@@ -1,0 +1,11 @@
+---
+description: Veil rule technology
+alwaysApply: false
+globs: wiki/technology/**,data/technology/**
+---
+
+# Technology
+
+Технология ≠ магия. Нужны: происхождение, производство, ресурсы, ограничения.
+
+Учитывать Arcanum и гибриды явно.

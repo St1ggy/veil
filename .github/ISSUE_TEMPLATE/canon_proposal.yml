@@ -1,0 +1,29 @@
+name: Canon proposal
+description: Propose new or changed canon
+title: "[canon] "
+labels: ["canon", "status/discussion"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What should become canon?
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Effects on politics, magic, tech, play
+    validations:
+      required: true
+  - type: dropdown
+    id: importance
+    attributes:
+      label: Importance
+      options: [core, major, minor, flavor]
+  - type: input
+    id: ids
+    attributes:
+      label: Proposed IDs
+      placeholder: COS_EXAMPLE, EVENT_EXAMPLE

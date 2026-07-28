@@ -13,6 +13,7 @@ DATA = ROOT / "data"
 WIKI = ROOT / "wiki"
 
 SKIP_DIR_NAMES = {"_schemas", "_index", "_templates"}
+# Localized mirrors under wiki/en are site content; RU wiki remains the canon pair for data.
 
 ID_RE = re.compile(r"^[A-Z][A-Z0-9]*(_[A-Z0-9]+)+$")
 WIKILINK_RE = re.compile(r"\[\[([A-Z][A-Z0-9_]*)(?:\|[^\]]+)?\]\]")
@@ -37,6 +38,12 @@ def iter_wiki_files() -> list[Path]:
     for path in WIKI.rglob("*.md"):
         if any(part in SKIP_DIR_NAMES for part in path.parts):
             continue
+        # Skip English mirror: validators use Russian wiki as the SoT pair for data.
+        try:
+            if path.relative_to(WIKI).parts[0] == "en":
+                continue
+        except ValueError:
+            pass
         if path.name.startswith("_") and path.name != "_home.md":
             continue
         files.append(path)

@@ -4,6 +4,7 @@ import { languages, t, type Lang } from "../i18n/ui";
 import {
   aboutHref,
   categoryHref,
+  glossaryHref,
   langHome,
   withBase,
 } from "../lib/wiki";
@@ -14,9 +15,17 @@ interface Props {
   description?: string;
   pathAfterLang?: string;
   activeCategory?: string;
+  activeNav?: "home" | "glossary" | "about";
 }
 
-const { lang, title, description, pathAfterLang = "", activeCategory } = Astro.props;
+const {
+  lang,
+  title,
+  description,
+  pathAfterLang = "",
+  activeCategory,
+  activeNav,
+} = Astro.props;
 const other: Lang = lang === "ru" ? "en" : "ru";
 const otherHref = withBase(
   pathAfterLang ? `${other}/${pathAfterLang.replace(/^\/+/, "")}` : other,
@@ -81,8 +90,24 @@ const otherHref = withBase(
         </nav>
 
         <nav class="side-footer-nav">
-          <a href={langHome(lang)}>{t(lang, "navHome")}</a>
-          <a href={aboutHref(lang)}>{t(lang, "navAbout")}</a>
+          <a
+            class:list={[{ active: activeNav === "home" }]}
+            href={langHome(lang)}
+          >
+            {t(lang, "navHome")}
+          </a>
+          <a
+            class:list={[{ active: activeNav === "glossary" }]}
+            href={glossaryHref(lang)}
+          >
+            {t(lang, "navGlossary")}
+          </a>
+          <a
+            class:list={[{ active: activeNav === "about" }]}
+            href={aboutHref(lang)}
+          >
+            {t(lang, "navAbout")}
+          </a>
         </nav>
       </aside>
 

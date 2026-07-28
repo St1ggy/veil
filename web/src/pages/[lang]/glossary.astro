@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sortedGlossary } from "../../data/glossary";
+import { t, type Lang } from "../../i18n/ui";
+import { entityHref } from "../../lib/wiki";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
+}
+
+const L = Astro.params.lang as Lang;
+const terms = sortedGlossary(L);
+---
+
+<BaseLayout
+  lang={L}
+  title={t(L, "glossaryTitle")}
+  description={t(L, "glossaryIntro")}
+  pathAfterLang="glossary"
+  activeNav="glossary"
+>
+  <header class="page-header">
+    <h1>{t(L, "glossaryTitle")}</h1>
+    <p>{t(L, "glossaryIntro")}</p>
+    <div class="meta-row">
+      <span>{terms.length} {t(L, "articles")}</span>
+    </div>
+  </header>
+
+  <div class="glossary-wrap">
+    <table class="glossary-table">
+      <thead>
+        <tr>
+          <th>{t(L, "glossaryTerm")}</th>
+          <th>{t(L, "glossaryId")}</th>
+          <th>{t(L, "glossaryDefinition")}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          terms.map((term) => (
+            <tr>
+              <td>
+                <a class="glossary-term" href={entityHref(L, term.id)}>
+                  {term.term[L]}
+                </a>
+              </td>
+              <td>
+                <a class="badge" href={entityHref(L, term.id)}>
+                  {term.id}
+                </a>
+              </td>
+              <td>{term.definition[L]}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</BaseLayout>

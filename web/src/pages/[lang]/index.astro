@@ -8,6 +8,7 @@ import {
   entriesInCategory,
   featuredIds,
   getWikiEntries,
+  glossaryHref,
   displayTitle,
   displaySummary,
 } from "../../lib/wiki";
@@ -34,9 +35,7 @@ const featured = featuredIds
     <p>{t(L, "heroBody")}</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href={categoryHref(L, "cosmology")}>{t(L, "explore")}</a>
-      <a class="btn btn-secondary" href={categoryHref(L, "countries")}>
-        {categories.find((c) => c.id === "countries")?.label[L]}
-      </a>
+      <a class="btn btn-secondary" href={glossaryHref(L)}>{t(L, "navGlossary")}</a>
     </div>
   </section>
 

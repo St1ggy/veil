@@ -11,6 +11,7 @@ Static encyclopedia from `../wiki/**/*.md`.
 | `/{lang}/category/{id}` | Section listing |
 | `/{lang}/entity/{ID}` | Article |
 | `/{lang}/about` | About |
+| `/{lang}/glossary` | Glossary (canonical terms) |
 
 Languages: UI fully bilingual. Article bodies are Russian until `wiki` gains EN mirrors; EN uses Latin aliases for titles.
 

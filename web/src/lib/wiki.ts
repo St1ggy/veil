@@ -32,6 +32,10 @@ export function aboutHref(lang: Lang): string {
   return withBase(`${lang}/about`);
 }
 
+export function glossaryHref(lang: Lang): string {
+  return withBase(`${lang}/glossary`);
+}
+
 export function switchLangHref(currentLang: Lang, pathAfterLang: string): string {
   const other: Lang = currentLang === "ru" ? "en" : "ru";
   const rest = pathAfterLang.replace(/^\/+/, "");

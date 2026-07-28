@@ -13,6 +13,8 @@ aliases:
 - Fae
 summary: Эфирно-близкие народы; опасны для predсказуемых систем и договоров.
 importance: major
+mechanical: true
+mechanical_id: ANC_FAE
 spoilers: none
 visibility: public
 relations:

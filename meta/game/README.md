@@ -10,6 +10,8 @@ scope: |
   Только meta/game документы.
 related:
   - meta/ADR/0005-game-mechanical-sot.md
+  - meta/game/NAMING_NOTES.md
+  - meta/game/QUALITY_GATE.md
 changelog:
   - date: '2026-07-29'
     note: Initial SDK scaffold.
@@ -28,6 +30,8 @@ changelog:
 ## Связанные документы
 
 - `meta/ADR/0005-game-mechanical-sot.md`
+- `meta/game/NAMING_NOTES.md`
+- `meta/game/QUALITY_GATE.md`
 
 
 ## История изменений

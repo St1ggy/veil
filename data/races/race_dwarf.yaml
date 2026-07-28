@@ -13,6 +13,8 @@ aliases:
 - Dwarves
 summary: Технологические партнёры людей в Эгиде; инженерия и глубинная инфраструктура.
 importance: major
+mechanical: true
+mechanical_id: ANC_DWARF
 spoilers: none
 visibility: public
 relations:

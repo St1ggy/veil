@@ -14,6 +14,8 @@ aliases:
 summary: 'Категория, не единая раса: андроиды, роботы, мехи, разумные фабрики, оцифрованные
   люди, боевые платформы.'
 importance: major
+mechanical: true
+mechanical_id: ANC_CONSTRUCT
 spoilers: none
 visibility: public
 relations:

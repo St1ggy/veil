@@ -14,6 +14,8 @@ aliases:
 summary: Индустриальные народы Железной Лиги; машины воспринимаются как живые; ценность
   — труд.
 importance: major
+mechanical: true
+mechanical_id: ANC_ORC
 spoilers: none
 visibility: public
 relations:

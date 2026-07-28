@@ -26,6 +26,8 @@
 - [x] GM toolkit seeds + generators
 - [x] Design philosophies + qualitative budgets
 - [x] PH / GM Guide / Setting Book Typst shells
+- [x] `make index` / `make api` export mechanical (`game/`) IDs
+- [x] Spoiler lint: gm content outside `game/gm/` is an error
 - [ ] Fill mechanical content (still no SWADE reprint; add Veil stats later under policy)
 - [ ] Generate `/system` TOC from `game/` automatically
 
@@ -37,7 +39,7 @@
 ## GM secrets
 
 - [x] GM guide volume (SDK shell)
-- [ ] Spoiler lint enforced hard in CI
+- [x] Spoiler lint enforced hard in CI (`canon_status` errors for gm outside `game/gm/`)
 
 ## Public site
 

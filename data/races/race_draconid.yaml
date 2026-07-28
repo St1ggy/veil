@@ -13,6 +13,8 @@ aliases:
 - Draconids
 summary: Драконоподобные народы; редкость и политический вес выше численности.
 importance: major
+mechanical: true
+mechanical_id: ANC_DRACONID
 spoilers: none
 visibility: public
 relations:

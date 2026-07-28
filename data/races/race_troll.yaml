@@ -13,6 +13,8 @@ aliases:
 - Trolls
 summary: Крупные постпробужденческие народы; ниша — границы экосистем и инфраструктуры.
 importance: major
+mechanical: true
+mechanical_id: ANC_TROLL
 spoilers: none
 visibility: public
 relations:

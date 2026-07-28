@@ -16,6 +16,12 @@ visibility: public
 relations: []
 ---
 
+<!-- Legacy filename. Prefer wiki/_templates/creature.md — see meta/game/NAMING_NOTES.md -->
+
+# Название
+relations: []
+---
+
 # Название
 
 <!-- Checklist: fill all sections; keep status <= draft|research until review; create matching data/*.yaml -->

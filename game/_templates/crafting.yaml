@@ -1,0 +1,18 @@
+id: CRAFT_EXAMPLE
+type: crafting
+title: Example Crafting Blueprint
+status: draft
+version: 0.1
+created: '2026-07-29'
+updated: '2026-07-29'
+summary: |
+  Template crafting blueprint / rule. Setting-only design — no SWADE core reprint.
+tags:
+  - crafting
+dependencies: []
+future_hooks:
+  - Expand after playtest.
+design_notes: |
+  SDK template.
+balance_notes: |
+  Qualitative only.

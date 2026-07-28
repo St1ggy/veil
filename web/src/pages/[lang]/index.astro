@@ -3,6 +3,7 @@ import CategoryIcon from "../../components/CategoryIcon.astro";
 import NavIcon from "../../components/NavIcon.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { categories } from "../../i18n/categories";
+import { labelType } from "../../i18n/labels";
 import { t, type Lang } from "../../i18n/ui";
 import {
   categoryHref,
@@ -79,7 +80,7 @@ const featured = featuredIds
             </a>
             <div class="meta-row">
               <span class="badge">{entry.data.id}</span>
-              {entry.data.type && <span>{entry.data.type}</span>}
+              {entry.data.type && <span>{labelType(entry.data.type, L)}</span>}
             </div>
             {displaySummary(entry, L) && (
               <p class="summary">{displaySummary(entry, L)}</p>

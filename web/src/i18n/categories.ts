@@ -66,7 +66,7 @@ export const categories: CategoryDef[] = [
     order: 5,
     label: { ru: "Технологии", en: "Technology" },
     description: {
-      ru: "Классика, гибриды, Нулевые Поля, ИИ.",
+      ru: "Классика, гибриды, Нулевые Поля, искусственный интеллект.",
       en: "Classical tech, hybrids, Null Fields, AI.",
     },
   },
@@ -76,8 +76,8 @@ export const categories: CategoryDef[] = [
     order: 6,
     label: { ru: "Расы", en: "Ancestries" },
     description: {
-      ru: "Народы Земли 2435 без шаблонов D&D.",
-      en: "Peoples of Earth 2435 — not D&D templates.",
+      ru: "Народы Земли 2435 без шаблонов классического фэнтези.",
+      en: "Peoples of Earth 2435 — not classic-fantasy templates.",
     },
   },
   {

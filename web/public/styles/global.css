@@ -509,6 +509,31 @@ code {
   color: var(--accent-2);
 }
 
+.rel-type {
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+.tags-row .badge {
+  text-transform: none;
+}
+
+
+.system-dl dt {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--accent-2);
+}
+
+.system-dl dd {
+  margin: 0.25rem 0 0;
+  color: #d5deea;
+}
+
+
+
+
 .relations {
   margin-top: 2.5rem;
   padding-top: 1.25rem;

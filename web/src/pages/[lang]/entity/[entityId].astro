@@ -2,6 +2,13 @@
 import CategoryIcon from "../../../components/CategoryIcon.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { categoryForType } from "../../../i18n/categories";
+import {
+  labelImportance,
+  labelRelation,
+  labelStatus,
+  labelTag,
+  labelType,
+} from "../../../i18n/labels";
 import { t, type Lang } from "../../../i18n/ui";
 import {
   categoryHref,
@@ -32,6 +39,7 @@ const L = Astro.params.lang as Lang;
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const relations = entry.data.relations ?? [];
+const tags = entry.data.tags ?? [];
 const cat = categoryForType(entry.data.type);
 ---
 
@@ -60,10 +68,38 @@ const cat = categoryForType(entry.data.type);
     <h1>{displayTitle(entry, L)}</h1>
     <div class="meta-row">
       <span class="badge">{entry.data.id}</span>
-      {entry.data.type && <span>{entry.data.type}</span>}
-      {entry.data.status && <span>{entry.data.status}</span>}
-      {entry.data.importance && <span>{entry.data.importance}</span>}
+      {
+        entry.data.type && (
+          <span>
+            {t(L, "type")}: {labelType(entry.data.type, L)}
+          </span>
+        )
+      }
+      {
+        entry.data.status && (
+          <span>
+            {t(L, "status")}: {labelStatus(entry.data.status, L)}
+          </span>
+        )
+      }
+      {
+        entry.data.importance && (
+          <span>
+            {t(L, "importance")}: {labelImportance(entry.data.importance, L)}
+          </span>
+        )
+      }
     </div>
+    {
+      tags.length > 0 && (
+        <div class="meta-row tags-row">
+          <span>{t(L, "tags")}:</span>
+          {tags.map((tag) => (
+            <span class="badge">{labelTag(tag, L)}</span>
+          ))}
+        </div>
+      )
+    }
     {displaySummary(entry, L) && <p>{displaySummary(entry, L)}</p>}
   </header>
 
@@ -78,8 +114,10 @@ const cat = categoryForType(entry.data.type);
         <ul>
           {relations.map((rel) => (
             <li>
-              <code>{rel.type}</code> →{" "}
-              <a href={entityHref(L, rel.target)}>{rel.target}</a>
+              <span class="rel-type">
+                {labelRelation(rel.type, L)}
+              </span>{" "}
+              → <a href={entityHref(L, rel.target)}>{rel.target}</a>
             </li>
           ))}
         </ul>

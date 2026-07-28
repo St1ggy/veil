@@ -82,7 +82,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   },
   {
     id: "CONCEPT_ARCANUM",
-    term: { ru: "Принцип Arcanum", en: "Arcanum principle" },
+    term: { ru: "Принцип Арканум", en: "Arcanum principle" },
     definition: {
       ru: "Взаимное давление магии и высоких технологий; возможны гибриды.",
       en: "Mutual pressure between magic and high technology; hybrids are possible.",

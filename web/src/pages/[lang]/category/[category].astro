@@ -2,6 +2,11 @@
 import CategoryIcon from "../../../components/CategoryIcon.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { categories, categoryById } from "../../../i18n/categories";
+import {
+  labelImportance,
+  labelStatus,
+  labelType,
+} from "../../../i18n/labels";
 import { t, type Lang } from "../../../i18n/ui";
 import {
   entityHref,
@@ -63,17 +68,17 @@ const entries = entriesInCategory(await getWikiEntries(L), cat.id);
               <span class="badge">{entry.data.id}</span>
               {entry.data.type && (
                 <span>
-                  {t(L, "type")}: {entry.data.type}
+                  {t(L, "type")}: {labelType(entry.data.type, L)}
                 </span>
               )}
               {entry.data.status && (
                 <span>
-                  {t(L, "status")}: {entry.data.status}
+                  {t(L, "status")}: {labelStatus(entry.data.status, L)}
                 </span>
               )}
               {entry.data.importance && (
                 <span>
-                  {t(L, "importance")}: {entry.data.importance}
+                  {t(L, "importance")}: {labelImportance(entry.data.importance, L)}
                 </span>
               )}
             </div>

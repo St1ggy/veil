@@ -1,9 +1,23 @@
 ---
 description: Veil rule game-player
 alwaysApply: false
-globs: game/player/**,books/volumes/player_handbook/**
+globs: game/player/**,game/design/**,books/volumes/player_handbook/**,books/volumes/setting_book/**
 ---
 
 # Game player
 
 Только информация, безопасная игрокам. Не ссылайся на `game/gm/`.
+
+## Обязательно
+
+- Читать `meta/game/QUALITY_GATE.md` и `meta/game/COMPATIBILITY.md`
+- Mechanical SoT = `game/`; лор = `data/` + `wiki/`
+- Связывать сущности через ID (`relations` / `lore_targets`)
+- Каждый документ: purpose/scope/related/status/version/changelog (или YAML-эквивалент)
+
+## Запрещено
+
+- Копировать или близко пересказывать текст книг SWADE
+- Добавлять dice steps, PP, damage tables, reprint Edges/Powers/Hindrances core
+- Ломать ядро SWADE «второй системой»
+- Пихать GM-spoilers в player paths

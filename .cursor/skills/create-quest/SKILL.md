@@ -1,28 +1,28 @@
 ---
 name: create-quest
-description: Создать квест в сеттинге Veil (data + wiki, статус draft). Use when user asks to create квест.
+description: Создать квест/сюжетную арку Veil в game/gm/plots (PLOT_). Use when user asks to create квест or plot.
 ---
 
-# Создать квест
+# Создать квест (plot)
 
 ## Когда использовать
 
-Пользователь просит добавить новую сущность: квест.
+Пользователь просит добавить квест / сюжетную арку.
 
 ## Шаги
 
-1. Прочитай `meta/RULES.md`, `meta/ID_SCHEME.md`, `meta/CANON_POLICY.md`
-2. Выбери уникальный ID. Префикс ID: `EVENT_`
+1. Прочитай `meta/RULES.md`, `meta/ID_SCHEME.md`, `meta/game/QUALITY_GATE.md`, `meta/SPOILER_POLICY.md`
+2. ID с префиксом `PLOT_`
 3. Статус только `draft` или `research`
-4. Создай файл по образцу соседних в целевой папке
+4. Скопируй шаблон из `game/_templates/` при наличии или соседний plot
 5. Создай пару:
    - `game/gm/plots/{id_lower}.yaml`
-   - `game/gm/plots/{slug}.md` с тем же `id`
-6. Заполни обязательные секции; неизвестное — явный TODO
-7. Добавь `relations` где возможно
-8. Не ставь `approved`/`canon`
-9. Кратко отчитайся: пути файлов + ID
+   - `game/gm/plots/{slug}.md`
+6. `visibility: gm`, `spoilers: gm` если секрет
+7. Свяжи с лором через `relations` / `lore_targets`
+8. Не ставь `approved`/`canon`; не копируй текст SWADE; не добавляй dice/PP/damage core
+9. Отчитайся: пути + ID
 
 ## Выход
 
-Файлы data/wiki (или game/), без коммита без просьбы.
+Файлы в `game/gm/plots/`, без коммита без просьбы.

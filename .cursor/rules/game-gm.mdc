@@ -6,4 +6,18 @@ globs: game/gm/**,books/volumes/gm_guide/**
 
 # Game GM
 
-Секреты, сюжеты, генераторы. Помечай spoilers. Не копируй gm-текст в wiki public без `spoilers: gm`.
+Секреты, сюжеты, генераторы. Помечай `spoilers` / `visibility: gm`.
+
+Не копируй gm-текст в public wiki без `spoilers: gm`.
+
+## Обязательно
+
+- ID: `ADV_`, `PLOT_`, `ENC_`, `GEN_`
+- `meta/game/QUALITY_GATE.md`
+- Связь с лором и Setting Rules
+
+## Запрещено
+
+- Reprint SWADE
+- Числовые статы core в seed-документах
+- Утечка секретов в `game/player/`

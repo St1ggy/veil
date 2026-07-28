@@ -546,6 +546,24 @@ code {
   margin-top: 2rem;
 }
 
+.muted {
+  color: var(--muted);
+}
+
+.game-readme {
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.game-item .game-body {
+  margin-top: 1.25rem;
+}
+
+.entity-list .badge {
+  margin-left: 0.5rem;
+}
+
 .system-page .page-header {
   margin-bottom: 1.75rem;
 }

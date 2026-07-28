@@ -7,6 +7,7 @@ import {
   displaySummary,
   displayTitle,
   entityHref,
+  gameHref,
   getWikiEntries,
   glossaryHref,
   langHome,
@@ -81,6 +82,8 @@ const related = systemPage.relatedIds
     </section>
 
     <p class="system-footer-links">
+      <a href={gameHref(L)}>{t(L, "navGame")}</a>
+      ·
       <a href={aboutHref(L)}>{t(L, "navAbout")}</a>
       ·
       <a href={glossaryHref(L)}>{t(L, "navGlossary")}</a>

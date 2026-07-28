@@ -13,6 +13,7 @@ import {
   getWikiEntries,
   glossaryHref,
   systemHref,
+  gameHref,
   displayTitle,
   displaySummary,
 } from "../../lib/wiki";
@@ -45,6 +46,10 @@ const featured = featuredIds
       <a class="btn btn-secondary" href={systemHref(L)}>
         <NavIcon name="system" size={16} />
         <span>{t(L, "navSystem")}</span>
+      </a>
+      <a class="btn btn-secondary" href={gameHref(L)}>
+        <NavIcon name="game" size={16} />
+        <span>{t(L, "navGame")}</span>
       </a>
       <a class="btn btn-secondary" href={glossaryHref(L)}>
         <NavIcon name="glossary" size={16} />

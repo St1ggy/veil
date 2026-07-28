@@ -40,6 +40,22 @@ export function glossaryHref(lang: Lang): string {
   return withBase(`${lang}/glossary`);
 }
 
+export function gameHref(lang: Lang): string {
+  return withBase(`${lang}/game`);
+}
+
+export function gameSectionHref(lang: Lang, sectionId: string): string {
+  return withBase(`${lang}/game/${sectionId}`);
+}
+
+export function gameItemHref(
+  lang: Lang,
+  sectionId: string,
+  slug: string,
+): string {
+  return withBase(`${lang}/game/${sectionId}/${slug}`);
+}
+
 export function switchLangHref(currentLang: Lang, pathAfterLang: string): string {
   const other: Lang = currentLang === "ru" ? "en" : "ru";
   const rest = pathAfterLang.replace(/^\/+/, "");

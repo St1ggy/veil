@@ -15,6 +15,14 @@ const entityTypes: Dict = {
   faction: { ru: "фракция", en: "faction" },
   concept: { ru: "концепт", en: "concept" },
   meta: { ru: "мета", en: "meta" },
+  edge: { ru: "edge", en: "edge" },
+  hindrance: { ru: "hindrance", en: "hindrance" },
+  ancestry: { ru: "происхождение", en: "ancestry" },
+  power_modifier: { ru: "модификатор силы", en: "power modifier" },
+  power_design: { ru: "дизайн силы", en: "power design" },
+  setting_rule: { ru: "правило сеттинга", en: "setting rule" },
+  campaign: { ru: "кампания", en: "campaign" },
+  npc_archetype: { ru: "архетип NPC", en: "NPC archetype" },
 };
 
 const statuses: Dict = {

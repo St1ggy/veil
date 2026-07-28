@@ -7,6 +7,7 @@ import { languages, t, type Lang } from "../i18n/ui";
 import {
   aboutHref,
   categoryHref,
+  gameHref,
   glossaryHref,
   langHome,
   systemHref,
@@ -19,7 +20,7 @@ interface Props {
   description?: string;
   pathAfterLang?: string;
   activeCategory?: string;
-  activeNav?: "home" | "glossary" | "about" | "system";
+  activeNav?: "home" | "glossary" | "about" | "system" | "game";
 }
 
 const {
@@ -121,6 +122,13 @@ const otherHref = withBase(
           >
             <NavIcon name="system" />
             <span>{t(lang, "navSystem")}</span>
+          </a>
+          <a
+            class:list={[{ active: activeNav === "game" }]}
+            href={gameHref(lang)}
+          >
+            <NavIcon name="game" />
+            <span>{t(lang, "navGame")}</span>
           </a>
         </nav>
       </aside>

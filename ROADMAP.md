@@ -6,24 +6,41 @@
 - [x] Meta rules, schemas, templates
 - [x] Cursor rules and skills
 - [x] GitHub templates and CI stubs
+- [x] ADR-0005: game layer as mechanical SoT
+- [x] Setting Book SDK scaffold (`game/`, `meta/game/`)
 
 ## Encyclopedia MVP
 
-- [ ] Core cosmology and history fully in data+wiki
-- [ ] First countries, races, factions
-- [ ] Link graph and timeline published under `graphs/`
+- [x] Core cosmology and history in data+wiki (seed approved)
+- [x] First countries, races, factions
+- [x] Link graph and timeline under `graphs/` (via `make index`)
+
+## Setting Book SDK
+
+- [x] Core integration docs (`meta/game/`)
+- [x] Catalog skeleton + schemas + templates
+- [x] Chargen / Ancestries / Edges / Hindrances / AB / Powers design scaffolds
+- [x] Setting Rules catalog (design docs)
+- [x] Equipment / Vehicles / Crafting / Economy play layer scaffolds
+- [x] NPC / Bestiary / Factions play / Campaigns scaffolds
+- [x] GM toolkit seeds + generators
+- [x] Design philosophies + qualitative budgets
+- [x] PH / GM Guide / Setting Book Typst shells
+- [ ] Fill mechanical content (still no SWADE reprint; add Veil stats later under policy)
+- [ ] Generate `/system` TOC from `game/` automatically
 
 ## Player primer
 
-- [ ] `game/player/primers` complete for session zero
-- [ ] Player handbook Typst volume
+- [x] `game/player/primers` session-zero primer
+- [x] Player handbook Typst volume (SDK shell)
 
 ## GM secrets
 
-- [ ] GM guide volume
-- [ ] Spoiler lint enforced in CI
+- [x] GM guide volume (SDK shell)
+- [ ] Spoiler lint enforced hard in CI
 
 ## Public site
 
 - [x] Static site from wiki (Astro in `web/`)
-- [ ] JSON API dump for tools/VTT
+- [x] System page (SWADE design overview)
+- [x] JSON API dump (`make api`) — extend for game IDs later

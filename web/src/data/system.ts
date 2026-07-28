@@ -148,8 +148,8 @@ export const systemPage = {
       },
       paragraphs: [
         {
-          ru: "Поверх SWADE проект вводит собственные правила сеттинга и подсистемы. Ниже — канонический список из Конституции; механики наполняются в игровом слое `game/` и должны оставаться совместимыми с ядром.",
-          en: "On top of SWADE, the project adds its own Setting Rules and subsystems. Below is the canonical list from the Constitution; mechanics live in the `game/` layer and must stay compatible with the core.",
+          ru: "Поверх SWADE проект вводит собственные правила сеттинга и подсистемы. Канонический список ниже; design-документы и YAML-каркасы живут в `game/player/setting_rules/` и `game/systems/` (механический SoT, ADR-0005). Числовые статы наполняются отдельно и не копируют книги SWADE.",
+          en: "On top of SWADE, the project adds its own Setting Rules and subsystems. The canonical list is below; design docs and YAML scaffolds live in `game/player/setting_rules/` and `game/systems/` (mechanical SoT, ADR-0005). Numeric stats are filled later and must not reprint SWADE books.",
         },
       ],
       items: [
@@ -302,8 +302,8 @@ export const systemPage = {
           en: "Veil of Worlds is an original setting and accompanying materials. This encyclopedia describes the world and the design of the game line; it does not reproduce the full SWADE rules text.",
         },
         {
-          ru: "Игровые тексты проекта живут в слое `game/` (материалы игрока и мастера). Механические блоки наполняются по мере фиксации канона; энциклопедия уже задаёт, какие законы мира обязаны стать играбельными правилами.",
-          en: "Project play texts live in the `game/` layer (player and GM materials). Mechanical blocks fill in as canon locks; the encyclopedia already states which world laws must become playable rules.",
+          ru: "Игровые тексты и SDK книги сеттинга живут в `game/` (player/GM). Каркасы Setting Book готовы к постепенному наполнению; энциклопедия задаёт законы мира, которые обязаны стать играбельными правилами.",
+          en: "Play texts and the Setting Book SDK live in `game/` (player/GM). Setting Book scaffolds are ready for gradual filling; the encyclopedia states which world laws must become playable rules.",
         },
       ],
     },

@@ -18,6 +18,7 @@ compile books/volumes/03_history/main.typ out/03_history.pdf
 compile books/volumes/04_races_and_factions/main.typ out/04_races_and_factions.pdf
 compile books/volumes/player_handbook/main.typ out/player_handbook.pdf
 compile books/volumes/gm_guide/main.typ out/gm_guide.pdf
+compile books/volumes/setting_book/main.typ out/setting_book.pdf
 
 echo "pdf: done"
 ls -la out/*.pdf

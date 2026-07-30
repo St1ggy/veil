@@ -1,0 +1,192 @@
+{
+  "main": {
+    "id": "e4142807acf0901f",
+    "type": "split",
+    "children": [
+      {
+        "id": "4762e4658884d1ca",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ab4b9590a5a7b9e4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "rawBooks/world_bible/01_foundations/01_cosmology/11_the_ascended.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "11_the_ascended"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "06dc6dd6da8becb9",
+    "type": "split",
+    "children": [
+      {
+        "id": "d70b48cd1a2f6d93",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "03bc079b0dc558e6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "800b0eeba3ecd974",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "62294ba4fee720a2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "c6b6c7162754740c",
+    "type": "split",
+    "children": [
+      {
+        "id": "1f4a3799ff19bac8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "acdad7fc0ef3a699",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "rawBooks/world_bible/01_foundations/00_foundation/00_project_vision.md.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for 00_project_vision.md"
+            }
+          },
+          {
+            "id": "37ee51a6223f2b9c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "rawBooks/world_bible/01_foundations/00_foundation/00_project_vision.md.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from 00_project_vision.md"
+            }
+          },
+          {
+            "id": "d3aec990f026c6bb",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "d22078bf03442238",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "38d8437df65d0722",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "rawBooks/world_bible/01_foundations/00_foundation/00_project_vision.md.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 00_project_vision.md"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "ab4b9590a5a7b9e4",
+  "lastOpenFiles": [
+    "rawBooks/world_bible/01_foundations/01_cosmology/09_ascension.md",
+    "rawBooks/world_bible/01_foundations/04_language/06_true_names.md",
+    "rawBooks/world_bible/01_foundations/00_foundation/00_project_vision.md.md"
+  ]
+}

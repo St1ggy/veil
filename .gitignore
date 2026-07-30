@@ -23,3 +23,6 @@ graphs/**
 !graphs/.gitkeep
 data/_index/**
 !data/_index/.gitkeep
+
+# Local archives
+rawBooks.zip

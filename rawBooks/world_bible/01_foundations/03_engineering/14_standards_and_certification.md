@@ -1,9 +1,8 @@
 ---
-id: standards_and_certification
+id: foundations.engineering.standards_and_certification
 title: Международные стандарты и сертификация
 status: canon
 version: 1.0
-
 tags:
   - etherology
   - engineering

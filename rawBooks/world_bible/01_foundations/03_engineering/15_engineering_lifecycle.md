@@ -1,9 +1,8 @@
 ---
-id: engineering_lifecycle
+id: foundations.engineering.engineering_lifecycle
 title: Жизненный цикл инженерной модели
 status: canon
 version: 1.0
-
 tags:
   - engineering
   - lifecycle

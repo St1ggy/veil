@@ -21,10 +21,8 @@ tags:
   - locations
   - megacities
 ---
-
 # Мегаполисы
 
 ## Назначение
 
 ## План
-

@@ -20,10 +20,8 @@ tags:
   - organizations
   - guilds
 ---
-
 # Гильдии
 
 ## Назначение
 
 ## План
-

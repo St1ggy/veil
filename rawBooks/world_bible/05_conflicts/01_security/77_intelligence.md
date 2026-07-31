@@ -20,10 +20,8 @@ tags:
   - security
   - intelligence
 ---
-
 # Разведка
 
 ## Назначение
 
 ## План
-

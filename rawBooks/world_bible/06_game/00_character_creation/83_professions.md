@@ -20,10 +20,8 @@ tags:
   - character_creation
   - professions
 ---
-
 # Профессии
 
 ## Назначение
 
 ## План
-

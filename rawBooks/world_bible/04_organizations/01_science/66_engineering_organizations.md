@@ -19,10 +19,8 @@ tags:
   - organizations
   - engineering
 ---
-
 # Инженерные организации
 
 ## Назначение
 
 ## План
-

@@ -21,10 +21,8 @@ tags:
   - security
   - private_security
 ---
-
 # Частная охрана
 
 ## Назначение
 
 ## План
-

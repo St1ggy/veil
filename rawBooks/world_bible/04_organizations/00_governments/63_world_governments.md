@@ -20,10 +20,8 @@ tags:
   - organizations
   - governments
 ---
-
 # Правительства мира
 
 ## Назначение
 
 ## План
-

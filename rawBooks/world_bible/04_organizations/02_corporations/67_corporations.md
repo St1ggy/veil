@@ -20,10 +20,8 @@ tags:
   - organizations
   - corporations
 ---
-
 # Корпорации
 
 ## Назначение
 
 ## План
-

@@ -20,10 +20,8 @@ tags:
   - corporations
   - manufacturers
 ---
-
 # Производители
 
 ## Назначение
 
 ## План
-

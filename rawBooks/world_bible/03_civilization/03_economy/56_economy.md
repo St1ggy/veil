@@ -23,10 +23,8 @@ tags:
   - civilization
   - economy
 ---
-
 # Экономика
 
 ## Назначение
 
 ## План
-

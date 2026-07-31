@@ -21,10 +21,8 @@ tags:
   - character_creation
   - backgrounds
 ---
-
 # Происхождения
 
 ## Назначение
 
 ## План
-

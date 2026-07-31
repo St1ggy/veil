@@ -21,10 +21,8 @@ tags:
   - campaigns
   - power_levels
 ---
-
 # Уровни силы
 
 ## Назначение
 
 ## План
-

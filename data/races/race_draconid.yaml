@@ -2,16 +2,16 @@ id: RACE_DRACONID
 type: race
 title: Дракониды
 status: approved
-version: 1
+version: 2
 created: '2026-07-29'
-updated: '2026-07-29'
+updated: '2026-07-31'
 authors:
 - veil
 tags:
 - races
 aliases:
 - Draconids
-summary: Драконоподобные народы; редкость и политический вес выше численности.
+summary: Драконоподобные народы, полностью пришедшие из-за Вуали; редкость и политический вес выше численности.
 importance: major
 mechanical: true
 mechanical_id: ANC_DRACONID

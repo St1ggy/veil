@@ -2,16 +2,16 @@ id: RACE_FAE
 type: race
 title: Феи
 status: approved
-version: 1
+version: 2
 created: '2026-07-29'
-updated: '2026-07-29'
+updated: '2026-07-31'
 authors:
 - veil
 tags:
 - races
 aliases:
 - Fae
-summary: Эфирно-близкие народы; опасны для predсказуемых систем и договоров.
+summary: Эфирно-близкие народы, полностью пришедшие из-за Вуали; опасны для предсказуемых систем и договоров.
 importance: major
 mechanical: true
 mechanical_id: ANC_FAE

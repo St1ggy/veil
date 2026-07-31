@@ -2,17 +2,16 @@ id: RACE_SHAPESHIFTER
 type: race
 title: Перевертыши
 status: approved
-version: 1
+version: 1.1.0
 created: '2026-07-29'
-updated: '2026-07-29'
+updated: '2026-07-31'
 authors:
 - veil
 tags:
 - races
 aliases:
 - Shapeshifters
-summary: Существа с изменчивой формой; идентичность и право — острые политические
-  вопросы.
+summary: До Пробуждения предки перевёртышей были земными животными, а не людьми. Возвращение Эфира превратил их потомков в разумных существ с изменчивой формой.
 importance: major
 mechanical: true
 mechanical_id: ANC_SHAPESHIFTER

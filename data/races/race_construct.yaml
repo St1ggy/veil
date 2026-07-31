@@ -2,17 +2,16 @@ id: RACE_CONSTRUCT
 type: race
 title: Конструкты
 status: approved
-version: 1
+version: 2
 created: '2026-07-29'
-updated: '2026-07-29'
+updated: '2026-07-31'
 authors:
 - veil
 tags:
 - races
 aliases:
 - Constructs
-summary: 'Категория, не единая раса: андроиды, роботы, мехи, разумные фабрики, оцифрованные
-  люди, боевые платформы.'
+summary: 'Категория, не единая раса: андроиды, роботы, мехи, разумные фабрики, оцифрованные существа, боевые платформы. Конструкт может быть создан из любого разумного существа, нейросети или сознания.'
 importance: major
 mechanical: true
 mechanical_id: ANC_CONSTRUCT

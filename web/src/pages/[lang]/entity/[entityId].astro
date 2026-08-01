@@ -7,6 +7,7 @@ import {
   labelStatus,
   labelTag,
   labelType,
+  labelRelation,
 } from "../../../i18n/labels";
 import { t, type Lang } from "../../../i18n/ui";
 import {
@@ -120,10 +121,10 @@ const automaticRelated = allEntries
     relations.length > 0 && (
       <section class="relations">
         <h2>{t(L, "relations")}</h2>
-        <ul>
+        <ul class="related-grid">
           {relations.map((rel) => {
             const target = entryById.get(rel.target);
-            return target ? <li><a href={entityHref(L, rel.target)}>{target.data.title}</a></li> : null;
+            return target ? <li><small>{labelRelation(rel.type, L)}</small><a href={entityHref(L, rel.target)}>{target.data.title}</a></li> : null;
           })}
         </ul>
       </section>

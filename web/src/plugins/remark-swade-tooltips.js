@@ -20,7 +20,7 @@ export function remarkSwadeTooltips() {
         if (!best) { children.push({ type: "text", value }); break; }
         if (best.match.index) children.push({ type: "text", value: value.slice(0, best.match.index) });
         const label = best.match[0];
-        children.push({ type: "html", value: `<abbr class="term-tooltip" title="[${best.original}][${swadeBook}]">${label}</abbr>` });
+        children.push({ type: "html", value: `<abbr class="term-tooltip" data-tooltip="[${best.original}][${swadeBook}]" data-tooltip-kind="swade" tabindex="0">${label}</abbr>` });
         seen.add(best.ru);
         value = value.slice(best.match.index + label.length);
       }

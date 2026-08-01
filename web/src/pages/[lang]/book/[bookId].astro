@@ -16,6 +16,9 @@ const { Content } = await render(book);
 const sections = sectionsOf(book);
 const links = [...(book.data.previous ?? []), ...(book.data.next ?? []), ...(book.data.related ?? [])];
 const related = links.map((id) => books.find((candidate) => candidate.data.id === id)).filter(Boolean);
+const bookIndex = books.findIndex((candidate) => candidate.data.id === book.data.id);
+const previousBook = (book.data.previous ?? []).map((id) => books.find((candidate) => candidate.data.id === id)).find(Boolean) ?? books[bookIndex - 1];
+const nextBook = (book.data.next ?? []).map((id) => books.find((candidate) => candidate.data.id === id)).find(Boolean) ?? books[bookIndex + 1];
 ---
 
 <BaseLayout lang={L} title={book.data.title} description={bookSummary(book)} pathAfterLang={`book/${book.data.id}`} activeCategory="books">
@@ -26,6 +29,11 @@ const related = links.map((id) => books.find((candidate) => candidate.data.id ==
     <h1>{book.data.title}</h1>
     <p>{bookSummary(book)}</p>
   </header>
+
+  <nav class="book-pagination" aria-label="Соседние книги">
+    {previousBook ? <a class="book-pagination__previous" href={bookHref(L, previousBook.data.id)}><span>←</span><small>Предыдущая книга</small><strong>{previousBook.data.title}</strong></a> : <span />}
+    {nextBook ? <a class="book-pagination__next" href={bookHref(L, nextBook.data.id)}><small>Следующая книга</small><strong>{nextBook.data.title}</strong><span>→</span></a> : <span />}
+  </nav>
 
   {sections.length > 0 && (
     <nav class="book-toc" aria-label="Оглавление книги">
@@ -42,4 +50,10 @@ const related = links.map((id) => books.find((candidate) => candidate.data.id ==
       <ul>{related.map((item) => <li><a href={bookHref(L, item.data.id)}>{item.data.title}</a></li>)}</ul>
     </section>
   )}
+
+
+  <nav class="book-pagination book-pagination--footer" aria-label="Соседние книги">
+    {previousBook ? <a class="book-pagination__previous" href={bookHref(L, previousBook.data.id)}><span>←</span><small>Предыдущая книга</small><strong>{previousBook.data.title}</strong></a> : <span />}
+    {nextBook ? <a class="book-pagination__next" href={bookHref(L, nextBook.data.id)}><small>Следующая книга</small><strong>{nextBook.data.title}</strong><span>→</span></a> : <span />}
+  </nav>
 </BaseLayout>

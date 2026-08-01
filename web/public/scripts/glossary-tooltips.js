@@ -44,12 +44,63 @@
       const tooltip = document.createElement("abbr");
       tooltip.className = "glossary-tooltip";
       tooltip.textContent = label;
-      tooltip.title = best.term.definition.slice(0, 600);
+      tooltip.dataset.tooltip = best.term.definition.slice(0, 600);
+      tooltip.dataset.tooltipKind = "glossary";
       tooltip.dataset.href = best.term.href;
-      tooltip.setAttribute("aria-label", `${label}: ${tooltip.title}`);
+      tooltip.tabIndex = 0;
+      tooltip.setAttribute("aria-label", `${label}: ${tooltip.dataset.tooltip}`);
       fragment.append(tooltip, original.slice(best.index + label.length));
       node.replaceWith(fragment);
       seen.add(best.term.normalized);
     }
   }).catch(() => {});
+
+  const popup = document.createElement("div");
+  popup.className = "rich-tooltip";
+  popup.setAttribute("role", "tooltip");
+  popup.hidden = true;
+  popup.innerHTML = '<span class="rich-tooltip__kind"></span><strong class="rich-tooltip__term"></strong><span class="rich-tooltip__body"></span>';
+  document.body.append(popup);
+
+  let active = null;
+  const place = (target) => {
+    const rect = target.getBoundingClientRect();
+    const margin = 12;
+    popup.style.left = `${Math.min(Math.max(margin, rect.left), window.innerWidth - popup.offsetWidth - margin)}px`;
+    const above = rect.top - popup.offsetHeight - 10;
+    popup.style.top = `${above > margin ? above : rect.bottom + 10}px`;
+  };
+  const show = (target) => {
+    const body = target.dataset.tooltip;
+    if (!body) return;
+    active = target;
+    popup.querySelector(".rich-tooltip__kind").textContent = target.dataset.tooltipKind === "swade" ? "Термин «Диких Миров»" : "Глоссарий «Вуали Миров»";
+    popup.querySelector(".rich-tooltip__term").textContent = target.textContent.trim();
+    popup.querySelector(".rich-tooltip__body").textContent = body;
+    popup.hidden = false;
+    place(target);
+  };
+  const hide = (target) => {
+    if (active !== target) return;
+    active = null;
+    popup.hidden = true;
+  };
+  document.addEventListener("pointerover", (event) => {
+    const target = event.target.closest?.("[data-tooltip]");
+    if (target) show(target);
+  });
+  document.addEventListener("pointerout", (event) => {
+    const target = event.target.closest?.("[data-tooltip]");
+    if (target && !target.contains(event.relatedTarget)) hide(target);
+  });
+  document.addEventListener("focusin", (event) => {
+    const target = event.target.closest?.("[data-tooltip]");
+    if (target) show(target);
+  });
+  document.addEventListener("focusout", (event) => {
+    const target = event.target.closest?.("[data-tooltip]");
+    if (target) hide(target);
+  });
+  window.addEventListener("scroll", () => active && place(active), { passive: true });
+  window.addEventListener("resize", () => active && place(active));
 })();

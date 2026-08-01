@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { type Lang } from "../../i18n/ui";
+import { readdirSync } from "node:fs";
+import { getBooks, renderMarkdown } from "../../lib/books";
+import { withBase } from "../../lib/wiki";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "ru" } }];
+}
+
+const L = Astro.params.lang as Lang;
+const books = await getBooks();
+const book = books.find((item) => item.data.id === "game.appendix.pregenerated_characters");
+if (!book) throw new Error("Книга готовых персонажей не найдена");
+
+const blocks = [...book.body.matchAll(/^###\s+(\d+)\.\s+(.+?)\n([\s\S]*?)(?=^###\s+\d+\.|\Z)/gm)];
+const value = (body: string, label: string) => body.match(new RegExp(`\\*\\*${label}:\\*\\*\\s*([^.*\\n]+)`, "u"))?.[1]?.trim() ?? "";
+const paragraphs = (body: string) => body.trim();
+const pregens = blocks.map((match) => {
+  const number = Number(match[1]);
+  const name = match[2].trim();
+  const body = match[3];
+  const ether = value(body, "Эфирологический профиль");
+  return {
+    number,
+    name,
+    race: value(body, "Народ"),
+    role: value(body, "Роль"),
+    profession: value(body, "Профессия"),
+    ether,
+    magical: ether.toLocaleLowerCase("ru") !== "нет",
+    html: renderMarkdown(paragraphs(body)),
+  };
+});
+
+const imageFiles = readdirSync(new URL("../../../public/images/pregens", import.meta.url)).filter((name) => name.endsWith(".png"));
+const byNumber = new Map(imageFiles.map((name) => [Number(name.slice(0, 2)), withBase(`images/pregens/${name}`)]));
+const races = [...new Set(pregens.map((item) => item.race))].sort((a, b) => a.localeCompare(b, "ru"));
+---
+
+<BaseLayout lang={L} title="Готовые персонажи" description="Все 60 готовых персонажей «Вуали Миров»" activeNav="game">
+  <header class="page-header article-hero">
+    <div class="meta-row"><a href={withBase(`${L}/book/${encodeURIComponent(book.data.id)}`)}>Каноническая книга</a><span>·</span><span>60 Диких Карт</span></div>
+    <h1>Готовые персонажи</h1>
+    <p>Полные профили, портреты и фильтры по народу и взаимодействию с Эфиром.</p>
+  </header>
+
+  <form class="pregen-filters" aria-label="Фильтры персонажей">
+    <label>Народ<select id="race-filter"><option value="">Все народы</option>{races.map((race) => <option value={race}>{race}</option>)}</select></label>
+    <label>Эфир<select id="ether-filter"><option value="">Любой профиль</option><option value="yes">Взаимодействует с Эфиром</option><option value="no">Не взаимодействует с Эфиром</option></select></label>
+    <label>Поиск<input id="pregen-search" type="search" placeholder="Имя, роль или профессия" /></label>
+    <output id="pregen-count">Показано: {pregens.length}</output>
+  </form>
+
+  <section class="pregen-grid" id="pregen-grid">
+    {pregens.map((item) => (
+      <article class="pregen-card" data-race={item.race} data-ether={item.magical ? "yes" : "no"} data-search={`${item.name} ${item.role} ${item.profession}`.toLocaleLowerCase("ru")}>
+        <img src={byNumber.get(item.number)} alt={`Портрет: ${item.name}`} loading="lazy" width="1024" height="1024" />
+        <header><span class="pregen-number">№ {item.number}</span><h2>{item.name}</h2><p>{item.race} · {item.role}</p></header>
+        <details><summary>Полное описание</summary><div class="prose pregen-description" set:html={item.html} /></details>
+      </article>
+    ))}
+  </section>
+
+  <script>
+    const race = document.querySelector<HTMLSelectElement>("#race-filter");
+    const ether = document.querySelector<HTMLSelectElement>("#ether-filter");
+    const search = document.querySelector<HTMLInputElement>("#pregen-search");
+    const count = document.querySelector<HTMLOutputElement>("#pregen-count");
+    const cards = [...document.querySelectorAll<HTMLElement>(".pregen-card")];
+    const apply = () => {
+      const query = search?.value.trim().toLocaleLowerCase("ru") ?? "";
+      let visible = 0;
+      for (const card of cards) {
+        const show = (!race?.value || card.dataset.race === race.value)
+          && (!ether?.value || card.dataset.ether === ether.value)
+          && (!query || card.dataset.search?.includes(query));
+        card.hidden = !show;
+        if (show) visible += 1;
+      }
+      if (count) count.value = `Показано: ${visible}`;
+    };
+    race?.addEventListener("change", apply);
+    ether?.addEventListener("change", apply);
+    search?.addEventListener("input", apply);
+  </script>
+</BaseLayout>

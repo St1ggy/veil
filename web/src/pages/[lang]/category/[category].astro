@@ -15,7 +15,7 @@ import {
   displayTitle,
   displaySummary,
 } from "../../../lib/wiki";
-import { bookGroup, bookHref, bookSummary, getBooks, sectionsOf } from "../../../lib/books";
+import { bookGroup, bookHighlights, bookHref, bookSummary, getBooks, sectionsOf } from "../../../lib/books";
 
 export function getStaticPaths() {
   const langs = ["ru"] as const;
@@ -80,12 +80,16 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
             <div class="book-grid">
               {books.map((entry) => (
                 <a class="book-card" href={bookHref(L, entry.data.id)}>
-                  <span class="book-card__number">
-                    {String(books.indexOf(entry) + 1).padStart(2, "0")}
+                  <span class="book-card__topline">
+                    <span class="book-card__number">{String(books.indexOf(entry) + 1).padStart(2, "0")}</span>
+                    <span class="book-card__kind">Каноническая книга</span>
                   </span>
-                  <strong>{entry.data.title}</strong>
-                  <span>{bookSummary(entry)}</span>
-                  <small>{sectionsOf(entry).length} статей</small>
+                  <strong class="book-card__title">{entry.data.title}</strong>
+                  <span class="book-card__summary">{bookSummary(entry)}</span>
+                  <span class="book-card__chapters">
+                    {bookHighlights(entry).map((title) => <span>{title}</span>)}
+                  </span>
+                  <span class="book-card__footer"><small>{sectionsOf(entry).length} статей</small><b aria-hidden="true">Открыть →</b></span>
                 </a>
               ))}
             </div>
@@ -100,7 +104,6 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
               {displayTitle(entry, L)}
             </a>
             <div class="meta-row">
-              <span class="badge">{entry.data.id}</span>
               {entry.data.type && (
                 <span>
                   {t(L, "type")}: {labelType(entry.data.type, L)}

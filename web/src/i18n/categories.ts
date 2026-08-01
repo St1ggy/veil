@@ -43,7 +43,7 @@ export const categories: CategoryDef[] = [
   },
   {
     id: "history",
-    types: ["event", "era"],
+    types: ["event", "era", "location"],
     order: 2,
     label: { ru: "История", en: "History" },
     description: {
@@ -103,7 +103,7 @@ export const categories: CategoryDef[] = [
   },
   {
     id: "factions",
-    types: ["organization", "faction"],
+    types: ["organization", "faction", "conflict"],
     order: 8,
     label: { ru: "Фракции", en: "Factions" },
     description: {
@@ -113,7 +113,7 @@ export const categories: CategoryDef[] = [
   },
   {
     id: "concepts",
-    types: ["concept", "meta"],
+    types: ["concept", "meta", "culture", "game"],
     order: 9,
     label: { ru: "Концепты", en: "Concepts" },
     description: {

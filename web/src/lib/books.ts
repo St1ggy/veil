@@ -63,8 +63,23 @@ export function plainText(markdown: string): string {
 }
 
 export function bookSummary(book: BookEntry): string {
-  const text = plainText(book.body).replace(book.data.title, "").trim();
-  return text.slice(0, 240).replace(/\s+\S*$/, "") + (text.length > 240 ? "…" : "");
+  const paragraphs = book.body
+    .replace(/^---[\s\S]*?---\s*/u, "")
+    .split(/\n\s*\n/u)
+    .map((paragraph) => plainText(paragraph))
+    .filter((paragraph) => paragraph.length > 70)
+    .filter((paragraph) => !/^(?:назначение документа|настоящий документ|данный документ|этот документ|книга содержит)/iu.test(paragraph));
+  const text = (paragraphs[0] ?? plainText(book.body))
+    .replace(book.data.title, "")
+    .trim();
+  return text.slice(0, 220).replace(/\s+\S*$/u, "") + (text.length > 220 ? "…" : "");
+}
+
+export function bookHighlights(book: BookEntry): string[] {
+  return sectionsOf(book)
+    .filter((section) => !/^назначение документа$/iu.test(section.title))
+    .slice(0, 3)
+    .map((section) => section.title);
 }
 
 export function sectionsOf(book: BookEntry): BookSection[] {
@@ -95,7 +110,7 @@ export function renderMarkdown(markdown: string): string {
   let prepared = markdown;
   for (const [ru, original] of swadeTerms) {
     const pattern = new RegExp(ru.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "iu");
-    prepared = prepared.replace(pattern, (label) => `<abbr class="term-tooltip" title="[${original}][${swadeBook}]">${label}</abbr>`);
+    prepared = prepared.replace(pattern, (label) => `<abbr class="term-tooltip" data-tooltip="[${original}][${swadeBook}]" data-tooltip-kind="swade" tabindex="0">${label}</abbr>`);
   }
   return marked.parse(prepared) as string;
 }

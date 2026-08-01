@@ -4,7 +4,6 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { categoryForType } from "../../../i18n/categories";
 import {
   labelImportance,
-  labelRelation,
   labelStatus,
   labelTag,
   labelType,
@@ -42,6 +41,7 @@ const relations = entry.data.relations ?? [];
 const tags = entry.data.tags ?? [];
 const cat = categoryForType(entry.data.type);
 const allEntries = await getWikiEntries(L);
+const entryById = new Map(allEntries.map((item) => [item.data.id, item]));
 const explicitTargets = new Set(relations.map((relation) => relation.target));
 const automaticRelated = allEntries
   .filter((candidate) => candidate.data.id !== entry.data.id && !explicitTargets.has(candidate.data.id))
@@ -76,7 +76,6 @@ const automaticRelated = allEntries
     </div>
     <h1>{displayTitle(entry, L)}</h1>
     <div class="meta-row">
-      <span class="badge">{entry.data.id}</span>
       {
         entry.data.type && (
           <span>
@@ -121,14 +120,10 @@ const automaticRelated = allEntries
       <section class="relations">
         <h2>{t(L, "relations")}</h2>
         <ul>
-          {relations.map((rel) => (
-            <li>
-              <span class="rel-type">
-                {labelRelation(rel.type, L)}
-              </span>{" "}
-              → <a href={entityHref(L, rel.target)}>{rel.target}</a>
-            </li>
-          ))}
+          {relations.map((rel) => {
+            const target = entryById.get(rel.target);
+            return target ? <li><a href={entityHref(L, rel.target)}>{target.data.title}</a></li> : null;
+          })}
         </ul>
       </section>
     )
@@ -136,7 +131,7 @@ const automaticRelated = allEntries
   {automaticRelated.length > 0 && (
     <section class="relations">
       <h2>{t(L, "seeAlso")}</h2>
-      <ul class="related-grid">{automaticRelated.map((item) => <li><a href={entityHref(L, item.data.id)}>{item.data.title}</a><small>{item.data.id}</small></li>)}</ul>
+      <ul class="related-grid">{automaticRelated.map((item) => <li><a href={entityHref(L, item.data.id)}>{item.data.title}</a></li>)}</ul>
     </section>
   )}
 </BaseLayout>

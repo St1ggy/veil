@@ -1,4 +1,4 @@
-.PHONY: validate index graph timeline pdf site api all clean
+.PHONY: validate index graph timeline books-wiki pdf site api all clean
 
 PYTHON ?= .venv/bin/python3
 
@@ -10,7 +10,10 @@ validate:
 	$(PYTHON) scripts/validate/contradictions.py
 	$(PYTHON) scripts/validate/game_schema.py
 
-index:
+books-wiki:
+	$(PYTHON) scripts/generate/sync_wiki_from_raw_books.py
+
+index: books-wiki
 	$(PYTHON) scripts/generate/indexes.py
 	$(PYTHON) scripts/generate/graph.py
 	$(PYTHON) scripts/generate/timeline.py

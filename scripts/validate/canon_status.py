@@ -12,6 +12,8 @@ from veil_lib import iter_game_files, load_all_entities, load_wiki_by_id, load_y
 PARITY_STATUSES = {"approved", "canon"}
 # Machine-only / aggregate types do not require a wiki pair
 NO_WIKI_TYPES = {"timeline", "index", "meta"}
+# Book articles are generated from canonical rawBooks chapters and intentionally have no data entity.
+NO_DATA_WIKI_TYPES = {"book"}
 
 
 def main() -> int:
@@ -36,7 +38,7 @@ def main() -> int:
         if eid == "WIKI_HOME":
             continue
         status = meta.get("status")
-        if status in PARITY_STATUSES and eid not in entities:
+        if status in PARITY_STATUSES and eid not in entities and meta.get("type") not in NO_DATA_WIKI_TYPES:
             print(f"ERROR wiki {meta['_path']}: status={status} but no data entity")
             errors += 1
         spoilers = meta.get("spoilers", "none")

@@ -1,0 +1,42 @@
+---
+id: ART_2708EDE9B7D4A0
+type: game
+title: "Культ Освобождённой Формы"
+status: canon
+version: 1.0.0
+visibility: public
+summary: "Герой вырос в среде, прославляющей конструктов и переход сознания в новое тело. Он знаком с подпольными мастерскими, панк-сценой и политикой телесной свободы. Ресурс — сеть убежищ и нелегальных техников. Обязательство — бывшая ячейка,"
+book_section: "Культ Освобождённой Формы"
+book_order: 14
+source_path: "rawBooks/world_bible/06_game/00_character_creation/82_backgrounds.md"
+relations:
+  - type: related
+    target: ART_81515B09B90D99
+  - type: related
+    target: ART_CC105DA86A1A4D
+  - type: related
+    target: ART_DABCECD6D64400
+  - type: related
+    target: ART_B17AE852AC4E85
+  - type: related
+    target: ART_0422F8D4915D25
+  - type: related
+    target: ART_BDA22D308D4C1E
+  - type: related
+    target: ART_8BECC93A72CD54
+  - type: related
+    target: ART_ACA5A7BBBD63F6
+  - type: related
+    target: ART_071704B9E80891
+  - type: related
+    target: ART_947D7A9A7C2886
+  - type: related
+    target: ART_552DB0BB3F9335
+  - type: related
+    target: ART_71B283B9D028AC
+---
+# Культ Освобождённой Формы
+
+Герой вырос в среде, прославляющей конструктов и переход сознания в новое тело. Он знаком с подпольными мастерскими, панк-сценой и политикой телесной свободы. Ресурс — сеть убежищ и нелегальных техников. Обязательство — бывшая ячейка, пострадавший от акции или спор о том, где освобождение превращается в принуждение.
+
+Происхождение не требует быть террористом и не оправдывает насилие.

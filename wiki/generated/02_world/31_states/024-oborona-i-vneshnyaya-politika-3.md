@@ -1,0 +1,42 @@
+---
+id: ART_F9DF1E5C7CEE2E
+type: location
+title: "Оборона и внешняя политика"
+status: canon
+version: 1.0.0
+visibility: public
+summary: "Лига опирается на полисные силы, тяжёлые ремонтные колонны, бронепоезда и способность быстро возвращать повреждённую технику в строй. Общий совет координирует оборону железных дорог и производственных узлов, но полисы сохраняют собственные"
+book_section: "Оборона и внешняя политика"
+book_order: 24
+source_path: "rawBooks/world_bible/02_world/02_politics/31_states.md"
+relations:
+  - type: related
+    target: ART_052346E83E9109
+  - type: related
+    target: ART_48EC981B16A73D
+  - type: related
+    target: ART_9707F8732B9743
+  - type: related
+    target: ART_9AC5E3FD383450
+  - type: related
+    target: ART_A7A9843BBB4433
+  - type: related
+    target: ART_CBB0EEB04C9D33
+  - type: related
+    target: ART_D6B089E432F55E
+  - type: related
+    target: ART_E96F6BE17E6659
+  - type: related
+    target: ART_FFBB9499F839D0
+  - type: related
+    target: ART_E40597BB46F8DD
+  - type: related
+    target: ART_DAD194E38EDFE5
+  - type: related
+    target: ART_83088406A76093
+---
+# Оборона и внешняя политика
+
+Лига опирается на полисные силы, тяжёлые ремонтные колонны, бронепоезда и способность быстро возвращать повреждённую технику в строй. Общий совет координирует оборону железных дорог и производственных узлов, но полисы сохраняют собственные командные структуры.
+
+Лига заинтересована в стабильных поставках сырья и энергии. С Эгидой она одновременно торгует и спорит о стандартах, контроле Верхнесилезского перехода и допустимости Нулевых Полей рядом с гибридным производством. С Каспийским Союзом отношения строятся вокруг цены энергии и гарантий транзита.

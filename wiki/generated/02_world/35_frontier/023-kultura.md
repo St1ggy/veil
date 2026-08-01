@@ -1,0 +1,48 @@
+---
+id: ART_7DA1CC92C37334
+type: location
+title: "Культура"
+status: canon
+version: 1.0.0
+visibility: public
+summary: "Фронтир формирует культуру взаимной зависимости. Репутация важна, потому что люди снова встречаются в кризисе. Обычай может выполнять функцию закона, если государственный суд далеко. Это не делает общество обязательно равным. Контроль"
+book_section: "Культура"
+book_order: 23
+source_path: "rawBooks/world_bible/02_world/03_locations/35_frontier.md"
+relations:
+  - type: related
+    target: ART_08E578D0A35CF9
+  - type: related
+    target: ART_100982B4A156FB
+  - type: related
+    target: ART_3D123D92390DD7
+  - type: related
+    target: ART_4CD9D61173E268
+  - type: related
+    target: ART_4F08CEE35A3FDE
+  - type: related
+    target: ART_838F8A0202BFCB
+  - type: related
+    target: ART_B74C066EA9245A
+  - type: related
+    target: ART_C8DE174D16DC20
+  - type: related
+    target: ART_F1D7CBC01E830F
+  - type: related
+    target: ART_F8762F1B7B5BA4
+  - type: related
+    target: ART_624E2DD0C1F1B4
+  - type: related
+    target: ART_511B0D394DB142
+---
+# Культура
+
+Фронтир формирует культуру взаимной зависимости.
+
+Репутация важна, потому что люди снова встречаются в кризисе. Обычай может выполнять функцию закона, если государственный суд далеко.
+
+Это не делает общество обязательно равным.
+
+Контроль транспорта, воды или оружия создаёт власть. Новоприбывшие получают меньше доверия.
+
+Культурное различие с центром усиливается со временем.

@@ -160,8 +160,8 @@ authors:
 
 Связанными документами являются:
 
-- `../01_foundations/00_foundation/01_world_overview.md`
-- `../01_foundations/01_cosmology/02_ether.md`
-- `../01_foundations/01_cosmology/03_the_veil.md`
+- «Обзор мира»
+- «Эфир»
+- «Вуаль»
 
 Все последующие статьи должны соответствовать принципам, изложенным в настоящем документе.

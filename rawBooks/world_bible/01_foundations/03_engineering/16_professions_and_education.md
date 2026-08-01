@@ -18,7 +18,7 @@ related:
   - foundations.engineering.engineering_lifecycle
   - foundations.engineering.devices
   - civilization.culture.education
-  - game.character_creation.professions
+  - game.character_creation.roles
 tags:
   - foundations
   - engineering

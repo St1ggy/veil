@@ -24,7 +24,7 @@ relations: []
 
 # Название
 
-<!-- Checklist: fill all sections; keep status <= draft|research until review; create matching data/*.yaml -->
+<!-- Проверка: заполнить все разделы; до редакторской проверки сохранять статус не выше draft|research; создать соответствующий файл data/*.yaml. -->
 
 ## Обзор
 

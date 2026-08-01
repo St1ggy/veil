@@ -1,114 +1,144 @@
 #!/usr/bin/env python3
-"""Replace Russian entity article prose with canonical rawBooks material."""
-
+"""Rebuild all wiki articles from canonical rawBooks while preserving templates."""
 from __future__ import annotations
 
+from dataclasses import dataclass
+from hashlib import sha1
 from pathlib import Path
 import re
-
+import shutil
 
 ROOT = Path(__file__).resolve().parents[2]
 BOOKS = ROOT / "rawBooks" / "world_bible"
 WIKI = ROOT / "wiki"
+GROUP_TYPES = {"00_meta": "meta", "01_foundations": "concept", "02_world": "location", "03_civilization": "culture", "04_organizations": "organization", "05_conflicts": "conflict", "06_game": "game"}
+STOP = {"который", "которая", "которые", "этого", "этой", "через", "между", "после", "перед", "мира", "мире", "часть", "общие", "основные", "работа", "система", "системы"}
 
-SOURCE_BY_SLUG = {
-    "arcanum-principle": "01_foundations/00_foundation/02_core_principles.md",
-    "bottom-up-design": "00_meta/00_project_vision.md",
-    "campaign-modes": "06_game/01_campaigns/84_campaign_types.md",
-    "dead-internet": "03_civilization/02_culture/54_media.md",
-    "divinity": "01_foundations/01_cosmology/09_ascension.md",
-    "archetypes": "01_foundations/00_foundation/05_major_themes.md",
-    "material-world": "01_foundations/01_cosmology/10_reality.md",
-    "pure-code-order": "04_organizations/03_religious/69_religious_organizations.md",
-    "resonance-syndicate": "04_organizations/04_independent/71_secret_organizations.md",
-    "return-cult": "04_organizations/03_religious/69_religious_organizations.md",
-    "fragmentation": "02_world/00_history/22_the_great_collapse.md",
-    "third-world-war": "02_world/00_history/22_the_great_collapse.md",
-    "starfall": "02_world/00_history/21_the_return_of_ether.md",
-    "shapeshifters": "03_civilization/00_peoples/45_shapeshifters.md",
-    "ocean-ether-storms": "02_world/01_geography/28_oceans.md",
-    "network-mages": "01_foundations/03_engineering/18_infrastructure.md",
-    "probabilistic-decay": "05_conflicts/02_threats/78_etheric_anomalies.md",
-    "ether-burnout": "05_conflicts/02_threats/80_catastrophes.md",
-    "probability-magic": "01_foundations/01_cosmology/08_etherological_interaction.md",
-    "ai-categories": "01_foundations/00_foundation/03_earth_2435.md",
-    "null-fields": "01_foundations/03_engineering/17_devices.md",
-    "post-awakening-tech": "01_foundations/03_engineering/13_etherological_engineering.md",
-    "hybrid-tech": "01_foundations/03_engineering/13_etherological_engineering.md",
-}
-
+@dataclass
+class Article:
+    article_id: str
+    title: str
+    body: str
+    source: Path
+    order: int
+    group: str
+    slug: str
+    related: list[str]
 
 def split_frontmatter(text: str) -> tuple[str, str]:
-    match = re.match(r"^(---\n.*?\n---\n?)(.*)$", text, re.S)
-    return (match.group(1), match.group(2)) if match else ("", text)
+    match = re.match(r"^---\n.*?\n---\n?", text, re.S)
+    return (match.group(0), text[match.end():]) if match else ("", text)
 
+def fm_value(frontmatter: str, name: str, fallback: str = "") -> str:
+    match = re.search(rf"^{re.escape(name)}:\s*(.+?)\s*$", frontmatter, re.M)
+    return match.group(1).strip(" '\"") if match else fallback
 
-def title_from_frontmatter(frontmatter: str) -> str:
-    match = re.search(r"^title:\s*(.+?)\s*$", frontmatter, re.M)
-    return match.group(1).strip(" '\"") if match else ""
+def slugify(value: str) -> str:
+    table = str.maketrans({
+        "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ё": "yo",
+        "ж": "zh", "з": "z", "и": "i", "й": "y", "к": "k", "л": "l", "м": "m",
+        "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u",
+        "ф": "f", "х": "h", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "sch",
+        "ъ": "", "ы": "y", "ь": "", "э": "e", "ю": "yu", "я": "ya",
+    })
+    value = value.casefold().translate(table)
+    return re.sub(r"[^a-z0-9]+", "-", value).strip("-")[:90] or "article"
 
+def plain(value: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"[`*_#>\[\]()]", " ", value)).strip()
 
-def book_body(path: Path) -> str:
-    return split_frontmatter(path.read_text(encoding="utf-8"))[1].strip()
+def tokens(value: str) -> set[str]:
+    return {word for word in re.findall(r"[а-яёa-z]{5,}", value.casefold()) if word not in STOP}
 
+def extract_articles() -> list[Article]:
+    articles: list[Article] = []
+    seen_bodies: set[str] = set()
+    for source in sorted(BOOKS.rglob("*.md")):
+        frontmatter, body = split_frontmatter(source.read_text(encoding="utf-8"))
+        book_id = fm_value(frontmatter, "id", str(source.relative_to(BOOKS)))
+        group = source.relative_to(BOOKS).parts[0]
+        matches = list(re.finditer(r"^(#{2,4})\s+(.+?)\s*$", body, re.M))
+        used: dict[str, int] = {}
+        for index, match in enumerate(matches):
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(body)
+            section = body[match.end():end].strip()
+            if len(plain(section)) < 45:
+                continue
+            fingerprint = re.sub(r"\s+", " ", plain(section).casefold().replace("ё", "е"))
+            if fingerprint in seen_bodies:
+                continue
+            seen_bodies.add(fingerprint)
+            title = re.sub(r"^\d+(?:\.\d+)*\.\s*", "", match.group(2)).strip()
+            base = slugify(title)
+            used[base] = used.get(base, 0) + 1
+            slug = base if used[base] == 1 else f"{base}-{used[base]}"
+            article_id = "ART_" + sha1(f"{book_id}:{index + 1}:{title}".encode()).hexdigest()[:14].upper()
+            articles.append(Article(article_id, title, section, source, index + 1, group, slug, []))
+    return articles
 
-def heading_sections(markdown: str):
-    matches = list(re.finditer(r"^(#{1,6})\s+(.+?)\s*$", markdown, re.M))
-    for index, match in enumerate(matches):
-        level = len(match.group(1))
-        end = len(markdown)
-        for following in matches[index + 1 :]:
-            if len(following.group(1)) <= level:
-                end = following.start()
-                break
-        yield match.group(2).strip(), markdown[match.end() : end].strip()
+def connect(articles: list[Article]) -> None:
+    title_tokens = {article.article_id: tokens(article.title) for article in articles}
+    for article in articles:
+        own = title_tokens[article.article_id]
+        ranked = []
+        for candidate in articles:
+            if candidate is article:
+                continue
+            same_book = candidate.source == article.source
+            overlap = len(own & title_tokens[candidate.article_id])
+            adjacent = same_book and abs(candidate.order - article.order) <= 2
+            score = overlap * 4 + (2 if adjacent else 0) + (0.25 if same_book else 0)
+            if score > 0:
+                ranked.append((score, candidate.title.casefold(), candidate))
+        ranked.sort(key=lambda row: (-row[0], row[1], row[2].article_id))
+        article.related = [candidate.article_id for _, _, candidate in ranked[:12]]
 
+def clear_articles() -> None:
+    WIKI.mkdir(parents=True, exist_ok=True)
+    for child in WIKI.iterdir():
+        if child.name == "_templates":
+            continue
+        if child.is_dir():
+            shutil.rmtree(child)
+        else:
+            child.unlink()
 
-def normalize(value: str) -> str:
-    return re.sub(r"[^а-яёa-z0-9]+", " ", value.casefold()).strip()
+def write(articles: list[Article]) -> None:
+    clear_articles()
+    (WIKI / "_home.md").write_text("---\nid: WIKI_HOME\ntitle: Энциклопедия «Вуали Миров»\ntype: meta\nstatus: canon\n---\n# Энциклопедия «Вуали Миров»\n\nВсе статьи автоматически собраны из канонических книг `rawBooks`.\n", encoding="utf-8")
+    for article in articles:
+        rel_source = article.source.relative_to(BOOKS)
+        directory = WIKI / "generated" / article.group / article.source.stem
+        directory.mkdir(parents=True, exist_ok=True)
+        summary = plain(article.body)[:240].rsplit(" ", 1)[0]
+        relation_lines = "\n".join(f"  - type: related\n    target: {target}" for target in article.related) or "  []"
+        safe_title = article.title.replace('"', "'")
+        safe_summary = summary.replace('"', "'")
+        text = f'''---
+id: {article.article_id}
+type: {GROUP_TYPES.get(article.group, "article")}
+title: "{safe_title}"
+status: canon
+version: 1.0.0
+visibility: public
+summary: "{safe_summary}"
+book_section: "{safe_title}"
+book_order: {article.order}
+source_path: "rawBooks/world_bible/{rel_source}"
+relations:
+{relation_lines}
+---
+# {article.title}
 
-
-def exact_section(title: str, corpus: list[tuple[Path, str]]) -> tuple[str, Path] | None:
-    wanted = normalize(title)
-    for path, body in corpus:
-        for heading, section in heading_sections(body):
-            if normalize(heading) == wanted and section:
-                return section, path
-    return None
-
+{article.body.strip()}
+'''
+        (directory / f"{article.order:03d}-{article.slug}.md").write_text(text, encoding="utf-8")
 
 def main() -> None:
-    corpus = [(path, book_body(path)) for path in sorted(BOOKS.rglob("*.md"))]
-    changed = 0
-    for path in sorted(WIKI.rglob("*.md")):
-        relative = path.relative_to(WIKI)
-        if relative.parts[0] in {"books", "en", "_templates"} or path.name.startswith("_"):
-            continue
-        frontmatter, _ = split_frontmatter(path.read_text(encoding="utf-8"))
-        if not frontmatter:
-            continue
-        title = title_from_frontmatter(frontmatter)
-        found = exact_section(title, corpus)
-        if found:
-            content, source = found
-        else:
-            source_name = SOURCE_BY_SLUG.get(path.stem)
-            if not source_name:
-                raise RuntimeError(f"No canonical source mapping for {relative}")
-            source = BOOKS / source_name
-            content = book_body(source)
-            content = re.sub(r"^#\s+.+?\n+", "", content, count=1)
-        source_rel = source.relative_to(BOOKS)
-        body = (
-            f"# {title}\n\n"
-            f"> Статья синхронизирована с канонической книгой "
-            f"`rawBooks/world_bible/{source_rel}`.\n\n"
-            f"{content.strip()}\n"
-        )
-        path.write_text(frontmatter.rstrip() + "\n\n" + body, encoding="utf-8")
-        changed += 1
-    print(f"entity wiki: {changed} article(s) synchronized")
-
+    articles = extract_articles()
+    connect(articles)
+    write(articles)
+    print(f"wiki rebuilt from scratch: {len(articles)} articles")
 
 if __name__ == "__main__":
     main()

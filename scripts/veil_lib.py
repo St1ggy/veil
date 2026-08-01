@@ -64,13 +64,11 @@ def iter_wiki_files() -> list[Path]:
 
 def parse_wiki(path: Path) -> tuple[dict[str, Any] | None, str]:
     text = path.read_text(encoding="utf-8")
-    if not text.startswith("---"):
+    match = re.match(r"\A---\r?\n(.*?)\r?\n---(?:\r?\n|\Z)", text, flags=re.DOTALL)
+    if not match:
         return None, text
-    parts = text.split("---", 2)
-    if len(parts) < 3:
-        return None, text
-    meta = yaml.safe_load(parts[1]) or {}
-    return meta, parts[2]
+    meta = yaml.safe_load(match.group(1)) or {}
+    return meta, text[match.end():]
 
 
 def load_all_entities() -> dict[str, dict[str, Any]]:

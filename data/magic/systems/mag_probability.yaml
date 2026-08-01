@@ -1,6 +1,6 @@
 id: MAG_PROBABILITY
 type: magic
-title: Вероятностная магия
+title: Вероятностная эфирология
 status: approved
 version: 1
 created: '2026-07-29'
@@ -10,9 +10,9 @@ authors:
 tags:
 - magic
 aliases:
-- Probability Magic
-summary: 'Магия не нарушает физику: она изменяет вероятность через воздействие на
-  Эфир.'
+- Вероятностное взаимодействие
+summary: 'Эфирологическое взаимодействие не отменяет физические законы, а изменяет
+  вероятность событий через воздействие на Эфир.'
 importance: core
 spoilers: none
 visibility: public

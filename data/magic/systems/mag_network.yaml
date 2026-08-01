@@ -1,6 +1,6 @@
 id: MAG_NETWORK
 type: magic
-title: Сетевые маги
+title: Сетевая эфирология
 status: approved
 version: 1
 created: '2026-07-29'
@@ -11,10 +11,9 @@ tags:
 - magic
 - information
 aliases:
-- Network Mages
-- Сетевые маги
-summary: 'Практики работы с Мёртвым Интернетом и информационными следами Эфира: данные,
-  память мест, остатки ИИ, старые сети.'
+- Распределённая эфирология
+summary: 'Методы работы с Мёртвым Интернетом и информационными следами Эфира: данными,
+  памятью мест, остатками ИИ и старыми сетями.'
 importance: major
 spoilers: none
 visibility: public

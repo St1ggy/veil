@@ -15,12 +15,12 @@ import {
   displayTitle,
   displaySummary,
 } from "../../../lib/wiki";
-import { bookGroup, bookHighlights, bookHref, bookSummary, getBooks, sectionsOf } from "../../../lib/books";
+import { bookAccent, bookGroup, bookHighlights, bookHref, bookSummary, getBooks, sectionsOf, slugify } from "../../../lib/books";
 
 export function getStaticPaths() {
   const langs = ["ru"] as const;
   return langs.flatMap((lang) =>
-    categories.map((cat) => ({
+    categories.filter((cat) => cat.id !== "pregens").map((cat) => ({
       params: { lang, category: cat.id },
     })),
   );
@@ -40,6 +40,11 @@ const bookGroups = Array.from(
       return groups;
     }, new Map<string, typeof books>()),
 );
+const bookShelves = bookGroups.map(([section, shelfBooks]) => ({
+  anchor: `books-${slugify(section)}`,
+  books: shelfBooks,
+  section,
+}));
 const totalItems = cat.id === "books" ? books.length : entries.length;
 ---
 
@@ -49,6 +54,7 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
   description={cat.description[L]}
   pathAfterLang={`category/${cat.id}`}
   activeCategory={cat.id}
+  glossaryTooltips
 >
   <header class="page-header">
     <div class="meta-row">
@@ -70,16 +76,32 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
     totalItems === 0 ? (
       <p class="notice">{t(L, "emptyCategory")}</p>
     ) : cat.id === "books" ? (
-      <div class="book-library">
-        {bookGroups.map(([section, books]) => (
-          <section class="book-shelf">
+      <>
+        <nav class="book-index" aria-labelledby="book-index-title">
+          <h2 id="book-index-title">Список книг</h2>
+          <div class="book-index__groups">
+            {bookShelves.map(({ anchor, books, section }) => (
+              <section>
+                <a class="book-index__section" href={`#${anchor}`}>{section}</a>
+                <ul>
+                  {books.map((entry) => (
+                    <li><a href={`#book-${entry.data.id}`}>{entry.data.title}</a></li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        </nav>
+        <div class="book-library">
+        {bookShelves.map(({ anchor, books, section }) => (
+          <section class="book-shelf" id={anchor}>
             <div class="book-shelf__heading">
               <h2>{section}</h2>
               <span>{books.length}</span>
             </div>
             <div class="book-grid">
               {books.map((entry) => (
-                <a class="book-card" href={bookHref(L, entry.data.id)}>
+                <a id={`book-${entry.data.id}`} class="book-card" href={bookHref(L, entry.data.id)} style={`--book-accent: ${bookAccent(entry)}`}>
                   <span class="book-card__topline">
                     <span class="book-card__number">{String(books.indexOf(entry) + 1).padStart(2, "0")}</span>
                     <span class="book-card__kind">Каноническая книга</span>
@@ -93,9 +115,15 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
                 </a>
               ))}
             </div>
+            {books.length > 4 && (
+              <button class="book-shelf__toggle" type="button" data-book-shelf-toggle data-total={books.length} aria-expanded="false">
+                Показать все {books.length}
+              </button>
+            )}
           </section>
         ))}
-      </div>
+        </div>
+      </>
     ) : (
       <ul class="entity-list">
         {entries.map((entry) => (
@@ -129,3 +157,32 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
     )
   }
 </BaseLayout>
+
+<script>
+  const expandShelf = (shelf: HTMLElement) => {
+    shelf.classList.add("book-shelf--expanded");
+    const button = shelf.querySelector<HTMLButtonElement>("[data-book-shelf-toggle]");
+    if (button) {
+      button.ariaExpanded = "true";
+      button.textContent = "Скрыть книги";
+    }
+  };
+
+  document.querySelectorAll<HTMLButtonElement>("[data-book-shelf-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const shelf = button.closest<HTMLElement>(".book-shelf");
+      if (!shelf) return;
+      const expanded = shelf.classList.toggle("book-shelf--expanded");
+      button.ariaExpanded = String(expanded);
+      button.textContent = expanded ? "Скрыть книги" : `Показать все ${button.dataset.total}`;
+    });
+  });
+
+  document.querySelectorAll<HTMLAnchorElement>('.book-index a[href^="#book-"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      const target = document.querySelector<HTMLElement>(link.hash);
+      const shelf = target?.closest<HTMLElement>(".book-shelf");
+      if (shelf) expandShelf(shelf);
+    });
+  });
+</script>

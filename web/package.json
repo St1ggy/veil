@@ -4,7 +4,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate:wiki": "../.venv/bin/python3 ../scripts/generate/sync_wiki_from_raw_books.py",
+    "predev": "npm run generate:wiki",
     "dev": "astro dev",
+    "prebuild": "npm run generate:wiki",
     "build": "astro build",
     "preview": "astro preview"
   },
@@ -14,5 +17,9 @@
     "marked": "^18.0.7",
     "unist-util-visit": "^5.0.0",
     "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "sass": "^1.102.0"
   }
 }

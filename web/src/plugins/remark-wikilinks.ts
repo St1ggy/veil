@@ -7,16 +7,16 @@ import { visit } from "unist-util-visit";
 export function remarkWikilinks() {
   const pattern = /\[\[([A-Z][A-Z0-9_]*)(?:\|([^\]]+))?\]\]/g;
 
-  return (tree) => {
-    visit(tree, "text", (node, index, parent) => {
+  return (tree: any) => {
+    visit(tree, "text", (node: any, index: number | undefined, parent: any) => {
       if (!parent || typeof index !== "number" || !node.value?.includes("[[")) {
         return;
       }
 
       const value = node.value;
-      const children = [];
+      const children: any[] = [];
       let last = 0;
-      let match;
+      let match: RegExpExecArray | null;
 
       pattern.lastIndex = 0;
       while ((match = pattern.exec(value)) !== null) {

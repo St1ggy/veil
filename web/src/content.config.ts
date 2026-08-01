@@ -33,7 +33,7 @@ const wikiSchema = z
 const wiki = defineCollection({
   loader: glob({
     pattern: ["**/*.md", "!**/_templates/**", "!**/en/**"],
-    base: "../wiki",
+    base: ".generated/wiki",
   }),
   schema: wikiSchema,
 });

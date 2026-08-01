@@ -16,6 +16,7 @@ const L = Astro.params.lang as Lang;
   description={t(L, "aboutLead")}
   pathAfterLang="about"
   activeNav="about"
+  glossaryTooltips
 >
   <article class="prose">
     <h1>{t(L, "aboutTitle")}</h1>
@@ -32,11 +33,7 @@ const L = Astro.params.lang as Lang;
 
     <h2>{t(L, "navSystem")}</h2>
     <p>
-      {
-        L === "ru"
-          ? "Игровая линия построена на Savage Worlds Adventure Edition (SWADE). Ядро правил не переписывается: мир выражается через происхождения, рёбра, помехи, мистические фоны, силы и правила сеттинга."
-          : "The game line is built on Savage Worlds Adventure Edition (SWADE). The core rules are not rewritten: the world is expressed through Ancestries, Edges, Hindrances, Arcane Backgrounds, Powers, and Setting Rules."
-      }
+      Игровая линия построена на системе «Дикие Миры». Основные правила не переписываются: мир выражается через происхождения, Черты, Помехи, Мистические дары, Силы и правила сеттинга.
       {" "}
       <a href={systemHref(L)}>{t(L, "navSystem")} →</a>
     </p>

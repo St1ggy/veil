@@ -2,7 +2,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { marked } from "marked";
 import type { Lang } from "../i18n/ui";
 import { withBase } from "./wiki";
-import { swadeBook, swadeTerms } from "../data/swadeTerms.js";
+import { swadeBook, swadeTerms } from "../data/swadeTerms";
 
 export type BookEntry = CollectionEntry<"rawBooks">;
 
@@ -49,9 +49,7 @@ export function bookHref(lang: Lang, id: string): string {
 }
 
 export function articleHref(lang: Lang, section: BookSection): string {
-  return withBase(
-    `${lang}/article/${encodeURIComponent(section.book.data.id)}/${section.slug}`,
-  );
+  return `${bookHref(lang, section.book.data.id)}#${section.slug}`;
 }
 
 export function plainText(markdown: string): string {
@@ -63,13 +61,14 @@ export function plainText(markdown: string): string {
 }
 
 export function bookSummary(book: BookEntry): string {
-  const paragraphs = book.body
+  const body = book.body ?? "";
+  const paragraphs = body
     .replace(/^---[\s\S]*?---\s*/u, "")
     .split(/\n\s*\n/u)
     .map((paragraph) => plainText(paragraph))
     .filter((paragraph) => paragraph.length > 70)
     .filter((paragraph) => !/^(?:назначение документа|настоящий документ|данный документ|этот документ|книга содержит)/iu.test(paragraph));
-  const text = (paragraphs[0] ?? plainText(book.body))
+  const text = (paragraphs[0] ?? plainText(body))
     .replace(book.data.title, "")
     .trim();
   return text.slice(0, 220).replace(/\s+\S*$/u, "") + (text.length > 220 ? "…" : "");
@@ -82,12 +81,20 @@ export function bookHighlights(book: BookEntry): string[] {
     .map((section) => section.title);
 }
 
+export function bookAccent(book: BookEntry): string {
+  let hash = 0;
+  for (const char of book.data.id) hash = (hash * 31 + char.codePointAt(0)!) >>> 0;
+  const hue = hash % 360;
+  return `oklch(0.72 0.11 ${hue})`;
+}
+
 export function sectionsOf(book: BookEntry): BookSection[] {
-  const matches = [...book.body.matchAll(/^(#{2,4})\s+(.+?)\s*$/gm)];
+  const body = book.body ?? "";
+  const matches = [...body.matchAll(/^(#{2,4})\s+(.+?)\s*$/gm)];
   const used = new Map<string, number>();
   return matches.map((match, order) => {
     const start = (match.index ?? 0) + match[0].length;
-    let end = book.body.length;
+    let end = body.length;
     const level = match[1].length;
     for (const following of matches.slice(order + 1)) {
       if (following[1].length <= level) {
@@ -95,12 +102,15 @@ export function sectionsOf(book: BookEntry): BookSection[] {
         break;
       }
     }
-    const title = match[2].replace(/^\d+(?:\.\d+)*\.\s*/, "").trim();
-    const base = slugify(title);
+    const rawTitle = match[2].trim();
+    const title = rawTitle.replace(/^\d+(?:\.\d+)*\.\s*/, "").trim();
+    // Astro assigns heading ids from the full heading, including its section number.
+    // Keep the same source here so table-of-contents links target the rendered book.
+    const base = slugify(rawTitle);
     const number = (used.get(base) ?? 0) + 1;
     used.set(base, number);
     const slug = number === 1 ? base : `${base}-${number}`;
-    const markdown = book.body.slice(start, end).trim();
+    const markdown = body.slice(start, end).trim();
     const summary = plainText(markdown).slice(0, 280).replace(/\s+\S*$/, "");
     return { book, title, slug, level, markdown, summary, order };
   }).filter((section) => section.markdown.length > 40);

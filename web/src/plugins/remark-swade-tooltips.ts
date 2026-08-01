@@ -1,17 +1,19 @@
 import { visit } from "unist-util-visit";
-import { swadeBook, swadeTerms } from "../data/swadeTerms.js";
+import { swadeBook, swadeTerms } from "../data/swadeTerms";
 
-const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export function remarkSwadeTooltips() {
-  return (tree) => {
-    const seen = new Set();
-    visit(tree, "text", (node, index, parent) => {
-      if (!parent || typeof index !== "number" || ["link", "code", "inlineCode"].includes(parent.type)) return;
+  return (tree: any) => {
+    const seen = new Set<string>();
+    visit(tree, "text", (node: any, index: number | undefined, parent: any) => {
+      // Keep headings as plain text: injected HTML changes Astro's generated id
+      // and would make the book table of contents point at a non-existent anchor.
+      if (!parent || typeof index !== "number" || ["heading", "link", "code", "inlineCode"].includes(parent.type)) return;
       let value = node.value;
-      const children = [];
+      const children: any[] = [];
       while (value) {
-        let best = null;
+        let best: { ru: string; original: string; match: RegExpExecArray } | null = null;
         for (const [ru, original] of swadeTerms) {
           if (seen.has(ru)) continue;
           const match = new RegExp(escape(ru), "iu").exec(value);

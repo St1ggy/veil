@@ -62,7 +62,7 @@ const featured = featuredIds
   <div class="category-grid">
     {
       categories.map((cat) => {
-        const count = entriesInCategory(entries, cat.id).length;
+        const count = cat.id === "pregens" ? 100 : entriesInCategory(entries, cat.id).length;
         return (
           <a class="category-card" href={categoryHref(L, cat.id)}>
             <span class="icon-chip" aria-hidden="true">
@@ -71,7 +71,7 @@ const featured = featuredIds
             <h2>{cat.label[L]}</h2>
             <p>{cat.description[L]}</p>
             <span class="count">
-              {count} {t(L, "articles")}
+              {count} {cat.id === "pregens" ? "персонажей" : t(L, "articles")}
             </span>
           </a>
         );

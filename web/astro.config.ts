@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
-import { remarkWikilinks } from "./src/plugins/remark-wikilinks.js";
-import { remarkSwadeTooltips } from "./src/plugins/remark-swade-tooltips.js";
+import { remarkWikilinks } from "./src/plugins/remark-wikilinks";
+import { remarkSwadeTooltips } from "./src/plugins/remark-swade-tooltips";
 
 const site = process.env.SITE_URL || "http://localhost:4321";
 

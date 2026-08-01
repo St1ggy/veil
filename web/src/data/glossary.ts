@@ -10,130 +10,130 @@ export interface GlossaryTerm {
 export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "COS_ETHER",
-    term: { ru: "Эфир", en: "Ether" },
+    term: { ru: "Эфир", en: "Эфир" },
     definition: {
       ru: "Слой реальности: вероятности, идеи, архетипы. Сознание → Эфир → вероятность → материя.",
-      en: "Layer of reality: probabilities, ideas, archetypes. Consciousness → Ether → probability → matter.",
+      en: "Слой реальности: вероятности, идеи, архетипы. Сознание → Эфир → вероятность → материя.",
     },
   },
   {
     id: "COS_VEIL",
-    term: { ru: "Вуаль", en: "The Veil" },
+    term: { ru: "Вуаль", en: "Вуаль" },
     definition: {
       ru: "Граница материи и Эфира. Ослабление с 2170.",
-      en: "Boundary between matter and the Ether. Weakening since 2170.",
+      en: "Граница материи и Эфира. Ослабление с 2170.",
     },
   },
   {
     id: "COS_ARCHETYPES",
-    term: { ru: "Архетипы", en: "Archetypes" },
+    term: { ru: "Архетипы", en: "Архетипы" },
     definition: {
       ru: "Формы коллективного бессознательного; материализуются после Пробуждения.",
-      en: "Forms of the collective unconscious; materialize after the Awakening.",
+      en: "Формы коллективного бессознательного; материализуются после Пробуждения.",
     },
   },
   {
     id: "EVENT_GREAT_AWAKENING",
-    term: { ru: "Великое Пробуждение", en: "Great Awakening" },
+    term: { ru: "Великое Пробуждение", en: "Великое Пробуждение" },
     definition: {
       ru: "2170: начало ослабления Вуали.",
-      en: "2170: the Veil begins to weaken.",
+      en: "2170: начало ослабления Вуали.",
     },
   },
   {
     id: "EVENT_THIRD_WORLD_WAR",
-    term: { ru: "Третья мировая", en: "Third World War" },
+    term: { ru: "Третья мировая", en: "Третья мировая" },
     definition: {
       ru: "2325: коллапс экономики, государств, орбиты и глобальной сети.",
-      en: "2325: collapse of the economy, most states, orbital infrastructure, and the global network.",
+      en: "2325: коллапс экономики, государств, орбиты и глобальной сети.",
     },
   },
   {
     id: "EVENT_STARFALL",
-    term: { ru: "Звёздный Дождь", en: "Starfall" },
+    term: { ru: "Звёздный Дождь", en: "Звёздный Дождь" },
     definition: {
       ru: "Падения орбитальных объектов с ИИ, материалами, артефактами.",
-      en: "Falls of orbital debris carrying AI, materials, and artifacts.",
+      en: "Падения орбитальных объектов с ИИ, материалами, артефактами.",
     },
   },
   {
     id: "MAG_PROBABILITY",
-    term: { ru: "Вероятностная магия", en: "Probability magic" },
+    term: { ru: "Вероятностное взаимодействие", en: "Вероятностное взаимодействие" },
     definition: {
-      ru: "Магия не ломает физику — меняет вероятность.",
-      en: "Magic does not break physics — it shifts probability.",
+      ru: "Эфирологическое взаимодействие не ломает физику — меняет вероятность.",
+      en: "Эфирологическое взаимодействие не ломает физику — меняет вероятность.",
     },
   },
   {
     id: "PHENO_ETHER_BURNOUT",
-    term: { ru: "Эфирное Выгорание", en: "Ether Burnout" },
+    term: { ru: "Эфирное Выгорание", en: "Эфирное Выгорание" },
     definition: {
-      ru: "Цена магии: истощение, мутации, потеря памяти и др.",
-      en: "The cost of magic: exhaustion, mutations, memory loss, and more.",
+      ru: "Цена взаимодействия: истощение, мутации, потеря памяти и др.",
+      en: "Цена взаимодействия: истощение, мутации, потеря памяти и др.",
     },
   },
   {
     id: "PHENO_PROBABILISTIC_DECAY",
-    term: { ru: "Вероятностный Распад", en: "Probabilistic Decay" },
+    term: { ru: "Вероятностный Распад", en: "Вероятностный Распад" },
     definition: {
-      ru: "Рост ошибок техники под магическим давлением.",
-      en: "Rising technological error rates under magical pressure.",
+      ru: "Рост ошибок техники под давлением интенсивного эфирологического взаимодействия.",
+      en: "Рост ошибок техники под давлением интенсивного эфирологического взаимодействия.",
     },
   },
   {
     id: "CONCEPT_ARCANUM",
-    term: { ru: "Принцип Арканум", en: "Arcanum principle" },
+    term: { ru: "Принцип Арканум", en: "Принцип Арканум" },
     definition: {
-      ru: "Взаимное давление магии и высоких технологий; возможны гибриды.",
-      en: "Mutual pressure between magic and high technology; hybrids are possible.",
+      ru: "Взаимное давление эфирологии и высоких технологий; возможны гибриды.",
+      en: "Взаимное давление эфирологии и высоких технологий; возможны гибриды.",
     },
   },
   {
     id: "TECH_NULL_FIELD",
-    term: { ru: "Нулевые Поля", en: "Null Fields" },
+    term: { ru: "Нулевые Поля", en: "Нулевые Поля" },
     definition: {
-      ru: "Антимагическая / стабилизационная технология Эгиды.",
-      en: "Aegis anti-magic / stabilization technology.",
+      ru: "Технология эфирного подавления и стабилизации, применяемая Эгидой.",
+      en: "Технология эфирного подавления и стабилизации, применяемая Эгидой.",
     },
   },
   {
     id: "CONCEPT_DEAD_INTERNET",
-    term: { ru: "Мёртвый Интернет", en: "Dead Internet" },
+    term: { ru: "Мёртвый Интернет", en: "Мёртвый Интернет" },
     definition: {
       ru: "Информационные следы Сети в Эфире.",
-      en: "Informational traces of the Net preserved in the Ether.",
+      en: "Информационные следы Сети в Эфире.",
     },
   },
   {
     id: "MAG_NETWORK",
-    term: { ru: "Сетевые маги", en: "Network mages" },
+    term: { ru: "Сетевые операторы", en: "Сетевые операторы" },
     definition: {
       ru: "Работа с Мёртвым Интернетом и следами данных.",
-      en: "Practitioners who work the Dead Internet and data-traces.",
+      en: "Работа с Мёртвым Интернетом и следами данных.",
     },
   },
   {
     id: "CONCEPT_DIVINITY",
-    term: { ru: "Божественность", en: "Divinity" },
+    term: { ru: "Божественность", en: "Божественность" },
     definition: {
       ru: "Состояние, не раса; достижима и обратима.",
-      en: "A state of being, not a race; attainable and reversible.",
+      en: "Состояние, не раса; достижима и обратима.",
     },
   },
   {
     id: "CONCEPT_DOMAIN",
-    term: { ru: "Домен", en: "Domain" },
+    term: { ru: "Домен", en: "Домен" },
     definition: {
       ru: "Фундаментальная концепция, к которой привязан бог.",
-      en: "A fundamental concept bound to a god.",
+      en: "Фундаментальная концепция, к которой привязан бог.",
     },
   },
   {
     id: "ERA_2435_PRESENT",
-    term: { ru: "Земля 2435", en: "Earth 2435" },
+    term: { ru: "Земля 2435", en: "Земля 2435" },
     definition: {
       ru: "Текущая эпоха сеттинга.",
-      en: "The setting's present era.",
+      en: "Текущая эпоха сеттинга.",
     },
   },
 ];

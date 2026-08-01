@@ -21,6 +21,7 @@ export function langHome(lang: Lang): string {
 }
 
 export function categoryHref(lang: Lang, categoryId: CategoryId | string): string {
+  if (categoryId === "pregens") return withBase(`${lang}/pregens`);
   return withBase(`${lang}/category/${categoryId}`);
 }
 

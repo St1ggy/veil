@@ -17,6 +17,12 @@ if (!book) throw new Error("Книга готовых персонажей не 
 const blocks = [...book.body.matchAll(/^###\s+(\d+)\.\s+(.+?)\n([\s\S]*?)(?=^###\s+\d+\.|\Z)/gm)];
 const value = (body: string, label: string) => body.match(new RegExp(`\\*\\*${label}:\\*\\*\\s*([^.*\\n]+)`, "u"))?.[1]?.trim() ?? "";
 const paragraphs = (body: string) => body.trim();
+const raceGroup = (race: string) => {
+  const normalized = race.toLocaleLowerCase("ru");
+  if (normalized.startsWith("перевёртыш")) return "перевёртыш";
+  if (normalized.startsWith("конструкт")) return "конструкт";
+  return race;
+};
 const pregens = blocks.map((match) => {
   const number = Number(match[1]);
   const name = match[2].trim();
@@ -26,42 +32,61 @@ const pregens = blocks.map((match) => {
     number,
     name,
     race: value(body, "Народ"),
+    raceGroup: raceGroup(value(body, "Народ")),
     role: value(body, "Роль"),
     profession: value(body, "Профессия"),
     ether,
-    magical: ether.toLocaleLowerCase("ru") !== "нет",
+    magical: !ether.toLocaleLowerCase("ru").startsWith("отсутствует"),
     html: renderMarkdown(paragraphs(body)),
   };
 });
 
 const imageFiles = readdirSync(new URL("../../../public/images/pregens", import.meta.url)).filter((name) => name.endsWith(".png"));
 const byNumber = new Map(imageFiles.map((name) => [Number(name.slice(0, 2)), withBase(`images/pregens/${name}`)]));
-const races = [...new Set(pregens.map((item) => item.race))].sort((a, b) => a.localeCompare(b, "ru"));
+const races = [...new Set(pregens.map((item) => item.raceGroup))].sort((a, b) => a.localeCompare(b, "ru"));
 ---
 
-<BaseLayout lang={L} title="Готовые персонажи" description="Все 60 готовых персонажей «Вуали Миров»" activeNav="game">
+<BaseLayout lang={L} title="Готовые персонажи" description="Все 100 готовых персонажей «Вуали Миров»" activeCategory="pregens" glossaryTooltips>
   <header class="page-header article-hero">
-    <div class="meta-row"><a href={withBase(`${L}/book/${encodeURIComponent(book.data.id)}`)}>Каноническая книга</a><span>·</span><span>60 Диких Карт</span></div>
+    <div class="meta-row"><a href={withBase(`${L}/book/${encodeURIComponent(book.data.id)}`)}>Каноническая книга</a><span>·</span><span>100 Диких Карт</span></div>
     <h1>Готовые персонажи</h1>
     <p>Полные профили, портреты и фильтры по народу и взаимодействию с Эфиром.</p>
   </header>
 
   <form class="pregen-filters" aria-label="Фильтры персонажей">
-    <label>Народ<select id="race-filter"><option value="">Все народы</option>{races.map((race) => <option value={race}>{race}</option>)}</select></label>
-    <label>Эфир<select id="ether-filter"><option value="">Любой профиль</option><option value="yes">Взаимодействует с Эфиром</option><option value="no">Не взаимодействует с Эфиром</option></select></label>
-    <label>Поиск<input id="pregen-search" type="search" placeholder="Имя, роль или профессия" /></label>
+    <label><span>Народ</span><span class="custom-select"><select id="race-filter"><option value="">Все народы</option>{races.map((race) => <option value={race}>{race}</option>)}</select></span></label>
+    <label><span>Эфир</span><span class="custom-select"><select id="ether-filter"><option value="">Любой профиль</option><option value="yes">Взаимодействует</option><option value="no">Не взаимодействует</option></select></span></label>
+    <label class="pregen-search"><span>Поиск</span><input id="pregen-search" type="search" placeholder="Имя, роль или профессия" /></label>
     <output id="pregen-count">Показано: {pregens.length}</output>
   </form>
 
   <section class="pregen-grid" id="pregen-grid">
     {pregens.map((item) => (
-      <article class="pregen-card" data-race={item.race} data-ether={item.magical ? "yes" : "no"} data-search={`${item.name} ${item.role} ${item.profession}`.toLocaleLowerCase("ru")}>
-        <img src={byNumber.get(item.number)} alt={`Портрет: ${item.name}`} loading="lazy" width="1024" height="1024" />
-        <header><span class="pregen-number">№ {item.number}</span><h2>{item.name}</h2><p>{item.race} · {item.role}</p></header>
-        <details><summary>Полное описание</summary><div class="prose pregen-description" set:html={item.html} /></details>
+      <article class="pregen-card" data-race={item.raceGroup} data-ether={item.magical ? "yes" : "no"} data-search={`${item.name} ${item.role} ${item.profession}`.toLocaleLowerCase("ru")}>
+        {byNumber.get(item.number) ? <img src={byNumber.get(item.number)} alt={`Портрет: ${item.name}`} loading="lazy" width="1024" height="1024" /> : <div class="pregen-placeholder" aria-hidden="true">{item.name.slice(0, 1)}</div>}
+        <div class="pregen-card__body">
+          <span class="pregen-number">№ {item.number}</span>
+          <h2>{item.name}</h2>
+          <p class="pregen-card__meta">{item.raceGroup} · {item.role}</p>
+          <p class="pregen-card__profession">{item.profession}</p>
+          <div class="pregen-card__footer"><span class:list={["ether-badge", item.magical ? "ether-badge--yes" : "ether-badge--no"]}>{item.magical ? "Связан с Эфиром" : "Без эфирологии"}</span><button type="button" class="pregen-open" data-dialog={`pregen-${item.number}`}>Подробнее</button></div>
+        </div>
       </article>
     ))}
   </section>
+
+  {pregens.map((item) => (
+    <dialog class="pregen-dialog" id={`pregen-${item.number}`}>
+      <div class="pregen-dialog__panel">
+        <button type="button" class="pregen-dialog__close" aria-label="Закрыть">×</button>
+        <div class="pregen-dialog__hero">
+          {byNumber.get(item.number) ? <img src={byNumber.get(item.number)} alt={`Портрет: ${item.name}`} width="1024" height="1024" /> : <div class="pregen-placeholder">{item.name.slice(0, 1)}</div>}
+          <header><span class="pregen-number">№ {item.number}</span><h2>{item.name}</h2><p>{item.race} · {item.role}</p></header>
+        </div>
+        <div class="prose pregen-description" set:html={item.html} />
+      </div>
+    </dialog>
+  ))}
 
   <script>
     const race = document.querySelector<HTMLSelectElement>("#race-filter");
@@ -84,5 +109,12 @@ const races = [...new Set(pregens.map((item) => item.race))].sort((a, b) => a.lo
     race?.addEventListener("change", apply);
     ether?.addEventListener("change", apply);
     search?.addEventListener("input", apply);
+    document.querySelectorAll<HTMLButtonElement>(".pregen-open").forEach((button) => button.addEventListener("click", () => {
+      (document.getElementById(button.dataset.dialog ?? "") as HTMLDialogElement | null)?.showModal();
+    }));
+    document.querySelectorAll<HTMLDialogElement>(".pregen-dialog").forEach((dialog) => {
+      dialog.querySelector<HTMLButtonElement>(".pregen-dialog__close")?.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+    });
   </script>
 </BaseLayout>

@@ -13,6 +13,7 @@ import {
   systemHref,
   withBase,
 } from "../lib/wiki";
+import "../styles/global.scss";
 
 interface Props {
   lang: Lang;
@@ -21,6 +22,7 @@ interface Props {
   pathAfterLang?: string;
   activeCategory?: string;
   activeNav?: "home" | "glossary" | "about" | "system" | "game";
+  glossaryTooltips?: boolean;
 }
 
 const {
@@ -30,6 +32,7 @@ const {
   pathAfterLang = "",
   activeCategory,
   activeNav,
+  glossaryTooltips = false,
 } = Astro.props;
 ---
 
@@ -40,10 +43,8 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} · {t(lang, "brand")}</title>
     {description && <meta name="description" content={description} />}
-    <link rel="stylesheet" href={withBase("styles/global.css")} />
-    <script src={withBase("scripts/glossary-tooltips.js")} defer></script>
   </head>
-  <body>
+  <body data-glossary-tooltips={glossaryTooltips ? "true" : undefined}>
     <div class="shell">
       <aside class="sidebar">
         <a class="brand" href={langHome(lang)}>
@@ -115,10 +116,6 @@ const {
             <NavIcon name="game" />
             <span>{t(lang, "navGame")}</span>
           </a>
-          <a href={withBase(`${lang}/pregens`)}>
-            <NavIcon name="game" />
-            <span>Готовые персонажи</span>
-          </a>
         </nav>
       </aside>
 
@@ -141,3 +138,7 @@ const {
     </div>
   </body>
 </html>
+
+<script>
+  import "../scripts/glossary-tooltips";
+</script>

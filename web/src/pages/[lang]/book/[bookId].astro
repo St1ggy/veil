@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { t, type Lang } from "../../../i18n/ui";
-import { articleHref, bookHref, bookSummary, getBooks, sectionsOf } from "../../../lib/books";
+import { bookHref, bookSummary, getBooks } from "../../../lib/books";
 import { categoryHref } from "../../../lib/wiki";
 import { render } from "astro:content";
 
@@ -12,8 +12,8 @@ export async function getStaticPaths() {
 
 const L = Astro.params.lang as Lang;
 const { book, books } = Astro.props;
-const { Content } = await render(book);
-const sections = sectionsOf(book);
+const { Content, headings } = await render(book);
+const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4);
 const links = [...(book.data.previous ?? []), ...(book.data.next ?? []), ...(book.data.related ?? [])];
 const related = links.map((id) => books.find((candidate) => candidate.data.id === id)).filter(Boolean);
 const bookIndex = books.findIndex((candidate) => candidate.data.id === book.data.id);
@@ -21,10 +21,10 @@ const previousBook = (book.data.previous ?? []).map((id) => books.find((candidat
 const nextBook = (book.data.next ?? []).map((id) => books.find((candidate) => candidate.data.id === id)).find(Boolean) ?? books[bookIndex + 1];
 ---
 
-<BaseLayout lang={L} title={book.data.title} description={bookSummary(book)} pathAfterLang={`book/${book.data.id}`} activeCategory="books">
+<BaseLayout lang={L} title={book.data.title} description={bookSummary(book)} pathAfterLang={`book/${book.data.id}`} activeCategory="books" glossaryTooltips>
   <header class="page-header book-hero">
     <div class="meta-row">
-      <a href={categoryHref(L, "books")}>← К библиотеке</a><span>·</span><span>{sections.length} самостоятельных статей</span>
+      <a href={categoryHref(L, "books")}>← К библиотеке</a><span>·</span><span>{toc.length} разделов</span>
     </div>
     <h1>{book.data.title}</h1>
     <p>{bookSummary(book)}</p>
@@ -35,25 +35,19 @@ const nextBook = (book.data.next ?? []).map((id) => books.find((candidate) => ca
     {nextBook ? <a class="book-pagination__next" href={bookHref(L, nextBook.data.id)}><small>Следующая книга</small><strong>{nextBook.data.title}</strong><span>→</span></a> : <span />}
   </nav>
 
-  {sections.length > 0 && (
+  {toc.length > 0 && (
     <nav class="book-toc" aria-label="Оглавление книги">
-      <h2>Оглавление и статьи</h2>
-      <ol>{sections.map((section) => <li class:list={[`book-toc--level-${section.level}`]}><a href={articleHref(L, section)}>{section.title}</a></li>)}</ol>
+      <h2>Оглавление</h2>
+      <ol>{toc.map((heading) => <li class:list={[`book-toc--level-${heading.depth}`]}><a href={`#${heading.slug}`}>{heading.text.replace(/^\d+(?:\.\d+)*\.\s*/, "")}</a></li>)}</ol>
     </nav>
   )}
 
   <article class="prose book-prose"><Content /></article>
 
-  {related.length > 0 && (
+  {related.length > 0 && !/^#{2,4}\s+(?:см\.\s+также|связанные документы)/imu.test(book.body) && (
     <section class="relations">
       <h2>{t(L, "seeAlso")}</h2>
       <ul>{related.map((item) => <li><a href={bookHref(L, item.data.id)}>{item.data.title}</a></li>)}</ul>
     </section>
   )}
-
-
-  <nav class="book-pagination book-pagination--footer" aria-label="Соседние книги">
-    {previousBook ? <a class="book-pagination__previous" href={bookHref(L, previousBook.data.id)}><span>←</span><small>Предыдущая книга</small><strong>{previousBook.data.title}</strong></a> : <span />}
-    {nextBook ? <a class="book-pagination__next" href={bookHref(L, nextBook.data.id)}><small>Следующая книга</small><strong>{nextBook.data.title}</strong><span>→</span></a> : <span />}
-  </nav>
 </BaseLayout>

@@ -10,6 +10,7 @@ import ScrollText from "@lucide/astro/icons/scroll-text";
 import Sparkles from "@lucide/astro/icons/sparkles";
 import Tornado from "@lucide/astro/icons/tornado";
 import UsersRound from "@lucide/astro/icons/users-round";
+import UserRoundCheck from "@lucide/astro/icons/user-round-check";
 
 interface Props {
   id: CategoryId;
@@ -21,6 +22,7 @@ const { id, size = 18, class: className } = Astro.props;
 
 const icons = {
   books: BookOpen,
+  pregens: UserRoundCheck,
   cosmology: Orbit,
   history: ScrollText,
   magic: Sparkles,

@@ -3,7 +3,7 @@ import BrandMark from "../components/BrandMark.astro";
 import CategoryIcon from "../components/CategoryIcon.astro";
 import NavIcon from "../components/NavIcon.astro";
 import { categories } from "../i18n/categories";
-import { languages, t, type Lang } from "../i18n/ui";
+import { t, type Lang } from "../i18n/ui";
 import {
   aboutHref,
   categoryHref,
@@ -31,20 +31,17 @@ const {
   activeCategory,
   activeNav,
 } = Astro.props;
-const other: Lang = lang === "ru" ? "en" : "ru";
-const otherHref = withBase(
-  pathAfterLang ? `${other}/${pathAfterLang.replace(/^\/+/, "")}` : other,
-);
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-base={withBase()}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} · {t(lang, "brand")}</title>
     {description && <meta name="description" content={description} />}
     <link rel="stylesheet" href={withBase("styles/global.css")} />
+    <script src={withBase("scripts/glossary-tooltips.js")} defer></script>
   </head>
   <body>
     <div class="shell">
@@ -56,22 +53,6 @@ const otherHref = withBase(
             <small>{t(lang, "tagline")}</small>
           </span>
         </a>
-
-        <div class="lang-switch" aria-label={t(lang, "language")}>
-          {
-            (Object.keys(languages) as Lang[]).map((code) =>
-              code === lang ? (
-                <span class="lang-btn active" aria-current="page">
-                  {code.toUpperCase()}
-                </span>
-              ) : (
-                <a class="lang-btn" href={otherHref}>
-                  {code.toUpperCase()}
-                </a>
-              ),
-            )
-          }
-        </div>
 
         <nav class="side-nav" aria-label={t(lang, "navCategories")}>
           <p class="nav-label">{t(lang, "navCategories")}</p>
@@ -95,6 +76,10 @@ const otherHref = withBase(
         </nav>
 
         <nav class="side-footer-nav">
+          <a href={withBase(`${lang}/search`)}>
+            <NavIcon name="search" />
+            <span>{t(lang, "navSearch")}</span>
+          </a>
           <a
             class:list={[{ active: activeNav === "home" }]}
             href={langHome(lang)}
@@ -137,10 +122,9 @@ const otherHref = withBase(
         <header class="topbar">
           <p class="eyebrow">{t(lang, "brand")}</p>
           <div class="topbar-actions">
-            <a class="ghost-link" href={otherHref}>
-              <NavIcon name="language" size={15} />
-              <span>{languages[other]}</span>
-            </a>
+            <form class="quick-search" action={withBase(`${lang}/search`)} method="get">
+              <input name="q" type="search" aria-label={t(lang, "navSearch")} placeholder={t(lang, "searchPlaceholder")} />
+            </form>
           </div>
         </header>
         <main class="main">

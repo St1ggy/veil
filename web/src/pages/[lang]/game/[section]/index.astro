@@ -18,7 +18,7 @@ import {
 } from "../../../../lib/wiki";
 
 export function getStaticPaths() {
-  const langs = ["ru", "en"] as const;
+  const langs = ["ru"] as const;
   return langs.flatMap((lang) =>
     gameSections.map((section) => ({
       params: { lang, section: section.id },

@@ -6,7 +6,7 @@ import { gameItemsInSection } from "../../../lib/gameCatalog";
 import { gameSectionHref, systemHref } from "../../../lib/wiki";
 
 export function getStaticPaths() {
-  return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
+  return [{ params: { lang: "ru" } }];
 }
 
 const L = Astro.params.lang as Lang;

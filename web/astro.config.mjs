@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import { remarkWikilinks } from "./src/plugins/remark-wikilinks.js";
+import { remarkSwadeTooltips } from "./src/plugins/remark-swade-tooltips.js";
 
 const site = process.env.SITE_URL || "http://localhost:4321";
 
@@ -21,7 +22,7 @@ export default defineConfig({
   outDir: "../site",
   trailingSlash: "never",
   markdown: {
-    remarkPlugins: [remarkWikilinks],
+    remarkPlugins: [remarkWikilinks, remarkSwadeTooltips],
   },
   build: {
     format: "file",

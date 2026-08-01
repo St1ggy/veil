@@ -20,6 +20,7 @@ const ui = {
     navSystem: "Система",
     navGame: "Игра",
     navGlossary: "Глоссарий",
+    navSearch: "Поиск",
     navCategories: "Разделы",
     gameTitle: "Игровой слой",
     gameLead:
@@ -81,6 +82,7 @@ const ui = {
     navSystem: "System",
     navGame: "Play",
     navGlossary: "Glossary",
+    navSearch: "Search",
     navCategories: "Sections",
     gameTitle: "Play layer",
     gameLead:

@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { type Lang } from "../../i18n/ui";
+import { getWikiEntries, entityHref } from "../../lib/wiki";
+import { allSections, articleHref, bookHref, bookSummary, getBooks } from "../../lib/books";
+
+export function getStaticPaths() { return [{ params: { lang: "ru" } }]; }
+const L = Astro.params.lang as Lang;
+const wiki = await getWikiEntries(L);
+const books = L === "ru" ? await getBooks() : [];
+const records = [
+  ...wiki.map((entry) => ({ title: entry.data.title, text: entry.data.summary ?? "", kind: "Статья", href: entityHref(L, entry.data.id) })),
+  ...books.map((book) => ({ title: book.data.title, text: bookSummary(book), kind: "Книга", href: bookHref(L, book.data.id) })),
+  ...allSections(books).map((section) => ({ title: section.title, text: `${section.summary} ${section.book.data.title}`, kind: "Раздел книги", href: articleHref(L, section) })),
+];
+---
+
+<BaseLayout lang={L} title="Поиск" description="Поиск по энциклопедии и каноническим книгам." pathAfterLang="search">
+  <header class="page-header"><h1>Поиск</h1><p>Ищет по статьям, книгам и автоматически выделенным разделам.</p></header>
+  <div class="search-panel"><input id="search-input" type="search" placeholder="Введите термин, имя, место или понятие…" autofocus /><p id="search-count" class="meta-row">{records.length} материалов в индексе</p></div>
+  <ul id="search-results" class="search-results"></ul>
+  <script id="search-data" type="application/json" set:html={JSON.stringify(records).replace(/</g, "\\u003c")} />
+  <script is:inline>
+    const input = document.querySelector("#search-input");
+    const output = document.querySelector("#search-results");
+    const count = document.querySelector("#search-count");
+    const records = JSON.parse(document.querySelector("#search-data").textContent || "[]");
+    const normalize = (value) => value.toLocaleLowerCase("ru").replace(/ё/g, "е");
+    const render = () => {
+      const words = normalize(input.value).trim().split(/\s+/).filter(Boolean);
+      if (!words.length) { output.innerHTML = ""; count.textContent = `${records.length} материалов в индексе`; return; }
+      const found = records.filter((item) => { const haystack = normalize(`${item.title} ${item.text} ${item.kind}`); return words.every((word) => haystack.includes(word)); }).slice(0, 100);
+      count.textContent = `Найдено: ${found.length}${found.length === 100 ? "+" : ""}`;
+      output.innerHTML = found.map((item) => `<li><a href="${item.href}"><strong>${item.title}</strong><span>${item.kind}</span><p>${item.text}</p></a></li>`).join("");
+    };
+    input.addEventListener("input", render);
+    const query = new URLSearchParams(location.search).get("q");
+    if (query) { input.value = query; render(); }
+  </script>
+</BaseLayout>

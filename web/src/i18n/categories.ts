@@ -9,7 +9,8 @@ export type CategoryId =
   | "countries"
   | "factions"
   | "concepts"
-  | "phenomena";
+  | "phenomena"
+  | "books";
 
 export interface CategoryDef {
   id: CategoryId;
@@ -20,6 +21,16 @@ export interface CategoryDef {
 }
 
 export const categories: CategoryDef[] = [
+  {
+    id: "books",
+    types: ["book"],
+    order: 0,
+    label: { ru: "Книги мира", en: "World Books" },
+    description: {
+      ru: "Полный канонический корпус: основы мира, история, география, цивилизация, организации, конфликты и правила игры.",
+      en: "The complete canonical book collection for Veil of Worlds.",
+    },
+  },
   {
     id: "cosmology",
     types: ["cosmology"],

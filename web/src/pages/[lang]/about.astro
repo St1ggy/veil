@@ -4,7 +4,7 @@ import { t, type Lang } from "../../i18n/ui";
 import { glossaryHref, langHome, systemHref } from "../../lib/wiki";
 
 export function getStaticPaths() {
-  return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
+  return [{ params: { lang: "ru" } }];
 }
 
 const L = Astro.params.lang as Lang;

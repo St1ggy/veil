@@ -5,9 +5,10 @@ import Dices from "@lucide/astro/icons/dices";
 import House from "@lucide/astro/icons/house";
 import Languages from "@lucide/astro/icons/languages";
 import Swords from "@lucide/astro/icons/swords";
+import Search from "@lucide/astro/icons/search";
 
 interface Props {
-  name: "home" | "glossary" | "about" | "system" | "game" | "language";
+  name: "home" | "glossary" | "about" | "system" | "game" | "language" | "search";
   size?: number;
   class?: string;
 }
@@ -21,6 +22,7 @@ const icons = {
   system: Dices,
   game: Swords,
   language: Languages,
+  search: Search,
 } as const;
 
 const Icon = icons[name];

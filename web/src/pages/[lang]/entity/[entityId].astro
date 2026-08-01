@@ -21,7 +21,7 @@ import {
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
-  const langs = ["ru", "en"] as const;
+  const langs = ["ru"] as const;
   const paths = [];
   for (const lang of langs) {
     const entries = await getWikiEntries(lang);
@@ -41,6 +41,15 @@ const { Content } = await render(entry);
 const relations = entry.data.relations ?? [];
 const tags = entry.data.tags ?? [];
 const cat = categoryForType(entry.data.type);
+const allEntries = await getWikiEntries(L);
+const explicitTargets = new Set(relations.map((relation) => relation.target));
+const automaticRelated = allEntries
+  .filter((candidate) => candidate.data.id !== entry.data.id && !explicitTargets.has(candidate.data.id))
+  .map((candidate) => ({ candidate, score: (candidate.data.tags ?? []).filter((tag) => tags.includes(tag)).length + (candidate.data.type === entry.data.type ? 0.5 : 0) }))
+  .filter(({ score }) => score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 8)
+  .map(({ candidate }) => candidate);
 ---
 
 <BaseLayout
@@ -124,4 +133,10 @@ const cat = categoryForType(entry.data.type);
       </section>
     )
   }
+  {automaticRelated.length > 0 && (
+    <section class="relations">
+      <h2>{t(L, "seeAlso")}</h2>
+      <ul class="related-grid">{automaticRelated.map((item) => <li><a href={entityHref(L, item.data.id)}>{item.data.title}</a><small>{item.data.id}</small></li>)}</ul>
+    </section>
+  )}
 </BaseLayout>

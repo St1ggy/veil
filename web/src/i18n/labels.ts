@@ -3,6 +3,7 @@ import type { Lang } from "./ui";
 type Dict = Record<string, Record<Lang, string>>;
 
 const entityTypes: Dict = {
+  book: { ru: "книга", en: "book" },
   cosmology: { ru: "космология", en: "cosmology" },
   event: { ru: "событие", en: "event" },
   era: { ru: "эпоха", en: "era" },

@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { t, type Lang } from "../../../i18n/ui";
+import { articleHref, bookHref, bookSummary, getBooks, sectionsOf } from "../../../lib/books";
+import { categoryHref } from "../../../lib/wiki";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const books = await getBooks();
+  return books.map((book) => ({ params: { lang: "ru", bookId: book.data.id }, props: { book, books } }));
+}
+
+const L = Astro.params.lang as Lang;
+const { book, books } = Astro.props;
+const { Content } = await render(book);
+const sections = sectionsOf(book);
+const links = [...(book.data.previous ?? []), ...(book.data.next ?? []), ...(book.data.related ?? [])];
+const related = links.map((id) => books.find((candidate) => candidate.data.id === id)).filter(Boolean);
+---
+
+<BaseLayout lang={L} title={book.data.title} description={bookSummary(book)} pathAfterLang={`book/${book.data.id}`} activeCategory="books">
+  <header class="page-header book-hero">
+    <div class="meta-row">
+      <a href={categoryHref(L, "books")}>← К библиотеке</a><span>·</span><span>{sections.length} самостоятельных статей</span>
+    </div>
+    <h1>{book.data.title}</h1>
+    <p>{bookSummary(book)}</p>
+  </header>
+
+  {sections.length > 0 && (
+    <nav class="book-toc" aria-label="Оглавление книги">
+      <h2>Оглавление и статьи</h2>
+      <ol>{sections.map((section) => <li class:list={[`book-toc--level-${section.level}`]}><a href={articleHref(L, section)}>{section.title}</a></li>)}</ol>
+    </nav>
+  )}
+
+  <article class="prose book-prose"><Content /></article>
+
+  {related.length > 0 && (
+    <section class="relations">
+      <h2>{t(L, "seeAlso")}</h2>
+      <ul>{related.map((item) => <li><a href={bookHref(L, item.data.id)}>{item.data.title}</a></li>)}</ul>
+    </section>
+  )}
+</BaseLayout>

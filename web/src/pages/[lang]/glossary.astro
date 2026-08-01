@@ -1,15 +1,14 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { sortedGlossary } from "../../data/glossary";
 import { t, type Lang } from "../../i18n/ui";
-import { entityHref } from "../../lib/wiki";
+import { publishedGlossary } from "../../lib/glossary";
 
 export function getStaticPaths() {
-  return [{ params: { lang: "ru" } }, { params: { lang: "en" } }];
+  return [{ params: { lang: "ru" } }];
 }
 
 const L = Astro.params.lang as Lang;
-const terms = sortedGlossary(L);
+const terms = await publishedGlossary(L);
 ---
 
 <BaseLayout
@@ -41,16 +40,16 @@ const terms = sortedGlossary(L);
           terms.map((term) => (
             <tr>
               <td>
-                <a class="glossary-term" href={entityHref(L, term.id)}>
-                  {term.term[L]}
+                <a class="glossary-term" href={term.href}>
+                  {term.name}
                 </a>
               </td>
               <td>
-                <a class="badge" href={entityHref(L, term.id)}>
-                  {term.id}
+                <a class="badge" href={term.href}>
+                  {term.source}
                 </a>
               </td>
-              <td>{term.definition[L]}</td>
+              <td>{term.definition}</td>
             </tr>
           ))
         }

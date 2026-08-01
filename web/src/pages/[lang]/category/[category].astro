@@ -15,9 +15,10 @@ import {
   displayTitle,
   displaySummary,
 } from "../../../lib/wiki";
+import { bookGroup, bookHref, bookSummary, getBooks, sectionsOf } from "../../../lib/books";
 
 export function getStaticPaths() {
-  const langs = ["ru", "en"] as const;
+  const langs = ["ru"] as const;
   return langs.flatMap((lang) =>
     categories.map((cat) => ({
       params: { lang, category: cat.id },
@@ -29,6 +30,17 @@ const L = Astro.params.lang as Lang;
 const categoryId = Astro.params.category as string;
 const cat = categoryById(categoryId)!;
 const entries = entriesInCategory(await getWikiEntries(L), cat.id);
+const books = cat.id === "books" && L === "ru" ? await getBooks() : [];
+const bookGroups = Array.from(
+  books.reduce((groups, entry) => {
+      const section = bookGroup(entry);
+      const group = groups.get(section) ?? [];
+      group.push(entry);
+      groups.set(section, group);
+      return groups;
+    }, new Map<string, typeof books>()),
+);
+const totalItems = cat.id === "books" ? books.length : entries.length;
 ---
 
 <BaseLayout
@@ -49,14 +61,37 @@ const entries = entriesInCategory(await getWikiEntries(L), cat.id);
     <p>{cat.description[L]}</p>
     <div class="meta-row">
       <span>
-        {entries.length} {t(L, "articles")}
+        {totalItems} {cat.id === "books" ? "книг" : t(L, "articles")}
       </span>
     </div>
   </header>
 
   {
-    entries.length === 0 ? (
+    totalItems === 0 ? (
       <p class="notice">{t(L, "emptyCategory")}</p>
+    ) : cat.id === "books" ? (
+      <div class="book-library">
+        {bookGroups.map(([section, books]) => (
+          <section class="book-shelf">
+            <div class="book-shelf__heading">
+              <h2>{section}</h2>
+              <span>{books.length}</span>
+            </div>
+            <div class="book-grid">
+              {books.map((entry) => (
+                <a class="book-card" href={bookHref(L, entry.data.id)}>
+                  <span class="book-card__number">
+                    {String(books.indexOf(entry) + 1).padStart(2, "0")}
+                  </span>
+                  <strong>{entry.data.title}</strong>
+                  <span>{bookSummary(entry)}</span>
+                  <small>{sectionsOf(entry).length} статей</small>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     ) : (
       <ul class="entity-list">
         {entries.map((entry) => (

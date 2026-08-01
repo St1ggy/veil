@@ -24,23 +24,37 @@ const wikiSchema = z
     visibility: z.string().optional(),
     relations: z.array(relation).optional(),
     timeline: z.record(z.string(), z.any()).optional(),
+    book_section: z.string().optional(),
+    book_order: z.number().optional(),
+    source_path: z.string().optional(),
   })
   .passthrough();
 
 const wiki = defineCollection({
   loader: glob({
-    pattern: ["**/*.md", "!_templates/**", "!en/**"],
+    pattern: ["**/*.md", "!**/_templates/**", "!**/en/**"],
     base: "../wiki",
   }),
   schema: wikiSchema,
 });
 
-const wikiEn = defineCollection({
+const rawBooks = defineCollection({
   loader: glob({
     pattern: ["**/*.md"],
-    base: "../wiki/en",
+    base: "../rawBooks/world_bible",
   }),
-  schema: wikiSchema,
+  schema: z.object({
+    id: z.string(),
+    title: z.string(),
+    status: z.string().optional(),
+    version: z.union([z.number(), z.string()]).optional(),
+    category: z.string().optional(),
+    parent: z.string().optional(),
+    previous: z.array(z.string()).optional(),
+    next: z.array(z.string()).optional(),
+    related: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional(),
+  }).passthrough(),
 });
 
-export const collections = { wiki, wikiEn };
+export const collections = { wiki, rawBooks };

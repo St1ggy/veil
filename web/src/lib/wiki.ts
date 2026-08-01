@@ -2,7 +2,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { categoryForType, type CategoryId } from "../i18n/categories";
 import type { Lang } from "../i18n/ui";
 
-export type WikiEntry = CollectionEntry<"wiki"> | CollectionEntry<"wikiEn">;
+export type WikiEntry = CollectionEntry<"wiki">;
 
 function normalizeBase(base: string): string {
   if (!base || base === "/") return "/";
@@ -63,14 +63,12 @@ export function switchLangHref(currentLang: Lang, pathAfterLang: string): string
 }
 
 export async function getWikiEntries(lang: Lang = "ru"): Promise<WikiEntry[]> {
-  const entries =
-    lang === "en" ? await getCollection("wikiEn") : await getCollection("wiki");
-  const locale = lang === "en" ? "en" : "ru";
+  const entries = await getCollection("wiki");
   return entries
     .filter((e) => e.data.visibility !== "gm")
     .filter((e) => !String(e.id).includes("_templates"))
     .filter((e) => e.data.id !== "WIKI_HOME")
-    .sort((a, b) => a.data.title.localeCompare(b.data.title, locale));
+    .sort((a, b) => a.data.title.localeCompare(b.data.title, "ru"));
 }
 
 export function entriesInCategory(entries: WikiEntry[], categoryId: CategoryId): WikiEntry[] {

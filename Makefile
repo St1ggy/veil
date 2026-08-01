@@ -2,7 +2,7 @@
 
 PYTHON ?= .venv/bin/python3
 
-validate:
+validate: books-wiki
 	$(PYTHON) scripts/validate/schema.py
 	$(PYTHON) scripts/validate/ids.py
 	$(PYTHON) scripts/validate/links.py

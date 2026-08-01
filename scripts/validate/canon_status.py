@@ -38,7 +38,8 @@ def main() -> int:
         if eid == "WIKI_HOME":
             continue
         status = meta.get("status")
-        if status in PARITY_STATUSES and eid not in entities and meta.get("type") not in NO_DATA_WIKI_TYPES:
+        generated_from_book = str(meta.get("source_path", "")).startswith("rawBooks/")
+        if status in PARITY_STATUSES and eid not in entities and meta.get("type") not in NO_DATA_WIKI_TYPES and not generated_from_book:
             print(f"ERROR wiki {meta['_path']}: status={status} but no data entity")
             errors += 1
         spoilers = meta.get("spoilers", "none")

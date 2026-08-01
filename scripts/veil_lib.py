@@ -10,7 +10,10 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
-WIKI = ROOT / "wiki"
+# Published encyclopedia articles are transient build artifacts generated from
+# rawBooks and structured data. The hand-written wiki directory only contains
+# templates and is not a source of published pages.
+WIKI = ROOT / "web" / ".generated" / "wiki"
 GAME = ROOT / "game"
 
 SKIP_DIR_NAMES = {"_schemas", "_index", "_templates"}

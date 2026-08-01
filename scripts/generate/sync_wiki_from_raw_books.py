@@ -7,10 +7,14 @@ from hashlib import sha1
 from pathlib import Path
 import re
 import shutil
+from typing import Any
+
+import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 BOOKS = ROOT / "rawBooks" / "world_bible"
 WIKI = ROOT / "web" / ".generated" / "wiki"
+DATA = ROOT / "data"
 GROUP_TYPES = {"00_meta": "meta", "01_foundations": "concept", "02_world": "concept", "03_civilization": "culture", "04_organizations": "organization", "05_conflicts": "conflict", "06_game": "game"}
 STOP = {"который", "которая", "которые", "этого", "этой", "через", "между", "после", "перед", "мира", "мире", "часть", "общие", "основные", "работа", "система", "системы"}
 
@@ -46,6 +50,46 @@ def slugify(value: str) -> str:
 
 def plain(value: str) -> str:
     return re.sub(r"\s+", " ", re.sub(r"[`*_#>\[\]()]", " ", value)).strip()
+
+def yaml_string(value: object) -> str:
+    return str(value).replace('"', "'").replace("\n", " ")
+
+def entity_documents() -> list[dict[str, Any]]:
+    documents: list[dict[str, Any]] = []
+    for path in sorted(DATA.rglob("*.yaml")):
+        if "_schemas" in path.parts or "_index" in path.parts:
+            continue
+        document = yaml.safe_load(path.read_text(encoding="utf-8"))
+        if not isinstance(document, dict) or not document.get("id") or document.get("type") in {"index", "meta", "timeline"}:
+            continue
+        document["_path"] = path.relative_to(DATA)
+        documents.append(document)
+    return documents
+
+def supporting_passages(document: dict[str, Any], articles: list[Article]) -> list[tuple[Article, str]]:
+    names = [str(document.get("title", "")), *[str(item) for item in document.get("aliases", [])]]
+    names = [name.casefold().replace("ё", "е") for name in names if len(name) >= 4 and not re.fullmatch(r"[a-z0-9 -]+", name.casefold())]
+    candidates: list[tuple[int, Article, str]] = []
+    for article in articles:
+        for paragraph in re.split(r"\n\s*\n", article.body):
+            clean = paragraph.strip()
+            normalized = plain(clean).casefold().replace("ё", "е")
+            if len(normalized) < 80 or not any(name in normalized for name in names):
+                continue
+            score = sum(normalized.count(name) for name in names) * 10 + len(tokens(document.get("summary", "")) & tokens(normalized))
+            candidates.append((score, article, clean))
+    candidates.sort(key=lambda row: (-row[0], row[1].title.casefold()))
+    selected: list[tuple[Article, str]] = []
+    fingerprints: set[str] = set()
+    for _, article, passage in candidates:
+        fingerprint = plain(passage).casefold().replace("ё", "е")
+        if fingerprint in fingerprints:
+            continue
+        fingerprints.add(fingerprint)
+        selected.append((article, passage))
+        if len(selected) == 3:
+            break
+    return selected
 
 def tokens(value: str) -> set[str]:
     return {word for word in re.findall(r"[а-яёa-z]{5,}", value.casefold()) if word not in STOP}
@@ -152,11 +196,56 @@ relations:
 '''
         (directory / f"{article.order:03d}-{article.slug}.md").write_text(text, encoding="utf-8")
 
+    entities = entity_documents()
+    titles = {str(document["id"]): str(document.get("title", document["id"])) for document in entities}
+    for document in entities:
+        entity_id = str(document["id"])
+        title = str(document.get("title", entity_id))
+        summary = str(document.get("summary", "")).strip()
+        relations = [relation for relation in document.get("relations", []) if isinstance(relation, dict) and relation.get("target") in titles]
+        relation_meta = "\n".join(f"  - type: {relation.get('type', 'related_to')}\n    target: {relation['target']}" for relation in relations) or "  []"
+        passages = supporting_passages(document, articles)
+        context = "\n\n".join(passage for _, passage in passages)
+        sources = "\n".join(
+            f"- «{fm_value(split_frontmatter(article.source.read_text(encoding='utf-8'))[0], 'title', article.source.stem)}», раздел «{article.title}»."
+            for article, _ in passages
+        ) or "- Структурированная запись канона."
+        path = document["_path"]
+        tags = document.get("tags", [])
+        tags_meta = "\n".join(f"  - {yaml_string(tag)}" for tag in tags) or "  []"
+        body_parts = [
+            f"> {summary}" if summary else "",
+            "## Краткая характеристика\n\n" + (summary or "Понятие закреплено в структурированном каноне мира."),
+        ]
+        if context:
+            body_parts.append("## Канонический контекст\n\n" + context)
+        body_parts.append("## Источники\n\n" + sources)
+        text = f'''---
+id: {entity_id}
+type: {document.get("type", "concept")}
+title: "{yaml_string(title)}"
+status: {document.get("status", "approved")}
+version: {document.get("version", 1)}
+visibility: {document.get("visibility", "public")}
+importance: {document.get("importance", "minor")}
+summary: "{yaml_string(summary)}"
+tags:
+{tags_meta}
+source_path: "data/{path}"
+relations:
+{relation_meta}
+---
+{(chr(10) * 2).join(part for part in body_parts if part)}
+'''
+        directory = WIKI / "entities" / path.parent
+        directory.mkdir(parents=True, exist_ok=True)
+        (directory / f"{slugify(title)}.md").write_text(text, encoding="utf-8")
+
 def main() -> None:
     articles = extract_articles()
     connect(articles)
     write(articles)
-    print(f"wiki rebuilt from scratch: {len(articles)} articles")
+    print(f"wiki rebuilt from scratch: {len(articles)} book articles and {len(entity_documents())} entity articles")
 
 if __name__ == "__main__":
     main()

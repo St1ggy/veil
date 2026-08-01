@@ -1,12 +1,12 @@
 id: POWER_ETHER_TRAPPING_PACK
 type: power_design
-title: Ether Trapping Pack
+title: Набор эфирных проявлений
 status: draft
 version: 0.1
 created: '2026-07-29'
 updated: '2026-07-29'
 summary: |
-  Design pack: probability/Ether trappings and risks — not a core power list.
+  Набор проявлений и рисков, связанных с вероятностью и Эфиром; не является перепечаткой списка Сил из основных правил.
 tags:
   - power
   - trapping
@@ -23,8 +23,8 @@ relations:
     target: PHENO_ETHER_BURNOUT
 dependencies: []
 future_hooks:
-  - Expand after playtest.
+  - Расширить после игровых испытаний.
 design_notes: |
-  SDK seed. No SWADE core stats. Setting-only design.
+  Первичный каркас сеттинга без перепечатки параметров из основных правил.
 balance_notes: |
-  Qualitative only until mechanical fill epic.
+  До механического наполнения используются только качественные оценки.

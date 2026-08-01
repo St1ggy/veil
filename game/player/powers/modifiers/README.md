@@ -1,30 +1,30 @@
 ---
-title: Power Modifiers (setting)
+title: Модификаторы Сил сеттинга
 status: draft
 version: 0.1
 created: '2026-07-29'
 updated: '2026-07-29'
 purpose: |
-  Сеттинг-модификаторы; не reprint core modifiers text.
+  Модификаторы сеттинга без перепечатки текста модификаторов из основных правил.
 scope: |
-  Powers SDK
+  Набор разработки Сил
 related:
   - game/player/powers/README.md
   - meta/game/COMPATIBILITY.md
 changelog:
   - date: '2026-07-29'
-    note: Initial SDK scaffold.
+    note: Первичный каркас игрового набора.
 ---
 
-# Power Modifiers (setting)
+# Модификаторы Сил сеттинга
 
 ## Назначение
 
-Сеттинг-модификаторы; не reprint core modifiers text.
+Модификаторы сеттинга без перепечатки текста модификаторов из основных правил.
 
 ## Область ответственности
 
-Powers SDK
+Набор разработки Сил
 
 ## Связанные документы
 

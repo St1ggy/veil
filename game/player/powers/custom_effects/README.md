@@ -1,30 +1,30 @@
 ---
-title: Custom Effects
+title: Уникальные эффекты
 status: draft
 version: 0.1
 created: '2026-07-29'
 updated: '2026-07-29'
 purpose: |
-  Когда нужен уникальный эффект — чеклист design.
+  Когда нужен уникальный эффект — перечень требований к разработке.
 scope: |
-  Powers SDK
+  Набор разработки Сил
 related:
   - game/player/powers/README.md
   - meta/game/COMPATIBILITY.md
 changelog:
   - date: '2026-07-29'
-    note: Initial SDK scaffold.
+    note: Первичный каркас игрового набора.
 ---
 
-# Custom Effects
+# Уникальные эффекты
 
 ## Назначение
 
-Когда нужен уникальный эффект — чеклист design.
+Когда нужен уникальный эффект — перечень требований к разработке.
 
 ## Область ответственности
 
-Powers SDK
+Набор разработки Сил
 
 ## Связанные документы
 

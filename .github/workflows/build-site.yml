@@ -33,6 +33,13 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Prepare wiki generator
+        run: python3 -m venv .venv && .venv/bin/pip install PyYAML
+
       - name: Build Astro site
         working-directory: web
         env:

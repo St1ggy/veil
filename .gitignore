@@ -13,6 +13,7 @@ dist/
 .mypy_cache/
 .astro/
 web/.astro/
+web/.generated/
 
 # Generated outputs (rebuild via make)
 site/**

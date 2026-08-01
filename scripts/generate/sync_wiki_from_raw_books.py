@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild all wiki articles from canonical rawBooks while preserving templates."""
+"""Build transient wiki articles from canonical rawBooks."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -10,8 +10,8 @@ import shutil
 
 ROOT = Path(__file__).resolve().parents[2]
 BOOKS = ROOT / "rawBooks" / "world_bible"
-WIKI = ROOT / "wiki"
-GROUP_TYPES = {"00_meta": "meta", "01_foundations": "concept", "02_world": "location", "03_civilization": "culture", "04_organizations": "organization", "05_conflicts": "conflict", "06_game": "game"}
+WIKI = ROOT / "web" / ".generated" / "wiki"
+GROUP_TYPES = {"00_meta": "meta", "01_foundations": "concept", "02_world": "concept", "03_civilization": "culture", "04_organizations": "organization", "05_conflicts": "conflict", "06_game": "game"}
 STOP = {"который", "которая", "которые", "этого", "этой", "через", "между", "после", "перед", "мира", "мире", "часть", "общие", "основные", "работа", "система", "системы"}
 
 @dataclass
@@ -49,6 +49,29 @@ def plain(value: str) -> str:
 
 def tokens(value: str) -> set[str]:
     return {word for word in re.findall(r"[а-яёa-z]{5,}", value.casefold()) if word not in STOP}
+
+def article_type(article: Article) -> str:
+    parts = article.source.relative_to(BOOKS).parts
+    stem = article.source.stem
+    if "01_cosmology" in parts:
+        return "cosmology"
+    if stem in {"12_etherology", "08_etherological_interaction", "07_domain_resonance", "89_etheric_specifications"}:
+        return "magic"
+    if "03_engineering" in parts or stem in {"17_devices", "18_infrastructure", "19_energy", "57_industry"}:
+        return "technology"
+    if "00_history" in parts:
+        return "event"
+    if stem in {"27_climate", "28_oceans", "78_etheric_anomalies", "79_entities"}:
+        return "phenomenon"
+    if "00_peoples" in parts:
+        return "race"
+    if stem in {"31_states", "32_city_states"}:
+        return "country"
+    if parts[0] == "04_organizations":
+        return "organization"
+    if parts[0] == "05_conflicts":
+        return "conflict"
+    return GROUP_TYPES.get(article.group, "concept")
 
 def extract_articles() -> list[Article]:
     articles: list[Article] = []
@@ -94,18 +117,13 @@ def connect(articles: list[Article]) -> None:
         article.related = [candidate.article_id for _, _, candidate in ranked[:12]]
 
 def clear_articles() -> None:
+    if WIKI.exists():
+        shutil.rmtree(WIKI)
     WIKI.mkdir(parents=True, exist_ok=True)
-    for child in WIKI.iterdir():
-        if child.name == "_templates":
-            continue
-        if child.is_dir():
-            shutil.rmtree(child)
-        else:
-            child.unlink()
 
 def write(articles: list[Article]) -> None:
     clear_articles()
-    (WIKI / "_home.md").write_text("---\nid: WIKI_HOME\ntitle: Энциклопедия «Вуали Миров»\ntype: meta\nstatus: canon\n---\n# Энциклопедия «Вуали Миров»\n\nВсе статьи автоматически собраны из канонических книг `rawBooks`.\n", encoding="utf-8")
+    (WIKI / "_home.md").write_text("---\nid: WIKI_HOME\ntitle: Энциклопедия «Вуали Миров»\ntype: meta\nstatus: canon\n---\n# Энциклопедия «Вуали Миров»\n\nВсе статьи автоматически собраны из канонических книг мира.\n", encoding="utf-8")
     for article in articles:
         rel_source = article.source.relative_to(BOOKS)
         directory = WIKI / "generated" / article.group / article.source.stem
@@ -116,7 +134,7 @@ def write(articles: list[Article]) -> None:
         safe_summary = summary.replace('"', "'")
         text = f'''---
 id: {article.article_id}
-type: {GROUP_TYPES.get(article.group, "article")}
+type: {article_type(article)}
 title: "{safe_title}"
 status: canon
 version: 1.0.0

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from hashlib import sha1
+import json
 from pathlib import Path
 import re
 import shutil
@@ -14,6 +15,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 BOOKS = ROOT / "rawBooks" / "world_bible"
 WIKI = ROOT / "web" / ".generated" / "wiki"
+PUBLIC_ARTICLES = ROOT / "web" / "public" / "generated-articles"
 DATA = ROOT / "data"
 GROUP_TYPES = {"00_meta": "meta", "01_foundations": "concept", "02_world": "concept", "03_civilization": "culture", "04_organizations": "organization", "05_conflicts": "conflict", "06_game": "game"}
 STOP = {"который", "которая", "которые", "этого", "этой", "через", "между", "после", "перед", "мира", "мире", "часть", "общие", "основные", "работа", "система", "системы"}
@@ -164,9 +166,13 @@ def clear_articles() -> None:
     if WIKI.exists():
         shutil.rmtree(WIKI)
     WIKI.mkdir(parents=True, exist_ok=True)
+    if PUBLIC_ARTICLES.exists():
+        shutil.rmtree(PUBLIC_ARTICLES)
+    PUBLIC_ARTICLES.mkdir(parents=True, exist_ok=True)
 
 def write(articles: list[Article]) -> None:
     clear_articles()
+    article_titles = {article.article_id: article.title for article in articles}
     (WIKI / "_home.md").write_text("---\nid: WIKI_HOME\ntitle: Энциклопедия «Вуали Миров»\ntype: meta\nstatus: canon\n---\n# Энциклопедия «Вуали Миров»\n\nВсе статьи автоматически собраны из канонических книг мира.\n", encoding="utf-8")
     for article in articles:
         rel_source = article.source.relative_to(BOOKS)
@@ -195,6 +201,35 @@ relations:
 {article.body.strip()}
 '''
         (directory / f"{article.order:03d}-{article.slug}.md").write_text(text, encoding="utf-8")
+        payload = {
+            "id": article.article_id,
+            "title": article.title,
+            "type": {
+                "cosmology": "Космология",
+                "event": "История",
+                "magic": "Эфирология",
+                "technology": "Технологии",
+                "phenomenon": "Явления",
+                "race": "Народы",
+                "country": "Государства",
+                "organization": "Организации",
+                "conflict": "Конфликты",
+                "game": "Игра",
+                "culture": "Цивилизация",
+                "concept": "Концепты",
+                "meta": "О проекте",
+            }.get(article_type(article), "Энциклопедия"),
+            "summary": summary,
+            "markdown": article.body.strip(),
+            "relations": [
+                {"id": target, "title": article_titles.get(target, target)}
+                for target in article.related
+            ],
+        }
+        (PUBLIC_ARTICLES / f"{article.article_id}.json").write_text(
+            json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
+            encoding="utf-8",
+        )
 
     entities = entity_documents()
     titles = {str(document["id"]): str(document.get("title", document["id"])) for document in entities}

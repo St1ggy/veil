@@ -14,6 +14,7 @@ dist/
 .astro/
 web/.astro/
 web/.generated/
+web/public/generated-articles/
 
 # Generated outputs (rebuild via make)
 site/**

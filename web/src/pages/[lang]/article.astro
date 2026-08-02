@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { type Lang } from "../../i18n/ui";
+import { categoryHref, withBase } from "../../lib/wiki";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "ru" } }];
+}
+
+const L = Astro.params.lang as Lang;
+---
+
+<BaseLayout lang={L} title="Статья энциклопедии" description="Статья энциклопедии «Вуали Миров»." pathAfterLang="article" glossaryTooltips>
+  <div id="dynamic-article" class="dynamic-article" data-article-base={withBase("generated-articles/")} data-entity-base={withBase(`${L}/entity/`)} data-home-url={categoryHref(L, "concepts")}>
+    <p class="notice" data-article-loading>Загрузка статьи…</p>
+  </div>
+</BaseLayout>
+
+<script>
+  import { marked } from "marked";
+
+  interface DynamicArticle {
+    id: string;
+    title: string;
+    type: string;
+    summary: string;
+    markdown: string;
+    relations: Array<{ id: string; title: string }>;
+  }
+
+  const root = document.querySelector<HTMLElement>("#dynamic-article");
+  if (root) {
+    const id = new URLSearchParams(location.search).get("id");
+    const articleBase = root.dataset.articleBase;
+    if (!id || !articleBase) {
+      root.innerHTML = '<p class="notice">Не указана статья для открытия.</p>';
+    } else {
+      fetch(`${articleBase}${encodeURIComponent(id)}.json`)
+        .then((response) => {
+          if (!response.ok) throw new Error("Не удалось загрузить энциклопедию");
+          return response.json() as Promise<DynamicArticle>;
+        })
+        .then((article) => {
+          document.title = `${article.title} · Вуаль Миров`;
+          const relations = article.relations
+            .map((relation) => {
+              return `<li><small>связано с</small><a href="?id=${encodeURIComponent(relation.id)}">${relation.title}</a></li>`;
+            }).join("");
+          const prepared = article.markdown.replace(/\[\[([A-Z][A-Z0-9_]*)(?:\|([^\]]+))?\]\]/g, (_match, targetId: string, label?: string) => {
+            const href = targetId.startsWith("ART_") ? `?id=${encodeURIComponent(targetId)}` : `${root.dataset.entityBase}${encodeURIComponent(targetId)}`;
+            return `[${label || targetId}](${href})`;
+          });
+          const html = marked.parse(prepared) as string;
+          root.innerHTML = `
+            <header class="page-header">
+              <div class="meta-row"><a href="${root.dataset.homeUrl}">← К энциклопедии</a><span>·</span><span>${article.type}</span></div>
+              <h1>${article.title}</h1>
+              ${article.summary ? `<p>${article.summary}</p>` : ""}
+            </header>
+            <article class="prose">${html}</article>
+            ${relations ? `<section class="relations"><h2>Связанные статьи</h2><ul class="related-grid">${relations}</ul></section>` : ""}
+          `;
+        })
+        .catch((error: Error) => {
+          root.innerHTML = `<p class="notice">${error.message}.</p>`;
+        });
+    }
+  }
+</script>

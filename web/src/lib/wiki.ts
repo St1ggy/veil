@@ -26,6 +26,9 @@ export function categoryHref(lang: Lang, categoryId: CategoryId | string): strin
 }
 
 export function entityHref(lang: Lang, entityId: string): string {
+  if (entityId.startsWith("ART_")) {
+    return `${withBase(`${lang}/article`)}?id=${encodeURIComponent(entityId)}`;
+  }
   return withBase(`${lang}/entity/${entityId}`);
 }
 

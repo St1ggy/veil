@@ -25,7 +25,7 @@ export async function getStaticPaths() {
   const paths = [];
   for (const lang of langs) {
     const entries = await getWikiEntries(lang);
-    for (const entry of entries) {
+    for (const entry of entries.filter((item) => !item.data.id.startsWith("ART_"))) {
       paths.push({
         params: { lang, entityId: entry.data.id },
         props: { entry },

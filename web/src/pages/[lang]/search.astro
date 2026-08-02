@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { type Lang } from "../../i18n/ui";
 import { getWikiEntries, entityHref } from "../../lib/wiki";
-import { allSections, articleHref, bookHref, bookSummary, getBooks } from "../../lib/books";
+import { bookHref, bookSummary, getBooks } from "../../lib/books";
 
 export function getStaticPaths() { return [{ params: { lang: "ru" } }]; }
 const L = Astro.params.lang as Lang;
@@ -11,7 +11,6 @@ const books = L === "ru" ? await getBooks() : [];
 const records = [
   ...wiki.map((entry) => ({ title: entry.data.title, text: entry.data.summary ?? "", kind: "Статья", href: entityHref(L, entry.data.id) })),
   ...books.map((book) => ({ title: book.data.title, text: bookSummary(book), kind: "Книга", href: bookHref(L, book.data.id) })),
-  ...allSections(books).map((section) => ({ title: section.title, text: `${section.summary} ${section.book.data.title}`, kind: "Раздел книги", href: articleHref(L, section) })),
 ];
 ---
 

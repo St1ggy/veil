@@ -89,7 +89,6 @@ const featured = featuredIds
               {displayTitle(entry, L)}
             </a>
             <div class="meta-row">
-              <span class="badge">{entry.data.id}</span>
               {entry.data.type && <span>{labelType(entry.data.type, L)}</span>}
             </div>
             {displaySummary(entry, L) && (

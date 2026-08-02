@@ -68,9 +68,6 @@ const related = systemPage.relatedIds
                 <a class="title" href={entityHref(L, entry.data.id)}>
                   {displayTitle(entry, L)}
                 </a>
-                <div class="meta-row">
-                  <span class="badge">{entry.data.id}</span>
-                </div>
                 {displaySummary(entry, L) && (
                   <p class="summary">{displaySummary(entry, L)}</p>
                 )}

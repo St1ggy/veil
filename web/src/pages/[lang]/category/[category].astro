@@ -77,8 +77,8 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
       <p class="notice">{t(L, "emptyCategory")}</p>
     ) : cat.id === "books" ? (
       <>
-        <nav class="book-index" aria-labelledby="book-index-title">
-          <h2 id="book-index-title">Список книг</h2>
+        <details class="book-index">
+          <summary><strong>Список книг</strong><span>{books.length} книг</span></summary>
           <div class="book-index__groups">
             {bookShelves.map(({ anchor, books, section }) => (
               <section>
@@ -91,7 +91,7 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
               </section>
             ))}
           </div>
-        </nav>
+        </details>
         <div class="book-library">
         {bookShelves.map(({ anchor, books, section }) => (
           <section class="book-shelf" id={anchor}>

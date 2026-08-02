@@ -32,7 +32,6 @@ const terms = await publishedGlossary(L);
       <thead>
         <tr>
           <th>{t(L, "glossaryTerm")}</th>
-          <th>{t(L, "glossaryId")}</th>
           <th>{t(L, "glossaryDefinition")}</th>
         </tr>
       </thead>
@@ -43,11 +42,6 @@ const terms = await publishedGlossary(L);
               <td>
                 <a class="glossary-term" href={term.href}>
                   {term.name}
-                </a>
-              </td>
-              <td>
-                <a class="badge" href={term.href}>
-                  {term.source}
                 </a>
               </td>
               <td>{term.definition}</td>

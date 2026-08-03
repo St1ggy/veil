@@ -1,0 +1,33 @@
+---
+import type { GalleryCharacter } from "../lib/characters";
+
+interface Props {
+  character: GalleryCharacter;
+}
+
+const { character } = Astro.props;
+---
+
+<dialog class="character-dialog" id={character.id} data-character-dialog aria-labelledby={`${character.id}-title`}>
+  <div class="character-dialog__panel">
+    <button type="button" class="character-dialog__close" data-character-close aria-label="Закрыть">×</button>
+    <div class="character-dialog__layout">
+      <aside class="character-dialog__identity">
+        {
+          character.image ? (
+            <img src={character.image} alt={character.imageAlt} width="1024" height="1024" />
+          ) : (
+            <div class="character-placeholder">{character.name.slice(0, 1)}</div>
+          )
+        }
+        <header>
+          <span class="character-number">{character.numberLabel}</span>
+          <h2 id={`${character.id}-title`}>{character.name}</h2>
+          <p>{character.primaryMeta}</p>
+          <span class:list={["character-badge", `character-badge--${character.badgeTone}`]}>{character.badge}</span>
+        </header>
+      </aside>
+      <div class="prose character-description" set:html={character.html} />
+    </div>
+  </div>
+</dialog>

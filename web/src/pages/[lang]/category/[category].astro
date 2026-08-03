@@ -8,6 +8,7 @@ import {
   labelType,
 } from "../../../i18n/labels";
 import { t, type Lang } from "../../../i18n/ui";
+import { countLabel } from "../../../i18n/ru";
 import {
   entityHref,
   entriesInCategory,
@@ -20,7 +21,7 @@ import { bookAccent, bookGroup, bookHighlights, bookHref, bookSummary, getBooks,
 export function getStaticPaths() {
   const langs = ["ru"] as const;
   return langs.flatMap((lang) =>
-    categories.filter((cat) => cat.id !== "pregens").map((cat) => ({
+    categories.filter((cat) => !["pregens", "ascended"].includes(cat.id)).map((cat) => ({
       params: { lang, category: cat.id },
     })),
   );
@@ -67,7 +68,9 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
     <p>{cat.description[L]}</p>
     <div class="meta-row">
       <span>
-        {totalItems} {cat.id === "books" ? "книг" : t(L, "articles")}
+        {cat.id === "books"
+          ? countLabel(totalItems, ["книга", "книги", "книг"])
+          : countLabel(totalItems, ["статья", "статьи", "статей"])}
       </span>
     </div>
   </header>

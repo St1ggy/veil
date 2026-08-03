@@ -104,7 +104,7 @@ const closestTooltip = (target: EventTarget | null): TooltipTarget | null =>
     const tooltipBody = target.dataset.tooltip;
     if (!tooltipBody || !kind || !term || !body) return;
     active = target;
-    kind.textContent = target.dataset.tooltipKind === "swade" ? "Термин «Диких Миров»" : "Глоссарий «Вуали Миров»";
+    kind.textContent = target.dataset.tooltipKind === "swade" ? "Термин «Дневника авантюриста»" : "Глоссарий «Вуали Миров»";
     term.textContent = target.textContent?.trim() ?? "";
     body.textContent = tooltipBody;
     popup.hidden = false;

@@ -4,7 +4,10 @@ import NavIcon from "../../components/NavIcon.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { categories } from "../../i18n/categories";
 import { labelType } from "../../i18n/labels";
+import { countLabel } from "../../i18n/ru";
 import { t, type Lang } from "../../i18n/ui";
+import { getBooks } from "../../lib/books";
+import { parseAscended, parsePregens } from "../../lib/characters";
 import {
   categoryHref,
   entityHref,
@@ -24,6 +27,14 @@ export function getStaticPaths() {
 
 const L = Astro.params.lang as Lang;
 const entries = await getWikiEntries(L);
+const books = await getBooks();
+const pregensBook = books.find((item) => item.data.id === "game.appendix.pregenerated_characters");
+const ascendedBook = books.find((item) => item.data.id === "game.appendix.ascended_registry");
+const specialCounts: Record<string, number> = {
+  books: books.length,
+  pregens: pregensBook ? parsePregens(pregensBook, new Map()).length : 0,
+  ascended: ascendedBook ? parseAscended(ascendedBook, new Map()).length : 0,
+};
 const featured = featuredIds
   .map((id) => entries.find((e) => e.data.id === id))
   .filter(Boolean);
@@ -62,7 +73,14 @@ const featured = featuredIds
   <div class="category-grid">
     {
       categories.map((cat) => {
-        const count = cat.id === "pregens" ? 100 : entriesInCategory(entries, cat.id).length;
+        const count = specialCounts[cat.id] ?? entriesInCategory(entries, cat.id).length;
+        const countText = cat.id === "books"
+          ? countLabel(count, ["книга", "книги", "книг"])
+          : cat.id === "pregens"
+            ? countLabel(count, ["персонаж", "персонажа", "персонажей"])
+            : cat.id === "ascended"
+              ? countLabel(count, ["личность", "личности", "личностей"])
+              : countLabel(count, ["статья", "статьи", "статей"]);
         return (
           <a class="category-card" href={categoryHref(L, cat.id)}>
             <span class="icon-chip" aria-hidden="true">
@@ -71,7 +89,7 @@ const featured = featuredIds
             <h2>{cat.label[L]}</h2>
             <p>{cat.description[L]}</p>
             <span class="count">
-              {count} {cat.id === "pregens" ? "персонажей" : t(L, "articles")}
+              {countText}
             </span>
           </a>
         );

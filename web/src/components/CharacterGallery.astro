@@ -1,0 +1,52 @@
+---
+import CharacterCard from "./CharacterCard.astro";
+import CharacterDialog from "./CharacterDialog.astro";
+import type { GalleryCharacter } from "../lib/characters";
+
+export interface CharacterFilter {
+  key: string;
+  label: string;
+  allLabel: string;
+  options: Array<{ value: string; label?: string }>;
+}
+
+interface Props {
+  id: string;
+  characters: GalleryCharacter[];
+  filters: CharacterFilter[];
+  searchPlaceholder: string;
+}
+
+const { id, characters, filters, searchPlaceholder } = Astro.props;
+---
+
+<div class="character-gallery" data-character-gallery id={id}>
+  <form class="character-filters" aria-label="Фильтры персонажей">
+    {filters.map((filter) => (
+      <label>
+        <span>{filter.label}</span>
+        <span class="custom-select">
+          <select data-character-filter={filter.key}>
+            <option value="">{filter.allLabel}</option>
+            {filter.options.map((option) => <option value={option.value}>{option.label ?? option.value}</option>)}
+          </select>
+        </span>
+      </label>
+    ))}
+    <label class="character-search">
+      <span>Поиск</span>
+      <input data-character-search type="search" placeholder={searchPlaceholder} />
+    </label>
+    <output data-character-count>Показано: {characters.length}</output>
+  </form>
+
+  <section class="character-grid">
+    {characters.map((character) => <CharacterCard character={character} />)}
+  </section>
+
+  {characters.map((character) => <CharacterDialog character={character} />)}
+</div>
+
+<script>
+  import "../scripts/character-gallery";
+</script>

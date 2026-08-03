@@ -1,0 +1,71 @@
+---
+import { readdirSync } from "node:fs";
+import CharacterGallery from "../../components/CharacterGallery.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { type Lang } from "../../i18n/ui";
+import { getBooks } from "../../lib/books";
+import { fieldOptions, parseAscended } from "../../lib/characters";
+import { withBase } from "../../lib/wiki";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "ru" } }];
+}
+
+const L = Astro.params.lang as Lang;
+const books = await getBooks();
+const book = books.find((item) => item.data.id === "game.appendix.ascended_registry");
+if (!book) throw new Error("Реестр Вознесённых не найден");
+
+const imageFiles = readdirSync(new URL("../../../public/images/ascended", import.meta.url))
+  .filter((name) => /^\d{2}-.+\.png$/u.test(name));
+const imageByNumber = new Map(
+  imageFiles.map((name) => [Number(name.match(/^(\d+)-/u)?.[1]), withBase(`images/ascended/${name}`)]),
+);
+const ascended = parseAscended(
+  book,
+  imageByNumber,
+  withBase("images/self-ascended/pervyy.png"),
+);
+const people = fieldOptions(ascended, "people");
+---
+
+<BaseLayout
+  lang={L}
+  title="Вознесённые"
+  description="Реестр шестидесяти пяти известных Вознесённых и закрытая запись о Первом"
+  activeCategory="ascended"
+  glossaryTooltips
+>
+  <header class="page-header article-hero">
+    <div class="meta-row">
+      <a href={withBase(`${L}/book/${encodeURIComponent(book.data.id)}`)}>Канонический реестр</a>
+      <span>·</span>
+      <span>65 Вознесённых и Первый</span>
+    </div>
+    <h1>Вознесённые</h1>
+    <p>Известные земным наблюдателям Вознесённые всех шести степеней и отдельная закрытая запись о Вознесшемся, которого условно называют Первым.</p>
+  </header>
+
+  <CharacterGallery
+    id="ascended-gallery"
+    characters={ascended}
+    searchPlaceholder="Имя, Домен или статус"
+    filters={[
+      {
+        key: "people",
+        label: "Народ",
+        allLabel: "Все народы",
+        options: people.map((value) => ({ value, label: value === "неизвестно" ? "Неизвестен" : value })),
+      },
+      {
+        key: "degree",
+        label: "Степень",
+        allLabel: "Все степени",
+        options: [
+          { value: "outside", label: "Вне степеней" },
+          ...[1, 2, 3, 4, 5, 6].map((degree) => ({ value: String(degree), label: `${degree}-я степень` })),
+        ],
+      },
+    ]}
+  />
+</BaseLayout>

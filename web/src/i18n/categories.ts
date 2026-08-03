@@ -11,7 +11,8 @@ export type CategoryId =
   | "concepts"
   | "phenomena"
   | "books"
-  | "pregens";
+  | "pregens"
+  | "ascended";
 
 export interface CategoryDef {
   id: CategoryId;
@@ -40,6 +41,16 @@ export const categories: CategoryDef[] = [
     description: {
       ru: "Сто готовых героев с портретами, игровыми профилями и фильтрами для быстрого выбора.",
       en: "Сто готовых героев с портретами, игровыми профилями и фильтрами для быстрого выбора.",
+    },
+  },
+  {
+    id: "ascended",
+    types: [],
+    order: 2,
+    label: { ru: "Вознесённые", en: "Вознесённые" },
+    description: {
+      ru: "Шестьдесят пять известных Вознесённых всех степеней и закрытая запись о Первом.",
+      en: "Шестьдесят пять известных Вознесённых всех степеней и закрытая запись о Первом.",
     },
   },
   {

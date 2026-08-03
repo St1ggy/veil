@@ -1,0 +1,39 @@
+---
+import type { GalleryCharacter } from "../lib/characters";
+
+interface Props {
+  character: GalleryCharacter;
+}
+
+const { character } = Astro.props;
+---
+
+<article
+  class="character-card"
+  role="button"
+  tabindex="0"
+  aria-haspopup="dialog"
+  aria-controls={character.id}
+  data-character-card
+  data-dialog={character.id}
+  data-filters={JSON.stringify(character.filters)}
+  data-search={character.search}
+>
+  {
+    character.image ? (
+      <img src={character.image} alt={character.imageAlt} loading="lazy" width="1024" height="1024" />
+    ) : (
+      <div class="character-placeholder" aria-hidden="true">{character.name.slice(0, 1)}</div>
+    )
+  }
+  <div class="character-card__body">
+    <span class="character-number">{character.numberLabel}</span>
+    <h2>{character.name}</h2>
+    <p class="character-card__meta">{character.primaryMeta}</p>
+    <p class="character-card__secondary">{character.secondaryMeta}</p>
+    <div class="character-card__footer">
+      <span class:list={["character-badge", `character-badge--${character.badgeTone}`]}>{character.badge}</span>
+      <span class="character-card__open" aria-hidden="true">Открыть →</span>
+    </div>
+  </div>
+</article>

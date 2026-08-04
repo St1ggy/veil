@@ -36,6 +36,11 @@ function searchText(values: string[]): string {
   return values.join(" ").toLocaleLowerCase("ru").replace(/ё/g, "е");
 }
 
+function compassValues(compass: string): [string, string, string] {
+  const values = compass.split("·").map((value) => value.trim()).filter(Boolean);
+  return [values[0] ?? "неизвестно", values[1] ?? "неизвестно", values[2] ?? "неизвестно"];
+}
+
 export function parsePregens(book: BookEntry, imageByNumber: Map<number, string>): GalleryCharacter[] {
   const blocks = [...book.body.matchAll(/^###\s+(\d+)\.\s+(.+?)\n([\s\S]*?)(?=^###\s+\d+\.|(?![\s\S]))/gm)];
   return blocks.map((match) => {
@@ -48,6 +53,8 @@ export function parsePregens(book: BookEntry, imageByNumber: Map<number, string>
     const profession = fieldValue(body, "Профессия");
     const gender = fieldValue(body, "Пол").replace(/[.;]$/u, "").trim();
     const ether = fieldValue(body, "Эфирологический профиль");
+    const compass = fieldValue(body, "Куб выбора").replace(/[.;]$/u, "").trim();
+    const [care, method, change] = compassValues(compass);
     const magical = !ether.toLocaleLowerCase("ru").startsWith("отсутствует");
     return {
       id: `pregen-${number}`,
@@ -64,8 +71,11 @@ export function parsePregens(book: BookEntry, imageByNumber: Map<number, string>
         people: peopleGroup,
         ether: magical ? "yes" : "no",
         gender,
+        care,
+        method,
+        change,
       },
-      search: searchText([name, people, role, profession]),
+      search: searchText([name, people, role, profession, compass]),
     };
   });
 }
@@ -91,6 +101,9 @@ export function parseAscended(
     filters: {
       people: "неизвестно",
       degree: "outside",
+      care: "неизвестно",
+      method: "неизвестно",
+      change: "неизвестно",
     },
     search: searchText(["Первый", "Вознесшийся", "Вознесение"]),
   };
@@ -108,6 +121,8 @@ export function parseAscended(
       const people = fieldValue(body, "Народ");
       const domains = fieldValue(body, "Домены");
       const status = fieldValue(body, "Статус");
+      const compass = fieldValue(body, "Куб выбора").replace(/[.;]$/u, "").trim();
+      const [care, method, change] = compassValues(compass);
       const peopleGroup = normalizePeople(people);
       return {
         id: `ascended-${sequence}`,
@@ -123,8 +138,11 @@ export function parseAscended(
         filters: {
           people: peopleGroup,
           degree,
+          care,
+          method,
+          change,
         },
-        search: searchText([name, people, domains, status]),
+        search: searchText([name, people, domains, status, compass]),
       } satisfies GalleryCharacter;
     });
   });

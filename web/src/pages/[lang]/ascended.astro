@@ -27,12 +27,15 @@ const ascended = parseAscended(
   withBase("images/self-ascended/pervyy.png"),
 );
 const people = fieldOptions(ascended, "people");
+const careOptions = fieldOptions(ascended, "care");
+const methodOptions = fieldOptions(ascended, "method");
+const changeOptions = fieldOptions(ascended, "change");
 ---
 
 <BaseLayout
   lang={L}
   title="Вознесённые"
-  description="Реестр шестидесяти пяти известных Вознесённых и закрытая запись о Первом"
+  description="Реестр семидесяти семи известных Вознесённых и закрытая запись о Первом"
   activeCategory="ascended"
   glossaryTooltips
 >
@@ -40,10 +43,10 @@ const people = fieldOptions(ascended, "people");
     <div class="meta-row">
       <a href={withBase(`${L}/book/${encodeURIComponent(book.data.id)}`)}>Канонический реестр</a>
       <span>·</span>
-      <span>65 Вознесённых и Первый</span>
+      <span>{ascended.length - 1} Вознесённых и Первый</span>
     </div>
     <h1>Вознесённые</h1>
-    <p>Известные земным наблюдателям Вознесённые всех шести степеней и отдельная закрытая запись о Вознесшемся, которого условно называют Первым.</p>
+    <p>Известные земным наблюдателям Вознесённые всех шести степеней, включая враждебных, и отдельная закрытая запись о Вознесшемся, которого условно называют Первым.</p>
   </header>
 
   <CharacterGallery
@@ -66,6 +69,11 @@ const people = fieldOptions(ascended, "people");
           ...[1, 2, 3, 4, 5, 6].map((degree) => ({ value: String(degree), label: `${degree}-я степень` })),
         ],
       },
+    ]}
+    compassFilters={[
+      { key: "care", label: "Круг заботы", allLabel: "Любой круг", options: careOptions.map((value) => ({ value })) },
+      { key: "method", label: "Способ действия", allLabel: "Любой способ", options: methodOptions.map((value) => ({ value })) },
+      { key: "change", label: "Отношение к переменам", allLabel: "Любое отношение", options: changeOptions.map((value) => ({ value })) },
     ]}
   />
 </BaseLayout>

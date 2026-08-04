@@ -14,10 +14,11 @@ interface Props {
   id: string;
   characters: GalleryCharacter[];
   filters: CharacterFilter[];
+  compassFilters?: CharacterFilter[];
   searchPlaceholder: string;
 }
 
-const { id, characters, filters, searchPlaceholder } = Astro.props;
+const { id, characters, filters, compassFilters = [], searchPlaceholder } = Astro.props;
 ---
 
 <div class="character-gallery" data-character-gallery id={id}>
@@ -33,6 +34,37 @@ const { id, characters, filters, searchPlaceholder } = Astro.props;
         </span>
       </label>
     ))}
+    {
+      compassFilters.length > 0 && (
+        <fieldset class="compass-filter">
+          <legend>Куб выбора</legend>
+          <p>Настройте три оси, чтобы отобрать персонажей с нужными ценностными ориентирами.</p>
+          <div class="compass-filter__sliders">
+            {compassFilters.map((filter) => {
+              const values = ["", ...filter.options.map((option) => option.value)];
+              return (
+                <label>
+                  <span>{filter.label}</span>
+                  <div class="compass-filter__control">
+                    <input
+                      type="range"
+                      min="0"
+                      max={values.length - 1}
+                      value="0"
+                      step="1"
+                      data-character-filter={filter.key}
+                      data-filter-values={JSON.stringify(values)}
+                      aria-valuetext={filter.allLabel}
+                    />
+                    <output data-character-filter-label={filter.key}>{filter.allLabel}</output>
+                  </div>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
+      )
+    }
     <label class="character-search">
       <span>Поиск</span>
       <input data-character-search type="search" placeholder={searchPlaceholder} />
@@ -45,6 +77,11 @@ const { id, characters, filters, searchPlaceholder } = Astro.props;
   </section>
 
   {characters.map((character) => <CharacterDialog character={character} />)}
+
+  <dialog class="character-image-dialog" data-character-image-dialog aria-label="Портрет в полном размере">
+    <button type="button" class="character-image-dialog__close" data-character-image-close aria-label="Закрыть портрет">×</button>
+    <img data-character-image-element alt="" />
+  </dialog>
 </div>
 
 <script>

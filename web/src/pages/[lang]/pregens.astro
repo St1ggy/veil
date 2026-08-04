@@ -24,6 +24,9 @@ const imageByNumber = new Map(
 const pregens = parsePregens(book, imageByNumber);
 const people = fieldOptions(pregens, "people");
 const genders = fieldOptions(pregens, "gender");
+const careOptions = fieldOptions(pregens, "care");
+const methodOptions = fieldOptions(pregens, "method");
+const changeOptions = fieldOptions(pregens, "change");
 ---
 
 <BaseLayout
@@ -69,6 +72,11 @@ const genders = fieldOptions(pregens, "gender");
           { value: "no", label: "Не взаимодействует" },
         ],
       },
+    ]}
+    compassFilters={[
+      { key: "care", label: "Круг заботы", allLabel: "Любой круг", options: careOptions.map((value) => ({ value })) },
+      { key: "method", label: "Способ действия", allLabel: "Любой способ", options: methodOptions.map((value) => ({ value })) },
+      { key: "change", label: "Отношение к переменам", allLabel: "Любое отношение", options: changeOptions.map((value) => ({ value })) },
     ]}
   />
 </BaseLayout>

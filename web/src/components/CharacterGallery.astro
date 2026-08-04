@@ -36,8 +36,11 @@ const { id, characters, filters, compassFilters = [], searchPlaceholder } = Astr
     ))}
     {
       compassFilters.length > 0 && (
-        <fieldset class="compass-filter">
-          <legend>Куб выбора</legend>
+        <details class="compass-filter">
+          <summary>
+            <span>Куб выбора</span>
+            <span class="compass-filter__summary-hint">Настроить три оси</span>
+          </summary>
           <p>Настройте три оси, чтобы отобрать персонажей с нужными ценностными ориентирами.</p>
           <div class="compass-filter__sliders">
             {compassFilters.map((filter) => {
@@ -62,7 +65,7 @@ const { id, characters, filters, compassFilters = [], searchPlaceholder } = Astr
               );
             })}
           </div>
-        </fieldset>
+        </details>
       )
     }
     <label class="character-search">

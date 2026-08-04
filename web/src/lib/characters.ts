@@ -41,6 +41,26 @@ function compassValues(compass: string): [string, string, string] {
   return [values[0] ?? "неизвестно", values[1] ?? "неизвестно", values[2] ?? "неизвестно"];
 }
 
+function imageSlug(name: string): string {
+  const letters: Record<string, string> = {
+    а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z", и: "i", й: "y",
+    к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f",
+    х: "h", ц: "ts", ч: "ch", ш: "sh", щ: "sch", ъ: "", ы: "y", ь: "", э: "e", ю: "yu", я: "ya",
+  };
+  const slug = name.toLocaleLowerCase("ru").replace(/[а-яё]/gu, (letter) => letters[letter] ?? letter)
+    .replace(/[^a-z0-9]+/gu, "-").replace(/^-+|-+$/gu, "");
+  const legacyImageSlugs: Record<string, string> = {
+    "bran-mednyy": "bran-medny",
+    "halid-nulevoy-chas": "khalid-nulevoy-chas",
+    "kern-bez-treschin": "kern-bez-treshchin",
+    "tor-kaan-schitayuschiy-plamya": "tor-kaan-schitayushchiy-plamya",
+    "spyaschiy-bazalt": "spyashchiy-bazalt",
+    "okean-iduschih-imen": "okean-idushchih-imen",
+    "urg-saan-nesuschiy-den": "urg-saan-nesushchiy-den",
+  };
+  return legacyImageSlugs[slug] ?? slug;
+}
+
 export function parsePregens(book: BookEntry, imageByNumber: Map<number, string>): GalleryCharacter[] {
   const blocks = [...book.body.matchAll(/^###\s+(\d+)\.\s+(.+?)\n([\s\S]*?)(?=^###\s+\d+\.|(?![\s\S]))/gm)];
   return blocks.map((match) => {
@@ -82,7 +102,7 @@ export function parsePregens(book: BookEntry, imageByNumber: Map<number, string>
 
 export function parseAscended(
   book: BookEntry,
-  imageByNumber: Map<number, string>,
+  imageBySlug: Map<string, string>,
   firstImage?: string,
 ): GalleryCharacter[] {
   const firstMatch = book.body.match(/^### Первый\n([\s\S]*?)(?=^##\s+\d+\.|(?![\s\S]))/m);
@@ -128,7 +148,7 @@ export function parseAscended(
         id: `ascended-${sequence}`,
         numberLabel: `№ ${sequence} · степень ${degree}`,
         name,
-        image: imageByNumber.get(sequence),
+        image: imageBySlug.get(imageSlug(name)),
         imageAlt: `Портрет Вознесённого: ${name}`,
         primaryMeta: `${peopleGroup} · степень ${degree}`,
         secondaryMeta: domains ? `Домены: ${domains}` : status,

@@ -18,12 +18,12 @@ if (!book) throw new Error("Реестр Вознесённых не найде�
 
 const imageFiles = readdirSync(new URL("../../../public/images/ascended", import.meta.url))
   .filter((name) => /^\d{2}-.+\.png$/u.test(name));
-const imageByNumber = new Map(
-  imageFiles.map((name) => [Number(name.match(/^(\d+)-/u)?.[1]), withBase(`images/ascended/${name}`)]),
+const imageBySlug = new Map(
+  imageFiles.map((name) => [name.replace(/^\d{2}-(.+)\.png$/u, "$1"), withBase(`images/ascended/${name}`)]),
 );
 const ascended = parseAscended(
   book,
-  imageByNumber,
+  imageBySlug,
   withBase("images/self-ascended/pervyy.png"),
 );
 const people = fieldOptions(ascended, "people");

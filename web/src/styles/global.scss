@@ -863,9 +863,15 @@ code {
 .character-search { grid-column: span 2; }
 .character-search input { padding-right: .75rem; }
 .character-filters output { align-self: end; color: var(--accent); font-size: .78rem; padding: 0 .2rem .65rem; white-space: nowrap; }
-.compass-filter { border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); border-radius: .75rem; grid-column: 1 / -1; margin: 0; min-width: 0; padding: .7rem .8rem .8rem; }
-.compass-filter legend { color: var(--accent); font-family: var(--font-display); font-size: .95rem; padding: 0 .3rem; }
-.compass-filter > p { color: var(--muted); font-size: .72rem; margin: -.1rem 0 .65rem; }
+.compass-filter { border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); border-radius: .75rem; grid-column: 1 / -1; margin: 0; min-width: 0; }
+.compass-filter summary { align-items: center; color: var(--accent); cursor: pointer; display: flex; font-family: var(--font-display); font-size: .95rem; justify-content: space-between; list-style: none; padding: .7rem .8rem; }
+.compass-filter summary::-webkit-details-marker { display: none; }
+.compass-filter summary::after { border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); content: ""; height: .42rem; margin-left: .6rem; transform: rotate(45deg) translateY(-2px); transition: transform 160ms ease; width: .42rem; }
+.compass-filter[open] summary { border-bottom: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); }
+.compass-filter[open] summary::after { transform: rotate(225deg) translateY(-2px); }
+.compass-filter__summary-hint { color: var(--muted); font-family: var(--font-body); font-size: .68rem; font-weight: 700; margin-left: auto; text-transform: uppercase; }
+.compass-filter > p { color: var(--muted); font-size: .72rem; margin: .7rem .8rem .65rem; }
+.compass-filter__sliders { margin: 0 .8rem .8rem; }
 .compass-filter__sliders { display: grid; gap: .65rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .compass-filter__control { align-items: center; display: grid; gap: .45rem; grid-template-columns: minmax(0, 1fr) auto; }
 .compass-filter input[type="range"] { accent-color: var(--accent); appearance: auto; background: transparent; border: 0; box-shadow: none; cursor: pointer; min-height: 1.7rem; padding: 0; }

@@ -18,7 +18,8 @@ function openDialog(dialog: HTMLDialogElement): void {
 }
 
 document.querySelectorAll<HTMLElement>("[data-character-gallery]").forEach((gallery) => {
-  const filters = [...gallery.querySelectorAll<HTMLSelectElement | HTMLInputElement>("[data-character-filter]")];
+  const filters = [...gallery.querySelectorAll<HTMLSelectElement>("select[data-character-filter]")];
+  const pickerValues = new Map<string, string>();
   const search = gallery.querySelector<HTMLInputElement>("[data-character-search]");
   const count = gallery.querySelector<HTMLOutputElement>("[data-character-count]");
   const cards = [...gallery.querySelectorAll<CharacterCardElement>("[data-character-card]")];
@@ -62,10 +63,8 @@ document.querySelectorAll<HTMLElement>("[data-character-gallery]").forEach((gall
       const values = JSON.parse(card.dataset.filters ?? "{}") as Record<string, string>;
       const matchesFilters = filters.every((filter) => {
         const key = filter.dataset.characterFilter ?? "";
-        const allowed = filter.dataset.filterValues ? JSON.parse(filter.dataset.filterValues) as string[] : undefined;
-        const selected = allowed ? allowed[Number(filter.value)] ?? "" : filter.value;
-        return !selected || values[key] === selected;
-      });
+        return !filter.value || values[key] === filter.value;
+      }) && [...pickerValues.entries()].every(([key, selected]) => !selected || values[key] === selected);
       const matchesSearch = !query || card.dataset.search?.includes(query);
       const show = matchesFilters && matchesSearch;
       const cardContainer = card.closest<HTMLElement>(".character-card");
@@ -75,19 +74,31 @@ document.querySelectorAll<HTMLElement>("[data-character-gallery]").forEach((gall
     if (count) count.value = `Показано: ${visible}`;
   };
 
-  filters.forEach((filter) => {
-    const updateSliderLabel = (): void => {
-      if (!filter.dataset.filterValues) return;
-      const values = JSON.parse(filter.dataset.filterValues) as string[];
-      const text = values[Number(filter.value)] || "Любое значение";
-      const label = gallery.querySelector<HTMLOutputElement>(`[data-character-filter-label="${CSS.escape(filter.dataset.characterFilter ?? "")}"]`);
-      if (label) label.value = text;
-      filter.setAttribute("aria-valuetext", text);
-    };
-    filter.addEventListener("change", () => { updateSliderLabel(); apply(); });
-    filter.addEventListener("input", () => { updateSliderLabel(); apply(); });
-    updateSliderLabel();
+  filters.forEach((filter) => filter.addEventListener("change", apply));
+  gallery.querySelectorAll<HTMLElement>("[data-character-picker]").forEach((picker) => {
+    const key = picker.dataset.characterPicker ?? "";
+    picker.querySelectorAll<HTMLButtonElement>("[data-picker-value]").forEach((button) => {
+      button.addEventListener("click", () => {
+        pickerValues.set(key, button.dataset.pickerValue ?? "");
+        picker.querySelectorAll<HTMLButtonElement>("[data-picker-value]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        apply();
+      });
+    });
   });
+
+  const compassFilter = gallery.querySelector<HTMLElement>("[data-compass-filter]");
+  const compassToggle = compassFilter?.querySelector<HTMLButtonElement>("[data-compass-toggle]");
+  const compassPanel = compassFilter?.querySelector<HTMLElement>("[data-compass-panel]");
+  const setCompassOpen = (open: boolean): void => {
+    if (!compassToggle || !compassPanel) return;
+    compassToggle.setAttribute("aria-expanded", String(open));
+    compassPanel.hidden = !open;
+  };
+  compassToggle?.addEventListener("click", () => setCompassOpen(compassPanel?.hidden ?? true));
+  document.addEventListener("click", (event) => {
+    if (compassFilter && !compassFilter.contains(event.target as Node)) setCompassOpen(false);
+  });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") setCompassOpen(false); });
   search?.addEventListener("input", apply);
   cards.forEach((card) => card.addEventListener("click", () => openCard(card)));
 

@@ -6,13 +6,31 @@ interface Props {
 }
 
 const { character } = Astro.props;
+
+const compactFields = new Set([
+  "Народ", "Домены", "Статус", "Пол", "Роль", "Профессия", "Ранг", "Год Вознесения", "Куб выбора", "Эфирологический профиль",
+]);
+const gameFields = new Set([
+  "Профиль Шальной карты", "Характеристики", "Ключевые навыки", "Базовые и остальные навыки", "Производные параметры",
+  "Ресурсы Шальной карты", "Черты", "Народные особенности", "Изъяны", "Эфирологические параметры", "Снаряжение", "Доступ",
+  "Броня", "Атаки", "Нагрузка", "Благосостояние", "Связи", "Репутация", "Особые правила", "Параметры",
+]);
+const structuredHtml = character.html.replace(/<p><strong>([^<]+):<\/strong>\s*([\s\S]*?)<\/p>/gu, (_match, label: string, value: string) => {
+  const kind = compactFields.has(label) ? "compact" : gameFields.has(label) ? "game" : "story";
+  return `<section class="character-field character-field--${kind}"><h3>${label}</h3><div>${value}</div></section>`;
+});
 ---
 
 <dialog class="character-dialog" id={character.id} data-character-dialog aria-labelledby={`${character.id}-title`}>
   <div class="character-dialog__panel">
-    <button type="button" class="character-dialog__close" data-character-close aria-label="Закрыть">×</button>
-    <button type="button" class="character-dialog__previous" data-character-previous aria-label="Предыдущая карточка">←</button>
-    <button type="button" class="character-dialog__next" data-character-next aria-label="Следующая карточка">→</button>
+    <header class="character-dialog__toolbar">
+      <span>Карточка персонажа</span>
+      <div>
+        <button type="button" data-character-previous aria-label="Предыдущая карточка">←</button>
+        <button type="button" data-character-next aria-label="Следующая карточка">→</button>
+        <button type="button" data-character-close aria-label="Закрыть">×</button>
+      </div>
+    </header>
     <div class="character-dialog__layout">
       <aside class="character-dialog__identity">
         {
@@ -39,7 +57,7 @@ const { character } = Astro.props;
           <span class:list={["character-badge", `character-badge--${character.badgeTone}`]}>{character.badge}</span>
         </header>
       </aside>
-      <div class="prose character-description" set:html={character.html} />
+      <div class="prose character-description" set:html={structuredHtml} />
     </div>
   </div>
 </dialog>

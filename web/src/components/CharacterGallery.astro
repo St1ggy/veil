@@ -19,6 +19,7 @@ interface Props {
 }
 
 const { id, characters, filters, compassFilters = [], searchPlaceholder } = Astro.props;
+const compassIcons: Record<string, string> = { care: "◎", method: "⚖", change: "↻" };
 ---
 
 <div class="character-gallery" data-character-gallery id={id}>
@@ -36,36 +37,32 @@ const { id, characters, filters, compassFilters = [], searchPlaceholder } = Astr
     ))}
     {
       compassFilters.length > 0 && (
-        <details class="compass-filter">
-          <summary>
-            <span>Куб выбора</span>
-            <span class="compass-filter__summary-hint">Настроить три оси</span>
-          </summary>
-          <p>Настройте три оси, чтобы отобрать персонажей с нужными ценностными ориентирами.</p>
-          <div class="compass-filter__sliders">
+        <div class="compass-filter" data-compass-filter>
+          <button type="button" class="compass-filter__toggle" data-compass-toggle aria-expanded="false">
+            <span aria-hidden="true">◈</span>
+            Куб выбора
+          </button>
+          <div class="compass-filter__panel" data-compass-panel hidden>
+            <p>Выберите конкретную точку для каждой оси или оставьте ось без ограничения.</p>
+            <div class="compass-filter__sliders">
             {compassFilters.map((filter) => {
-              const values = ["", ...filter.options.map((option) => option.value)];
+              const options = [{ value: "", label: "Все" }, ...filter.options.map((option) => ({ value: option.value, label: option.label ?? option.value }))];
               return (
                 <label>
-                  <span>{filter.label}</span>
-                  <div class="compass-filter__control">
-                    <input
-                      type="range"
-                      min="0"
-                      max={values.length - 1}
-                      value="0"
-                      step="1"
-                      data-character-filter={filter.key}
-                      data-filter-values={JSON.stringify(values)}
-                      aria-valuetext={filter.allLabel}
-                    />
-                    <output data-character-filter-label={filter.key}>{filter.allLabel}</output>
+                  <span><i class="compass-filter__axis-icon" aria-hidden="true">{compassIcons[filter.key] ?? "◈"}</i>{filter.label}</span>
+                  <div class="compass-picker" data-character-picker={filter.key} role="group" aria-label={filter.label}>
+                    {options.map((option) => (
+                      <button type="button" data-picker-value={option.value} aria-pressed={option.value ? "false" : "true"}>
+                        <i aria-hidden="true"></i>{option.label}
+                      </button>
+                    ))}
                   </div>
                 </label>
               );
             })}
+            </div>
           </div>
-        </details>
+        </div>
       )
     }
     <label class="character-search">

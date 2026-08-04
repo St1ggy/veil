@@ -1,10 +1,13 @@
 import { visit } from "unist-util-visit";
-import { swadeBook, swadeTerms } from "../data/swadeTerms";
+import { automaticSwadeTerms, swadeBook } from "../data/swadeTerms";
 
 const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export function remarkSwadeTooltips() {
-  return (tree: any) => {
+  return (tree: any, file: any) => {
+    const sourcePath = String(file?.path ?? "").replace(/\\/g, "/");
+    if (!sourcePath.includes("06_game/")) return;
+
     const seen = new Set<string>();
     visit(tree, "text", (node: any, index: number | undefined, parent: any) => {
       // Keep headings as plain text: injected HTML changes Astro's generated id
@@ -14,9 +17,9 @@ export function remarkSwadeTooltips() {
       const children: any[] = [];
       while (value) {
         let best: { ru: string; original: string; match: RegExpExecArray } | null = null;
-        for (const [ru, original] of swadeTerms) {
+        for (const [ru, original] of automaticSwadeTerms) {
           if (seen.has(ru)) continue;
-          const match = new RegExp(escape(ru), "iu").exec(value);
+          const match = new RegExp(`(?<![\\p{L}\\p{N}])${escape(ru)}(?![\\p{L}\\p{N}])`, "u").exec(value);
           if (match && (!best || match.index < best.match.index)) best = { ru, original, match };
         }
         if (!best) { children.push({ type: "text", value }); break; }

@@ -2,7 +2,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { marked } from "marked";
 import type { Lang } from "../i18n/ui";
 import { withBase } from "./wiki";
-import { swadeBook, swadeTerms } from "../data/swadeTerms";
+import { automaticSwadeTerms, swadeBook } from "../data/swadeTerms";
 
 export type BookEntry = CollectionEntry<"rawBooks">;
 
@@ -116,11 +116,20 @@ export function sectionsOf(book: BookEntry): BookSection[] {
   }).filter((section) => section.markdown.length > 40);
 }
 
-export function renderMarkdown(markdown: string): string {
+export function renderMarkdown(markdown: string, options: { swadeTooltips?: boolean } = {}): string {
   let prepared = markdown;
-  for (const [ru, original] of swadeTerms) {
-    const pattern = new RegExp(ru.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "iu");
-    prepared = prepared.replace(pattern, (label) => `<abbr class="term-tooltip" data-tooltip="[${original}][${swadeBook}]" data-tooltip-kind="swade" tabindex="0">${label}</abbr>`);
+  if (options.swadeTooltips) {
+    const originals = new Map(automaticSwadeTerms);
+    const alternatives = automaticSwadeTerms
+      .map(([ru]) => ru.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+      .join("|");
+    const pattern = new RegExp(`(?<![\\p{L}\\p{N}])(?:${alternatives})(?![\\p{L}\\p{N}])`, "gu");
+    prepared = prepared.replace(pattern, (label) => {
+      const original = originals.get(label);
+      return original
+        ? `<abbr class="term-tooltip" data-tooltip="[${original}][${swadeBook}]" data-tooltip-kind="swade" tabindex="0">${label}</abbr>`
+        : label;
+    });
   }
   return marked.parse(prepared) as string;
 }

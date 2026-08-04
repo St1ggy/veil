@@ -59,7 +59,7 @@ export function parsePregens(book: BookEntry, imageByNumber: Map<number, string>
       secondaryMeta: profession,
       badge: magical ? "Связан с Эфиром" : "Без эфирологии",
       badgeTone: magical ? "active" : "muted",
-      html: renderMarkdown(body),
+      html: renderMarkdown(body, { swadeTooltips: true }),
       filters: {
         people: peopleGroup,
         ether: magical ? "yes" : "no",
@@ -87,7 +87,7 @@ export function parseAscended(
     secondaryMeta: "Подтверждён только Домен Вознесения",
     badge: "Вознесшийся",
     badgeTone: "exceptional",
-    html: renderMarkdown(firstBody),
+    html: renderMarkdown(firstBody, { swadeTooltips: true }),
     filters: {
       people: "неизвестно",
       degree: "outside",
@@ -119,7 +119,7 @@ export function parseAscended(
         secondaryMeta: domains ? `Домены: ${domains}` : status,
         badge: `${degree}-я степень`,
         badgeTone: degree === "6" ? "exceptional" : "active",
-        html: renderMarkdown(body),
+        html: renderMarkdown(body, { swadeTooltips: true }),
         filters: {
           people: peopleGroup,
           degree,

@@ -8,6 +8,7 @@ export interface PublishedGlossaryTerm {
   definition: string;
   href: string;
   source: string;
+  automatic: boolean;
 }
 
 const ignored = new Set([
@@ -27,6 +28,7 @@ export async function publishedGlossary(lang: Lang): Promise<PublishedGlossaryTe
     definition: term.definition[lang],
     href: entityHref(lang, term.id),
     source: term.id,
+    automatic: true,
   }));
   const generated = lang === "ru"
     ? allSections(await getBooks())
@@ -37,13 +39,20 @@ export async function publishedGlossary(lang: Lang): Promise<PublishedGlossaryTe
           definition: section.summary || `Раздел книги «${section.book.data.title}».`,
           href: articleHref(lang, section),
           source: section.book.data.title,
+          automatic: false,
         }))
     : [];
   const byName = new Map<string, PublishedGlossaryTerm>();
   for (const term of [...manual, ...generated]) {
     const key = term.name.toLocaleLowerCase(lang).replace(/[^а-яёa-z0-9]+/g, " ").trim();
     const current = byName.get(key);
-    if (!current || term.definition.length > current.definition.length) byName.set(key, term);
+    if (
+      !current
+      || (term.automatic && !current.automatic)
+      || (term.automatic === current.automatic && term.definition.length > current.definition.length)
+    ) {
+      byName.set(key, term);
+    }
   }
   return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name, lang));
 }

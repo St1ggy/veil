@@ -1,13 +1,13 @@
 ---
-import CategoryIcon from "../../components/CategoryIcon.astro";
-import NavIcon from "../../components/NavIcon.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { categories } from "../../i18n/categories";
-import { labelType } from "../../i18n/labels";
-import { countLabel } from "../../i18n/ru";
-import { t, type Lang } from "../../i18n/ui";
-import { getBooks } from "../../lib/books";
-import { parseAscended, parsePregens } from "../../lib/characters";
+import CategoryIcon from '../../components/CategoryIcon.astro'
+import NavIcon from '../../components/NavIcon.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { categories } from '../../i18n/categories'
+import { labelType } from '../../i18n/labels'
+import { countLabel } from '../../i18n/ru'
+import { t, type Lang } from '../../i18n/ui'
+import { getBooks } from '../../lib/books'
+import { parseAscended, parsePregens } from '../../lib/characters'
 import {
   categoryHref,
   entityHref,
@@ -19,68 +19,63 @@ import {
   gameHref,
   displayTitle,
   displaySummary,
-} from "../../lib/wiki";
+} from '../../lib/wiki'
 
 export function getStaticPaths() {
-  return [{ params: { lang: "ru" } }];
+  return [{ params: { lang: 'ru' } }]
 }
 
-const L = Astro.params.lang as Lang;
-const entries = await getWikiEntries(L);
-const books = await getBooks();
-const pregensBook = books.find((item) => item.data.id === "game.appendix.pregenerated_characters");
-const ascendedBook = books.find((item) => item.data.id === "game.appendix.ascended_registry");
+const L = Astro.params.lang as Lang
+const entries = await getWikiEntries(L)
+const books = await getBooks()
+const pregensBook = books.find((item) => item.data.id === 'game.appendix.pregenerated_characters')
+const ascendedBook = books.find((item) => item.data.id === 'game.appendix.ascended_registry')
 const specialCounts: Record<string, number> = {
   books: books.length,
-  pregens: pregensBook ? parsePregens(pregensBook, new Map()).length : 0,
-  ascended: ascendedBook ? parseAscended(ascendedBook, new Map()).length : 0,
-};
-const featured = featuredIds
-  .map((id) => entries.find((e) => e.data.id === id))
-  .filter(Boolean);
+  pregens: pregensBook ? (await parsePregens(pregensBook, new Map())).length : 0,
+  ascended: ascendedBook ? (await parseAscended(ascendedBook, new Map())).length : 0,
+  worldview: 1,
+}
+const featured = featuredIds.map((id) => entries.find((e) => e.data.id === id)).filter(Boolean)
 ---
 
-<BaseLayout
-  lang={L}
-  title={t(L, "navHome")}
-  description={t(L, "tagline")}
-  pathAfterLang=""
->
+<BaseLayout lang={L} title={t(L, 'navHome')} description={t(L, 'tagline')} pathAfterLang="">
   <section class="hero">
-    <h1>{t(L, "heroTitle")}</h1>
-    <p>{t(L, "heroBody")}</p>
+    <h1>{t(L, 'heroTitle')}</h1>
+    <p>{t(L, 'heroBody')}</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href={categoryHref(L, "cosmology")}>
+      <a class="btn btn-primary" href={categoryHref(L, 'cosmology')}>
         <CategoryIcon id="cosmology" size={16} />
-        <span>{t(L, "explore")}</span>
+        <span>{t(L, 'explore')}</span>
       </a>
       <a class="btn btn-secondary" href={systemHref(L)}>
         <NavIcon name="system" size={16} />
-        <span>{t(L, "navSystem")}</span>
+        <span>{t(L, 'navSystem')}</span>
       </a>
       <a class="btn btn-secondary" href={gameHref(L)}>
         <NavIcon name="game" size={16} />
-        <span>{t(L, "navGame")}</span>
+        <span>{t(L, 'navGame')}</span>
       </a>
       <a class="btn btn-secondary" href={glossaryHref(L)}>
         <NavIcon name="glossary" size={16} />
-        <span>{t(L, "navGlossary")}</span>
+        <span>{t(L, 'navGlossary')}</span>
       </a>
     </div>
   </section>
 
-  <h2 class="section-title">{t(L, "structure")}</h2>
+  <h2 class="section-title">{t(L, 'structure')}</h2>
   <div class="category-grid">
     {
       categories.map((cat) => {
-        const count = specialCounts[cat.id] ?? entriesInCategory(entries, cat.id).length;
-        const countText = cat.id === "books"
-          ? countLabel(count, ["книга", "книги", "книг"])
-          : cat.id === "pregens"
-            ? countLabel(count, ["персонаж", "персонажа", "персонажей"])
-            : cat.id === "ascended"
-              ? countLabel(count, ["личность", "личности", "личностей"])
-              : countLabel(count, ["статья", "статьи", "статей"]);
+        const count = specialCounts[cat.id] ?? entriesInCategory(entries, cat.id).length
+        const countText =
+          cat.id === 'books'
+            ? countLabel(count, ['книга', 'книги', 'книг'])
+            : cat.id === 'pregens'
+              ? countLabel(count, ['персонаж', 'персонажа', 'персонажей'])
+              : cat.id === 'ascended'
+                ? countLabel(count, ['личность', 'личности', 'личностей'])
+                : countLabel(count, ['статья', 'статьи', 'статей'])
         return (
           <a class="category-card" href={categoryHref(L, cat.id)}>
             <span class="icon-chip" aria-hidden="true">
@@ -88,16 +83,14 @@ const featured = featuredIds
             </span>
             <h2>{cat.label[L]}</h2>
             <p>{cat.description[L]}</p>
-            <span class="count">
-              {countText}
-            </span>
+            <span class="count">{countText}</span>
           </a>
-        );
+        )
       })
     }
   </div>
 
-  <h2 class="section-title">{t(L, "featured")}</h2>
+  <h2 class="section-title">{t(L, 'featured')}</h2>
   <ul class="entity-list">
     {
       featured.map((entry) =>
@@ -106,12 +99,8 @@ const featured = featuredIds
             <a class="title" href={entityHref(L, entry.data.id)}>
               {displayTitle(entry, L)}
             </a>
-            <div class="meta-row">
-              {entry.data.type && <span>{labelType(entry.data.type, L)}</span>}
-            </div>
-            {displaySummary(entry, L) && (
-              <p class="summary">{displaySummary(entry, L)}</p>
-            )}
+            <div class="meta-row">{entry.data.type && <span>{labelType(entry.data.type, L)}</span>}</div>
+            {displaySummary(entry, L) && <p class="summary">{displaySummary(entry, L)}</p>}
           </li>
         ) : null,
       )

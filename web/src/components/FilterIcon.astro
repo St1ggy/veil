@@ -1,0 +1,73 @@
+---
+import Bot from '@lucide/astro/icons/bot'
+import CircleDotDashed from '@lucide/astro/icons/circle-dot-dashed'
+import CircleSlash from '@lucide/astro/icons/circle-slash'
+import CircleGauge from '@lucide/astro/icons/circle-gauge'
+import Crown from '@lucide/astro/icons/crown'
+import Ear from '@lucide/astro/icons/ear'
+import Flame from '@lucide/astro/icons/flame'
+import Gem from '@lucide/astro/icons/gem'
+import Hammer from '@lucide/astro/icons/hammer'
+import Hexagon from '@lucide/astro/icons/hexagon'
+import Mars from '@lucide/astro/icons/mars'
+import Medal from '@lucide/astro/icons/medal'
+import Mountain from '@lucide/astro/icons/mountain'
+import Orbit from '@lucide/astro/icons/orbit'
+import PawPrint from '@lucide/astro/icons/paw-print'
+import Shield from '@lucide/astro/icons/shield'
+import Sparkles from '@lucide/astro/icons/sparkles'
+import Target from '@lucide/astro/icons/target'
+import UserRound from '@lucide/astro/icons/user-round'
+import Venus from '@lucide/astro/icons/venus'
+
+interface Properties {
+  filter: string
+  value: string
+  class?: string
+}
+
+const { filter, value, class: className } = Astro.props
+const peopleIcons = {
+  человек: UserRound,
+  эльф: Ear,
+  фея: Sparkles,
+  драконид: Flame,
+  орк: Shield,
+  тролль: Mountain,
+  гном: Hammer,
+  перевёртыш: PawPrint,
+  конструкт: Bot,
+} as const
+const degreeIcons = {
+  '1': CircleGauge,
+  '2': Target,
+  '3': Shield,
+  '4': Medal,
+  '5': Gem,
+  '6': Crown,
+} as const
+const Icon =
+  filter === 'people'
+    ? (peopleIcons[value as keyof typeof peopleIcons] ?? UserRound)
+    : filter === 'gender'
+      ? value === 'мужской'
+        ? Mars
+        : value === 'женский'
+          ? Venus
+          : UserRound
+      : filter === 'ether'
+        ? value === 'yes'
+          ? Sparkles
+          : value === 'no'
+            ? CircleSlash
+            : Orbit
+        : filter === 'degree'
+          ? value === 'outside'
+            ? Orbit
+            : (degreeIcons[value as keyof typeof degreeIcons] ?? Shield)
+          : value
+            ? Hexagon
+            : CircleDotDashed
+---
+
+<Icon class:list={['filter-icon', className]} size={16} stroke-width={1.8} aria-hidden="true" />

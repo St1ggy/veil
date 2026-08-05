@@ -1,33 +1,19 @@
 ---
-import BaseLayout from "../../../../layouts/BaseLayout.astro";
-import {
-  gameSectionById,
-  type GameSectionId,
-} from "../../../../i18n/gameSections";
-import { labelStatus, labelType } from "../../../../i18n/labels";
-import { t, type Lang } from "../../../../i18n/ui";
-import {
-  DETAIL_KEYS,
-  loadGameCatalog,
-  type GameItem,
-} from "../../../../lib/gameCatalog";
-import {
-  formatFieldValue,
-  renderGameMarkdown,
-} from "../../../../lib/gameMarkdown";
-import {
-  entityHref,
-  gameHref,
-  gameSectionHref,
-} from "../../../../lib/wiki";
+import BaseLayout from '../../../../layouts/BaseLayout.astro'
+import { gameSectionById, type GameSectionId } from '../../../../i18n/gameSections'
+import { labelStatus, labelType } from '../../../../i18n/labels'
+import { t, type Lang } from '../../../../i18n/ui'
+import { DETAIL_KEYS, loadGameCatalog, type GameItem } from '../../../../lib/gameCatalog'
+import { formatFieldValue, renderGameMarkdown } from '../../../../lib/gameMarkdown'
+import { entityHref, gameHref, gameSectionHref } from '../../../../lib/wiki'
 
 export function getStaticPaths() {
-  const langs = ["ru"] as const;
-  const items = loadGameCatalog();
+  const langs = ['ru'] as const
+  const items = loadGameCatalog()
   const paths: {
-    params: { lang: string; section: string; slug: string };
-    props: { item: GameItem };
-  }[] = [];
+    params: { lang: string; section: string; slug: string }
+    props: { item: GameItem }
+  }[] = []
 
   for (const lang of langs) {
     for (const item of items) {
@@ -38,40 +24,45 @@ export function getStaticPaths() {
           slug: item.slug,
         },
         props: { item },
-      });
+      })
     }
   }
-  return paths;
+  return paths
 }
 
-const L = Astro.params.lang as Lang;
-const sectionId = Astro.params.section as GameSectionId;
-const { item } = Astro.props as { item: GameItem };
-const section = gameSectionById(sectionId)!;
+const L = Astro.params.lang as Lang
+const sectionId = Astro.params.section as GameSectionId
+const { item } = Astro.props as { item: GameItem }
+const section = gameSectionById(sectionId)!
 
-const bodyHtml = item.bodyMd
-  ? renderGameMarkdown(item.bodyMd, (id) => entityHref(L, id))
-  : "";
+const bodyHtml = item.bodyMd ? await renderGameMarkdown(item.bodyMd, (id) => entityHref(L, id)) : ''
 
 const loreTargets = Array.isArray(item.data.lore_targets)
-  ? item.data.lore_targets.filter((x): x is string => typeof x === "string")
-  : [];
+  ? item.data.lore_targets.filter((x): x is string => typeof x === 'string')
+  : []
 
 const relations = Array.isArray(item.data.relations)
   ? (item.data.relations as { type?: string; target?: string }[])
-  : [];
+  : []
 
 const detailEntries = DETAIL_KEYS.filter((key) => {
-  if (key === "purpose" || key === "scope") {
+  if (key === 'purpose' || key === 'scope') {
     // Often duplicated in body headings
-    return item.data[key] != null && !item.bodyMd;
+    return item.data[key] != undefined && !item.bodyMd
   }
-  const v = item.data[key];
-  if (v == null) return false;
-  if (Array.isArray(v) && v.length === 0) return false;
-  if (typeof v === "string" && !v.trim()) return false;
-  return true;
-});
+  const v = item.data[key]
+  if (v == undefined) return false
+  if (Array.isArray(v) && v.length === 0) return false
+  if (typeof v === 'string' && !v.trim()) return false
+  return true
+})
+
+const detailHtml = await Promise.all(
+  detailEntries.map(async (key) => ({
+    key,
+    html: await renderGameMarkdown(formatFieldValue(item.data[key]), (id) => entityHref(L, id)),
+  })),
+)
 ---
 
 <BaseLayout
@@ -85,7 +76,7 @@ const detailEntries = DETAIL_KEYS.filter((key) => {
   <article class="prose game-item">
     <header class="page-header">
       <div class="meta-row">
-        <a href={gameHref(L)}>{t(L, "gameBack")}</a>
+        <a href={gameHref(L)}>{t(L, 'gameBack')}</a>
         <span>·</span>
         <a href={gameSectionHref(L, sectionId)}>{section.label[L]}</a>
       </div>
@@ -94,14 +85,14 @@ const detailEntries = DETAIL_KEYS.filter((key) => {
         {
           item.type && (
             <span>
-              {t(L, "type")}: {labelType(item.type, L)}
+              {t(L, 'type')}: {labelType(item.type, L)}
             </span>
           )
         }
         {
           item.status && (
             <span>
-              {t(L, "status")}: {labelStatus(item.status, L)}
+              {t(L, 'status')}: {labelStatus(item.status, L)}
             </span>
           )
         }
@@ -110,20 +101,16 @@ const detailEntries = DETAIL_KEYS.filter((key) => {
     </header>
 
     {
-      detailEntries.length > 0 && (
+      detailHtml.length > 0 && (
         <section>
-          <h2>{t(L, "gameNotes")}</h2>
+          <h2>{t(L, 'gameNotes')}</h2>
           <dl class="system-dl">
-            {detailEntries.map((key) => {
-              const raw = formatFieldValue(item.data[key]);
-              const html = renderGameMarkdown(raw, (id) => entityHref(L, id));
-              return (
-                <>
-                  <dt>{key}</dt>
-                  <dd set:html={html} />
-                </>
-              );
-            })}
+            {detailHtml.map(({ key, html }) => (
+              <>
+                <dt>{key}</dt>
+                <dd set:html={html} />
+              </>
+            ))}
           </dl>
         </section>
       )
@@ -134,7 +121,7 @@ const detailEntries = DETAIL_KEYS.filter((key) => {
     {
       (loreTargets.length > 0 || relations.length > 0) && (
         <section>
-          <h2>{t(L, "gameRelatedLore")}</h2>
+          <h2>{t(L, 'gameRelatedLore')}</h2>
           <ul>
             {loreTargets.map((id) => (
               <li>
@@ -156,7 +143,7 @@ const detailEntries = DETAIL_KEYS.filter((key) => {
 
     <p class="meta-row muted">
       <span>
-        {t(L, "gameSource")}: <code>{item.sourcePath}</code>
+        {t(L, 'gameSource')}: <code>{item.sourcePath}</code>
       </span>
     </p>
   </article>

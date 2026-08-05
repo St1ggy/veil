@@ -1,56 +1,48 @@
 ---
-import CategoryIcon from "../../../components/CategoryIcon.astro";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { categoryForType } from "../../../i18n/categories";
-import {
-  labelImportance,
-  labelStatus,
-  labelTag,
-  labelType,
-  labelRelation,
-} from "../../../i18n/labels";
-import { t, type Lang } from "../../../i18n/ui";
-import {
-  categoryHref,
-  entityHref,
-  getWikiEntries,
-  displayTitle,
-  displaySummary,
-  langHome,
-} from "../../../lib/wiki";
-import { render } from "astro:content";
+import CategoryIcon from '../../../components/CategoryIcon.astro'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { categoryForType } from '../../../i18n/categories'
+import { labelImportance, labelStatus, labelTag, labelType, labelRelation } from '../../../i18n/labels'
+import { t, type Lang } from '../../../i18n/ui'
+import { categoryHref, entityHref, getWikiEntries, displayTitle, displaySummary, langHome } from '../../../lib/wiki'
+import { render } from 'astro:content'
 
 export async function getStaticPaths() {
-  const langs = ["ru"] as const;
-  const paths = [];
+  const langs = ['ru'] as const
+  const paths = []
   for (const lang of langs) {
-    const entries = await getWikiEntries(lang);
-    for (const entry of entries.filter((item) => !item.data.id.startsWith("ART_"))) {
+    const entries = await getWikiEntries(lang)
+    for (const entry of entries.filter((item) => !item.data.id.startsWith('ART_'))) {
       paths.push({
         params: { lang, entityId: entry.data.id },
         props: { entry },
-      });
+      })
     }
   }
-  return paths;
+  return paths
 }
 
-const L = Astro.params.lang as Lang;
-const { entry } = Astro.props;
-const { Content } = await render(entry);
-const relations = entry.data.relations ?? [];
-const tags = entry.data.tags ?? [];
-const cat = categoryForType(entry.data.type);
-const allEntries = await getWikiEntries(L);
-const entryById = new Map(allEntries.map((item) => [item.data.id, item]));
-const explicitTargets = new Set(relations.map((relation) => relation.target));
+const L = Astro.params.lang as Lang
+const { entry } = Astro.props
+const { Content } = await render(entry)
+const relations = entry.data.relations ?? []
+const tags = entry.data.tags ?? []
+const cat = categoryForType(entry.data.type)
+const allEntries = await getWikiEntries(L)
+const entryById = new Map(allEntries.map((item) => [item.data.id, item]))
+const explicitTargets = new Set(relations.map((relation) => relation.target))
 const automaticRelated = allEntries
   .filter((candidate) => candidate.data.id !== entry.data.id && !explicitTargets.has(candidate.data.id))
-  .map((candidate) => ({ candidate, score: (candidate.data.tags ?? []).filter((tag) => tags.includes(tag)).length + (candidate.data.type === entry.data.type ? 0.5 : 0) }))
+  .map((candidate) => ({
+    candidate,
+    score:
+      (candidate.data.tags ?? []).filter((tag) => tags.includes(tag)).length +
+      (candidate.data.type === entry.data.type ? 0.5 : 0),
+  }))
   .filter(({ score }) => score > 0)
   .sort((a, b) => b.score - a.score)
   .slice(0, 8)
-  .map(({ candidate }) => candidate);
+  .map(({ candidate }) => candidate)
 ---
 
 <BaseLayout
@@ -63,7 +55,7 @@ const automaticRelated = allEntries
 >
   <header class="page-header">
     <div class="meta-row">
-      <a href={langHome(L)}>{t(L, "backHome")}</a>
+      <a href={langHome(L)}>{t(L, 'backHome')}</a>
       {
         cat && (
           <>
@@ -81,21 +73,21 @@ const automaticRelated = allEntries
       {
         entry.data.type && (
           <span>
-            {t(L, "type")}: {labelType(entry.data.type, L)}
+            {t(L, 'type')}: {labelType(entry.data.type, L)}
           </span>
         )
       }
       {
         entry.data.status && (
           <span>
-            {t(L, "status")}: {labelStatus(entry.data.status, L)}
+            {t(L, 'status')}: {labelStatus(entry.data.status, L)}
           </span>
         )
       }
       {
         entry.data.importance && (
           <span>
-            {t(L, "importance")}: {labelImportance(entry.data.importance, L)}
+            {t(L, 'importance')}: {labelImportance(entry.data.importance, L)}
           </span>
         )
       }
@@ -103,7 +95,7 @@ const automaticRelated = allEntries
     {
       tags.length > 0 && (
         <div class="meta-row tags-row">
-          <span>{t(L, "tags")}:</span>
+          <span>{t(L, 'tags')}:</span>
           {tags.map((tag) => (
             <span class="badge">{labelTag(tag, L)}</span>
           ))}
@@ -120,20 +112,33 @@ const automaticRelated = allEntries
   {
     relations.length > 0 && (
       <section class="relations">
-        <h2>{t(L, "relations")}</h2>
+        <h2>{t(L, 'relations')}</h2>
         <ul class="related-grid">
           {relations.map((rel) => {
-            const target = entryById.get(rel.target);
-            return target ? <li><small>{labelRelation(rel.type, L)}</small><a href={entityHref(L, rel.target)}>{target.data.title}</a></li> : null;
+            const target = entryById.get(rel.target)
+            return target ? (
+              <li>
+                <small>{labelRelation(rel.type, L)}</small>
+                <a href={entityHref(L, rel.target)}>{target.data.title}</a>
+              </li>
+            ) : null
           })}
         </ul>
       </section>
     )
   }
-  {automaticRelated.length > 0 && (
-    <section class="relations">
-      <h2>{t(L, "seeAlso")}</h2>
-      <ul class="related-grid">{automaticRelated.map((item) => <li><a href={entityHref(L, item.data.id)}>{item.data.title}</a></li>)}</ul>
-    </section>
-  )}
+  {
+    automaticRelated.length > 0 && (
+      <section class="relations">
+        <h2>{t(L, 'seeAlso')}</h2>
+        <ul class="related-grid">
+          {automaticRelated.map((item) => (
+            <li>
+              <a href={entityHref(L, item.data.id)}>{item.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 </BaseLayout>

@@ -1,35 +1,33 @@
 ---
-import { readdirSync } from "node:fs";
-import CharacterGallery from "../../components/CharacterGallery.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { type Lang } from "../../i18n/ui";
-import { getBooks } from "../../lib/books";
-import { fieldOptions, parseAscended } from "../../lib/characters";
-import { withBase } from "../../lib/wiki";
+import { readdirSync } from 'node:fs'
+import CharacterGallery from '../../components/CharacterGallery.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { type Lang } from '../../i18n/ui'
+import { getBooks } from '../../lib/books'
+import { fieldOptions, parseAscended } from '../../lib/characters'
+import { withBase } from '../../lib/wiki'
 
 export async function getStaticPaths() {
-  return [{ params: { lang: "ru" } }];
+  return [{ params: { lang: 'ru' } }]
 }
 
-const L = Astro.params.lang as Lang;
-const books = await getBooks();
-const book = books.find((item) => item.data.id === "game.appendix.ascended_registry");
-if (!book) throw new Error("Реестр Вознесённых не найден");
+const L = Astro.params.lang as Lang
+const books = await getBooks()
+const book = books.find((item) => item.data.id === 'game.appendix.ascended_registry')
+if (!book) throw new Error('Реестр Вознесённых не найден')
 
-const imageFiles = readdirSync(new URL("../../../public/images/ascended", import.meta.url))
-  .filter((name) => /^\d{2}-.+\.png$/u.test(name));
+const imageFiles = readdirSync(new URL('../../../public/images/ascended', import.meta.url)).filter((name) =>
+  /^\d{2}-.+\.png$/u.test(name),
+)
 const imageBySlug = new Map(
-  imageFiles.map((name) => [name.replace(/^\d{2}-(.+)\.png$/u, "$1"), withBase(`images/ascended/${name}`)]),
-);
-const ascended = parseAscended(
-  book,
-  imageBySlug,
-  withBase("images/self-ascended/pervyy.png"),
-);
-const people = fieldOptions(ascended, "people");
-const careOptions = fieldOptions(ascended, "care");
-const methodOptions = fieldOptions(ascended, "method");
-const changeOptions = fieldOptions(ascended, "change");
+  imageFiles.map((name) => [name.replace(/^\d{2}-(.+)\.png$/u, '$1'), withBase(`images/ascended/${name}`)]),
+)
+const ascended = await parseAscended(book, imageBySlug, withBase('images/self-ascended/pervyy.png'))
+const people = fieldOptions(ascended, 'people')
+const careOptions = fieldOptions(ascended, 'care')
+const methodOptions = fieldOptions(ascended, 'method')
+const changeOptions = fieldOptions(ascended, 'change')
+const romanDegrees: Record<number, string> = { 1: 'I', 2: 'II', 3: 'III', 4: 'IV', 5: 'V', 6: 'VI' }
 ---
 
 <BaseLayout
@@ -46,7 +44,10 @@ const changeOptions = fieldOptions(ascended, "change");
       <span>{ascended.length - 1} Вознесённых и Первый</span>
     </div>
     <h1>Вознесённые</h1>
-    <p>Известные земным наблюдателям Вознесённые всех шести степеней, включая враждебных, и отдельная закрытая запись о Вознесшемся, которого условно называют Первым.</p>
+    <p>
+      Известные земным наблюдателям Вознесённые всех шести степеней, включая враждебных, и отдельная закрытая запись о
+      Вознесшемся, которого условно называют Первым.
+    </p>
   </header>
 
   <CharacterGallery
@@ -55,25 +56,42 @@ const changeOptions = fieldOptions(ascended, "change");
     searchPlaceholder="Имя, Домен или статус"
     filters={[
       {
-        key: "people",
-        label: "Народ",
-        allLabel: "Все народы",
-        options: people.map((value) => ({ value, label: value === "неизвестно" ? "Неизвестен" : value })),
+        key: 'people',
+        label: 'Народ',
+        allLabel: 'Все народы',
+        options: people.map((value) => ({ value })),
       },
       {
-        key: "degree",
-        label: "Степень",
-        allLabel: "Все степени",
+        key: 'degree',
+        label: 'Степень',
+        allLabel: 'Все степени',
         options: [
-          { value: "outside", label: "Вне степеней" },
-          ...[1, 2, 3, 4, 5, 6].map((degree) => ({ value: String(degree), label: `${degree}-я степень` })),
+          { value: 'outside', label: 'Вне степеней' },
+          ...[1, 2, 3, 4, 5, 6].map((degree) => ({ value: String(degree), label: `${romanDegrees[degree]} степень` })),
         ],
       },
     ]}
     compassFilters={[
-      { key: "care", label: "Круг заботы", allLabel: "Любой круг", options: careOptions.map((value) => ({ value })) },
-      { key: "method", label: "Способ действия", allLabel: "Любой способ", options: methodOptions.map((value) => ({ value })) },
-      { key: "change", label: "Отношение к переменам", allLabel: "Любое отношение", options: changeOptions.map((value) => ({ value })) },
+      { key: 'care', label: 'Круг заботы', allLabel: 'Любой круг', options: careOptions.map((value) => ({ value })) },
+      {
+        key: 'method',
+        label: 'Способ действия',
+        allLabel: 'Любой способ',
+        options: methodOptions.map((value) => ({ value })),
+      },
+      {
+        key: 'change',
+        label: 'Отношение к переменам',
+        allLabel: 'Любое отношение',
+        options: changeOptions.map((value) => ({ value })),
+      },
     ]}
+    groupBy={{
+      key: 'degree',
+      groups: [
+        { value: 'outside', title: 'Особая запись' },
+        ...[1, 2, 3, 4, 5, 6].map((degree) => ({ value: String(degree), title: `${romanDegrees[degree]} степень` })),
+      ],
+    }}
   />
 </BaseLayout>

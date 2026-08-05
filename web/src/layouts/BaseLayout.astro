@@ -1,39 +1,31 @@
 ---
-import BrandMark from "../components/BrandMark.astro";
-import CategoryIcon from "../components/CategoryIcon.astro";
-import NavIcon from "../components/NavIcon.astro";
-import { categories } from "../i18n/categories";
-import { t, type Lang } from "../i18n/ui";
-import {
-  aboutHref,
-  categoryHref,
-  gameHref,
-  glossaryHref,
-  langHome,
-  systemHref,
-  withBase,
-} from "../lib/wiki";
-import "../styles/global.scss";
+import BrandMark from '../components/BrandMark.astro'
+import CategoryIcon from '../components/CategoryIcon.astro'
+import NavIcon from '../components/NavIcon.astro'
+import { categories } from '../i18n/categories'
+import { t, type Lang } from '../i18n/ui'
+import { aboutHref, categoryHref, gameHref, glossaryHref, langHome, systemHref, withBase } from '../lib/wiki'
+import '../styles/global.scss'
 
-interface Props {
-  lang: Lang;
-  title: string;
-  description?: string;
-  pathAfterLang?: string;
-  activeCategory?: string;
-  activeNav?: "home" | "glossary" | "about" | "system" | "game";
-  glossaryTooltips?: boolean;
+interface Properties {
+  lang: Lang
+  title: string
+  description?: string
+  pathAfterLang?: string
+  activeCategory?: string
+  activeNav?: 'home' | 'glossary' | 'about' | 'system' | 'game'
+  glossaryTooltips?: boolean
 }
 
 const {
   lang,
   title,
   description,
-  pathAfterLang = "",
+  pathAfterLang = '',
   activeCategory,
   activeNav,
   glossaryTooltips = false,
-} = Astro.props;
+} = Astro.props
 ---
 
 <!doctype html>
@@ -41,30 +33,27 @@ const {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · {t(lang, "brand")}</title>
+    <title>{title} · {t(lang, 'brand')}</title>
     {description && <meta name="description" content={description} />}
   </head>
-  <body data-glossary-tooltips={glossaryTooltips ? "true" : undefined}>
+  <body data-glossary-tooltips={glossaryTooltips ? 'true' : undefined}>
     <div class="shell">
       <aside class="sidebar">
         <a class="brand" href={langHome(lang)}>
           <BrandMark />
           <span class="brand-text">
-            <strong>{t(lang, "brand")}</strong>
-            <small>{t(lang, "tagline")}</small>
+            <strong>{t(lang, 'brand')}</strong>
+            <small>{t(lang, 'tagline')}</small>
           </span>
         </a>
 
-        <nav class="side-nav" aria-label={t(lang, "navCategories")}>
-          <p class="nav-label">{t(lang, "navCategories")}</p>
+        <nav class="side-nav" aria-label={t(lang, 'navCategories')}>
+          <p class="nav-label">{t(lang, 'navCategories')}</p>
           <ul>
             {
               categories.map((cat) => (
                 <li>
-                  <a
-                    class:list={[{ active: activeCategory === cat.id }]}
-                    href={categoryHref(lang, cat.id)}
-                  >
+                  <a class:list={[{ active: activeCategory === cat.id }]} href={categoryHref(lang, cat.id)}>
                     <span class="nav-icon" aria-hidden="true">
                       <CategoryIcon id={cat.id} size={17} />
                     </span>
@@ -79,52 +68,42 @@ const {
         <nav class="side-footer-nav">
           <a href={withBase(`${lang}/search`)}>
             <NavIcon name="search" />
-            <span>{t(lang, "navSearch")}</span>
+            <span>{t(lang, 'navSearch')}</span>
           </a>
-          <a
-            class:list={[{ active: activeNav === "home" }]}
-            href={langHome(lang)}
-          >
+          <a class:list={[{ active: activeNav === 'home' }]} href={langHome(lang)}>
             <NavIcon name="home" />
-            <span>{t(lang, "navHome")}</span>
+            <span>{t(lang, 'navHome')}</span>
           </a>
-          <a
-            class:list={[{ active: activeNav === "glossary" }]}
-            href={glossaryHref(lang)}
-          >
+          <a class:list={[{ active: activeNav === 'glossary' }]} href={glossaryHref(lang)}>
             <NavIcon name="glossary" />
-            <span>{t(lang, "navGlossary")}</span>
+            <span>{t(lang, 'navGlossary')}</span>
           </a>
-          <a
-            class:list={[{ active: activeNav === "about" }]}
-            href={aboutHref(lang)}
-          >
+          <a class:list={[{ active: activeNav === 'about' }]} href={aboutHref(lang)}>
             <NavIcon name="about" />
-            <span>{t(lang, "navAbout")}</span>
+            <span>{t(lang, 'navAbout')}</span>
           </a>
-          <a
-            class:list={[{ active: activeNav === "system" }]}
-            href={systemHref(lang)}
-          >
+          <a class:list={[{ active: activeNav === 'system' }]} href={systemHref(lang)}>
             <NavIcon name="system" />
-            <span>{t(lang, "navSystem")}</span>
+            <span>{t(lang, 'navSystem')}</span>
           </a>
-          <a
-            class:list={[{ active: activeNav === "game" }]}
-            href={gameHref(lang)}
-          >
+          <a class:list={[{ active: activeNav === 'game' }]} href={gameHref(lang)}>
             <NavIcon name="game" />
-            <span>{t(lang, "navGame")}</span>
+            <span>{t(lang, 'navGame')}</span>
           </a>
         </nav>
       </aside>
 
       <div class="content-pane">
         <header class="topbar">
-          <p class="eyebrow">{t(lang, "brand")}</p>
+          <p class="eyebrow">{t(lang, 'brand')}</p>
           <div class="topbar-actions">
             <form class="quick-search" action={withBase(`${lang}/search`)} method="get">
-              <input name="q" type="search" aria-label={t(lang, "navSearch")} placeholder={t(lang, "searchPlaceholder")} />
+              <input
+                name="q"
+                type="search"
+                aria-label={t(lang, 'navSearch')}
+                placeholder={t(lang, 'searchPlaceholder')}
+              />
             </form>
           </div>
         </header>
@@ -132,7 +111,7 @@ const {
           <slot />
         </main>
         <footer class="page-footer">
-          <p>{t(lang, "footer")}</p>
+          <p>{t(lang, 'footer')}</p>
         </footer>
       </div>
     </div>
@@ -140,5 +119,5 @@ const {
 </html>
 
 <script>
-  import "../scripts/glossary-tooltips";
+  import '../scripts/glossary-tooltips'
 </script>

@@ -1,52 +1,45 @@
 ---
-import CategoryIcon from "../../../components/CategoryIcon.astro";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { categories, categoryById } from "../../../i18n/categories";
+import CategoryIcon from '../../../components/CategoryIcon.astro'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { categories, categoryById } from '../../../i18n/categories'
+import { labelImportance, labelStatus, labelType } from '../../../i18n/labels'
+import { t, type Lang } from '../../../i18n/ui'
+import { countLabel } from '../../../i18n/ru'
+import { entityHref, entriesInCategory, getWikiEntries, displayTitle, displaySummary } from '../../../lib/wiki'
 import {
-  labelImportance,
-  labelStatus,
-  labelType,
-} from "../../../i18n/labels";
-import { t, type Lang } from "../../../i18n/ui";
-import { countLabel } from "../../../i18n/ru";
-import {
-  entityHref,
-  entriesInCategory,
-  getWikiEntries,
-  displayTitle,
-  displaySummary,
-} from "../../../lib/wiki";
-import { bookAccent, bookGroup, bookHighlights, bookHref, bookSummary, getBooks, sectionsOf, slugify } from "../../../lib/books";
+  bookAccent,
+  bookGroup,
+  bookHighlights,
+  bookHref,
+  bookSummary,
+  getBooks,
+  sectionsOf,
+  slugify,
+} from '../../../lib/books'
 
 export function getStaticPaths() {
-  const langs = ["ru"] as const;
+  const langs = ['ru'] as const
   return langs.flatMap((lang) =>
-    categories.filter((cat) => !["pregens", "ascended"].includes(cat.id)).map((cat) => ({
-      params: { lang, category: cat.id },
-    })),
-  );
+    categories
+      .filter((cat) => !['pregens', 'ascended', 'worldview'].includes(cat.id))
+      .map((cat) => ({
+        params: { lang, category: cat.id },
+      })),
+  )
 }
 
-const L = Astro.params.lang as Lang;
-const categoryId = Astro.params.category as string;
-const cat = categoryById(categoryId)!;
-const entries = entriesInCategory(await getWikiEntries(L), cat.id);
-const books = cat.id === "books" && L === "ru" ? await getBooks() : [];
-const bookGroups = Array.from(
-  books.reduce((groups, entry) => {
-      const section = bookGroup(entry);
-      const group = groups.get(section) ?? [];
-      group.push(entry);
-      groups.set(section, group);
-      return groups;
-    }, new Map<string, typeof books>()),
-);
+const L = Astro.params.lang as Lang
+const categoryId = Astro.params.category as string
+const cat = categoryById(categoryId)!
+const entries = entriesInCategory(await getWikiEntries(L), cat.id)
+const books = cat.id === 'books' && L === 'ru' ? await getBooks() : []
+const bookGroups = [...Map.groupBy(books, (entry) => bookGroup(entry))]
 const bookShelves = bookGroups.map(([section, shelfBooks]) => ({
   anchor: `books-${slugify(section)}`,
   books: shelfBooks,
   section,
-}));
-const totalItems = cat.id === "books" ? books.length : entries.length;
+}))
+const totalItems = cat.id === 'books' ? books.length : entries.length
 ---
 
 <BaseLayout
@@ -62,33 +55,44 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
       <span class="icon-chip icon-chip--header" aria-hidden="true">
         <CategoryIcon id={cat.id} size={22} />
       </span>
-      <span>{t(L, "category")}</span>
+      <span>{t(L, 'category')}</span>
     </div>
     <h1>{cat.label[L]}</h1>
     <p>{cat.description[L]}</p>
     <div class="meta-row">
       <span>
-        {cat.id === "books"
-          ? countLabel(totalItems, ["книга", "книги", "книг"])
-          : countLabel(totalItems, ["статья", "статьи", "статей"])}
+        {
+          cat.id === 'books'
+            ? countLabel(totalItems, ['книга', 'книги', 'книг'])
+            : countLabel(totalItems, ['статья', 'статьи', 'статей'])
+        }
       </span>
     </div>
   </header>
 
   {
     totalItems === 0 ? (
-      <p class="notice">{t(L, "emptyCategory")}</p>
-    ) : cat.id === "books" ? (
+      <p class="notice">{t(L, 'emptyCategory')}</p>
+    ) : cat.id === 'books' ? (
       <>
         <details class="book-index">
-          <summary><strong>Список книг</strong><span>{books.length} книг</span></summary>
+          <summary>
+            <>
+              <strong>Список книг</strong>
+              <span>{books.length} книг</span>
+            </>
+          </summary>
           <div class="book-index__groups">
             {bookShelves.map(({ anchor, books, section }) => (
-              <section>
-                <a class="book-index__section" href={`#${anchor}`}>{section}</a>
+              <section style={`--book-accent: ${bookAccent(books[0])}`}>
+                <a class="book-index__section" href={`#${anchor}`}>
+                  {section}
+                </a>
                 <ul>
                   {books.map((entry) => (
-                    <li><a href={`#book-${entry.data.id}`}>{entry.data.title}</a></li>
+                    <li>
+                      <a href={`#book-${entry.data.id}`}>{entry.data.title}</a>
+                    </li>
                   ))}
                 </ul>
               </section>
@@ -96,35 +100,51 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
           </div>
         </details>
         <div class="book-library">
-        {bookShelves.map(({ anchor, books, section }) => (
-          <section class="book-shelf" id={anchor}>
-            <div class="book-shelf__heading">
-              <h2>{section}</h2>
-              <span>{books.length}</span>
-            </div>
-            <div class="book-grid">
-              {books.map((entry) => (
-                <a id={`book-${entry.data.id}`} class="book-card" href={bookHref(L, entry.data.id)} style={`--book-accent: ${bookAccent(entry)}`}>
-                  <span class="book-card__topline">
-                    <span class="book-card__number">{String(books.indexOf(entry) + 1).padStart(2, "0")}</span>
-                    <span class="book-card__kind">Каноническая книга</span>
-                  </span>
-                  <strong class="book-card__title">{entry.data.title}</strong>
-                  <span class="book-card__summary">{bookSummary(entry)}</span>
-                  <span class="book-card__chapters">
-                    {bookHighlights(entry).map((title) => <span>{title}</span>)}
-                  </span>
-                  <span class="book-card__footer"><small>{sectionsOf(entry).length} статей</small><b aria-hidden="true">Открыть →</b></span>
-                </a>
-              ))}
-            </div>
-            {books.length > 4 && (
-              <button class="book-shelf__toggle" type="button" data-book-shelf-toggle data-total={books.length} aria-expanded="false">
-                Показать все {books.length}
-              </button>
-            )}
-          </section>
-        ))}
+          {bookShelves.map(({ anchor, books, section }) => (
+            <section class="book-shelf" id={anchor} style={`--book-accent: ${bookAccent(books[0])}`}>
+              <div class="book-shelf__heading">
+                <h2>{section}</h2>
+                <span>{books.length}</span>
+              </div>
+              <div class="book-grid">
+                {books.map((entry) => (
+                  <a
+                    id={`book-${entry.data.id}`}
+                    class="book-card"
+                    href={bookHref(L, entry.data.id)}
+                    style={`--book-accent: ${bookAccent(entry)}`}
+                  >
+                    <span class="book-card__topline">
+                      <span class="book-card__number">{String(books.indexOf(entry) + 1).padStart(2, '0')}</span>
+                      <span class="book-card__kind">Каноническая книга</span>
+                    </span>
+                    <strong class="book-card__title">{entry.data.title}</strong>
+                    <span class="book-card__summary">{bookSummary(entry)}</span>
+                    <span class="book-card__chapters">
+                      {bookHighlights(entry).map((title) => (
+                        <span>{title}</span>
+                      ))}
+                    </span>
+                    <span class="book-card__footer">
+                      <small>{sectionsOf(entry).length} статей</small>
+                      <b aria-hidden="true">Открыть →</b>
+                    </span>
+                  </a>
+                ))}
+              </div>
+              {books.length > 4 && (
+                <button
+                  class="book-shelf__toggle"
+                  type="button"
+                  data-book-shelf-toggle
+                  data-total={books.length}
+                  aria-expanded="false"
+                >
+                  Показать все {books.length}
+                </button>
+              )}
+            </section>
+          ))}
         </div>
       </>
     ) : (
@@ -137,23 +157,21 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
             <div class="meta-row">
               {entry.data.type && (
                 <span>
-                  {t(L, "type")}: {labelType(entry.data.type, L)}
+                  {t(L, 'type')}: {labelType(entry.data.type, L)}
                 </span>
               )}
               {entry.data.status && (
                 <span>
-                  {t(L, "status")}: {labelStatus(entry.data.status, L)}
+                  {t(L, 'status')}: {labelStatus(entry.data.status, L)}
                 </span>
               )}
               {entry.data.importance && (
                 <span>
-                  {t(L, "importance")}: {labelImportance(entry.data.importance, L)}
+                  {t(L, 'importance')}: {labelImportance(entry.data.importance, L)}
                 </span>
               )}
             </div>
-            {displaySummary(entry, L) && (
-              <p class="summary">{displaySummary(entry, L)}</p>
-            )}
+            {displaySummary(entry, L) && <p class="summary">{displaySummary(entry, L)}</p>}
           </li>
         ))}
       </ul>
@@ -163,29 +181,34 @@ const totalItems = cat.id === "books" ? books.length : entries.length;
 
 <script>
   const expandShelf = (shelf: HTMLElement) => {
-    shelf.classList.add("book-shelf--expanded");
-    const button = shelf.querySelector<HTMLButtonElement>("[data-book-shelf-toggle]");
-    if (button) {
-      button.ariaExpanded = "true";
-      button.textContent = "Скрыть книги";
-    }
-  };
+    shelf.classList.add('book-shelf--expanded')
+    const button = shelf.querySelector<HTMLButtonElement>('[data-book-shelf-toggle]')
 
-  document.querySelectorAll<HTMLButtonElement>("[data-book-shelf-toggle]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const shelf = button.closest<HTMLElement>(".book-shelf");
-      if (!shelf) return;
-      const expanded = shelf.classList.toggle("book-shelf--expanded");
-      button.ariaExpanded = String(expanded);
-      button.textContent = expanded ? "Скрыть книги" : `Показать все ${button.dataset.total}`;
-    });
-  });
+    if (button) {
+      button.ariaExpanded = 'true'
+      button.textContent = 'Скрыть книги'
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-book-shelf-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const shelf = button.closest<HTMLElement>('.book-shelf')
+
+      if (!shelf) return
+
+      const expanded = shelf.classList.toggle('book-shelf--expanded')
+
+      button.ariaExpanded = String(expanded)
+      button.textContent = expanded ? 'Скрыть книги' : `Показать все ${button.dataset.total}`
+    })
+  })
 
   document.querySelectorAll<HTMLAnchorElement>('.book-index a[href^="#book-"]').forEach((link) => {
-    link.addEventListener("click", () => {
-      const target = document.querySelector<HTMLElement>(link.hash);
-      const shelf = target?.closest<HTMLElement>(".book-shelf");
-      if (shelf) expandShelf(shelf);
-    });
-  });
+    link.addEventListener('click', () => {
+      const target = document.querySelector<HTMLElement>(link.hash)
+      const shelf = target?.closest<HTMLElement>('.book-shelf')
+
+      if (shelf) expandShelf(shelf)
+    })
+  })
 </script>

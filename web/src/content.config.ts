@@ -1,10 +1,11 @@
-import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
+import { glob } from 'astro/loaders'
+import { z } from 'astro/zod'
+import { defineCollection } from 'astro:content'
 
 const relation = z.object({
   type: z.string(),
   target: z.string(),
-});
+})
 
 const wikiSchema = z
   .object({
@@ -28,33 +29,35 @@ const wikiSchema = z
     book_order: z.number().optional(),
     source_path: z.string().optional(),
   })
-  .passthrough();
+  .loose()
 
 const wiki = defineCollection({
   loader: glob({
-    pattern: ["**/*.md", "!**/_templates/**", "!**/en/**"],
-    base: ".generated/wiki",
+    pattern: ['**/*.md', '!**/_templates/**', '!**/en/**'],
+    base: '.generated/wiki',
   }),
   schema: wikiSchema,
-});
+})
 
 const rawBooks = defineCollection({
   loader: glob({
-    pattern: ["**/*.md"],
-    base: "../rawBooks/world_bible",
+    pattern: ['**/*.md'],
+    base: '../rawBooks/world_bible',
   }),
-  schema: z.object({
-    id: z.string(),
-    title: z.string(),
-    status: z.string().optional(),
-    version: z.union([z.number(), z.string()]).optional(),
-    category: z.string().optional(),
-    parent: z.string().optional(),
-    previous: z.array(z.string()).optional(),
-    next: z.array(z.string()).optional(),
-    related: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-  }).passthrough(),
-});
+  schema: z
+    .object({
+      id: z.string(),
+      title: z.string(),
+      status: z.string().optional(),
+      version: z.union([z.number(), z.string()]).optional(),
+      category: z.string().optional(),
+      parent: z.string().optional(),
+      previous: z.array(z.string()).optional(),
+      next: z.array(z.string()).optional(),
+      related: z.array(z.string()).optional(),
+      tags: z.array(z.string()).optional(),
+    })
+    .loose(),
+})
 
-export const collections = { wiki, rawBooks };
+export const collections = { wiki, rawBooks }

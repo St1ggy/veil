@@ -1,24 +1,141 @@
 ---
-import type { GalleryCharacter } from "../lib/characters";
+import type { GalleryCharacter } from '../lib/characters'
 
-interface Props {
-  character: GalleryCharacter;
+interface Properties {
+  character: GalleryCharacter
 }
 
-const { character } = Astro.props;
+const { character } = Astro.props
 
-const compactFields = new Set([
-  "Народ", "Домены", "Статус", "Пол", "Роль", "Профессия", "Ранг", "Год Вознесения", "Куб выбора", "Эфирологический профиль",
-]);
+const identityFields = new Set([
+  'Народ',
+  'Домены',
+  'Статус',
+  'Пол',
+  'Роль',
+  'Профессия',
+  'Ранг',
+  'Год Вознесения',
+  'Куб выбора',
+  'Эфирологический профиль',
+  'Истинное имя',
+  'Категория',
+  'Народ и исходная форма',
+])
 const gameFields = new Set([
-  "Профиль Шальной карты", "Характеристики", "Ключевые навыки", "Базовые и остальные навыки", "Производные параметры",
-  "Ресурсы Шальной карты", "Черты", "Народные особенности", "Изъяны", "Эфирологические параметры", "Снаряжение", "Доступ",
-  "Броня", "Атаки", "Нагрузка", "Благосостояние", "Связи", "Репутация", "Особые правила", "Параметры",
-]);
-const structuredHtml = character.html.replace(/<p><strong>([^<]+):<\/strong>\s*([\s\S]*?)<\/p>/gu, (_match, label: string, value: string) => {
-  const kind = compactFields.has(label) ? "compact" : gameFields.has(label) ? "game" : "story";
-  return `<section class="character-field character-field--${kind}"><h3>${label}</h3><div>${value}</div></section>`;
-});
+  'Профиль Шальной карты',
+  'Характеристики',
+  'Ключевые навыки',
+  'Базовые и остальные навыки',
+  'Производные параметры',
+  'Ресурсы Шальной карты',
+  'Черты',
+  'Народные особенности',
+  'Изъяны',
+  'Эфирологические параметры',
+  'Снаряжение',
+  'Доступ',
+  'Броня',
+  'Атаки',
+  'Нагрузка',
+  'Благосостояние',
+  'Связи',
+  'Репутация',
+  'Особые правила',
+  'Параметры',
+])
+const listSeparators = new Map<string, string>([
+  ['Домены', ','],
+  ['Языки', ','],
+  ['Характеристики', ','],
+  ['Ключевые навыки', ','],
+  ['Базовые и остальные навыки', ',;'],
+  ['Производные параметры', ';'],
+  ['Ресурсы Шальной карты', ';'],
+  ['Черты', ','],
+  ['Народные особенности', ';'],
+  ['Изъяны', ';'],
+  ['Эфирологический профиль', ';'],
+  ['Эфирологические параметры', ';'],
+  ['Профиль Шальной карты', ';'],
+  ['Снаряжение', ','],
+  ['Доступ', ';'],
+  ['Броня', ';'],
+  ['Атаки', ';'],
+  ['Нагрузка', ';'],
+  ['Благосостояние', ';'],
+  ['Параметры', ';'],
+  ['Связи', ';'],
+  ['Репутация', ';'],
+  ['Особые правила', ';'],
+])
+const identityItems: string[] = []
+const removeFinalPunctuation = (value: string) => value.replace(/[.;](?=(?:\s|<[^>]*>)*$)/u, '')
+const romanDegrees: Record<string, string> = { '1': 'I', '2': 'II', '3': 'III', '4': 'IV', '5': 'V', '6': 'VI' }
+const romanizeDegrees = (value: string) =>
+  value.replaceAll(/степень\s+([1-6])\b/giu, (_match, degree: string) => `${romanDegrees[degree]} степень`)
+const splitHtml = (value: string, separator: string): string[] => {
+  const items: string[] = []
+  let tagDepth = 0
+  let start = 0
+
+  for (let index = 0; index < value.length; index += 1) {
+    if (value[index] === '<') tagDepth += 1
+    if (value[index] === '>') tagDepth = Math.max(0, tagDepth - 1)
+    if (tagDepth === 0 && separator.includes(value[index])) {
+      items.push(value.slice(start, index).trim())
+      start = index + 1
+    }
+  }
+
+  items.push(value.slice(start).trim())
+  return items.filter(Boolean)
+}
+const displayAsList = (label: string, value: string): string => {
+  const separator = listSeparators.get(label)
+
+  if (!separator) return value
+
+  const items = splitHtml(value, separator)
+
+  if (items.length < 2) return value
+
+  const formattedItems = items.map((item) => {
+    if (label !== 'Связи') return item
+
+    return item.replace(/^([^—]+?)(\s+—)/u, '<strong>$1</strong>$2')
+  })
+
+  return `<ul class="character-value-list">${formattedItems.map((item) => `<li>${item}</li>`).join('')}</ul>`
+}
+const structuredHtml = romanizeDegrees(character.html).replaceAll(
+  /<p><strong>([\s\S]*?)<\/strong>\s*([\s\S]*?)<\/p>/gu,
+  (_match, labelHtml: string, value: string) => {
+    // Tooltips inside a label add HTML to <strong>; classify by its readable text instead.
+    const label = labelHtml
+      .replaceAll(/<[^>]+>/gu, '')
+      .replace(/:\s*$/u, '')
+      .trim()
+    const normalizedValue = removeFinalPunctuation(value)
+    const displayedValue = displayAsList(label, normalizedValue)
+
+    if (identityFields.has(label)) {
+      identityItems.push(`<div class="character-identity-detail"><dt>${label}</dt><dd>${displayedValue}</dd></div>`)
+      return ''
+    }
+
+    const kind = gameFields.has(label) ? 'game' : 'story'
+    return `<section class="character-field character-field--${kind}"><h3>${label}</h3><div>${displayedValue}</div></section>`
+  },
+)
+const modalNumber = character.numberLabel.split(' · ', 1)[0]
+const isFirst = character.id === 'ascended-first'
+const isAscended = character.id.startsWith('ascended-')
+const headerMeta = isFirst
+  ? character.primaryMeta
+  : isAscended
+    ? `Вознесённый · ${character.badge}`
+    : 'Готовый персонаж'
 ---
 
 <dialog class="character-dialog" id={character.id} data-character-dialog aria-labelledby={`${character.id}-title`}>
@@ -51,11 +168,11 @@ const structuredHtml = character.html.replace(/<p><strong>([^<]+):<\/strong>\s*(
           )
         }
         <header>
-          <span class="character-number">{character.numberLabel}</span>
+          <span class="character-number">{modalNumber}</span>
           <h2 id={`${character.id}-title`}>{character.name}</h2>
-          <p>{character.primaryMeta}</p>
-          <span class:list={["character-badge", `character-badge--${character.badgeTone}`]}>{character.badge}</span>
+          <p>{headerMeta}</p>
         </header>
+        {identityItems.length > 0 && <dl class="character-identity-details" set:html={identityItems.join('')} />}
       </aside>
       <div class="prose character-description" set:html={structuredHtml} />
     </div>

@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { systemPage } from "../../data/system";
-import { t, type Lang } from "../../i18n/ui";
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { systemPage } from '../../data/system'
+import { t, type Lang } from '../../i18n/ui'
 import {
   aboutHref,
   displaySummary,
@@ -11,17 +11,16 @@ import {
   getWikiEntries,
   glossaryHref,
   langHome,
-} from "../../lib/wiki";
+} from '../../lib/wiki'
+import { renderDiceText } from '../../lib/dice'
 
 export function getStaticPaths() {
-  return [{ params: { lang: "ru" } }];
+  return [{ params: { lang: 'ru' } }]
 }
 
-const L = Astro.params.lang as Lang;
-const entries = await getWikiEntries(L);
-const related = systemPage.relatedIds
-  .map((id) => entries.find((e) => e.data.id === id))
-  .filter(Boolean);
+const L = Astro.params.lang as Lang
+const entries = await getWikiEntries(L)
+const related = systemPage.relatedIds.map((id) => entries.find((e) => e.data.id === id)).filter(Boolean)
 ---
 
 <BaseLayout
@@ -42,14 +41,14 @@ const related = systemPage.relatedIds
         <section>
           <h2>{section.title[L]}</h2>
           {section.paragraphs.map((p) => (
-            <p>{p[L]}</p>
+            <p set:html={renderDiceText(p[L])} />
           ))}
           {section.items && (
             <dl class="system-dl">
               {section.items.map((item) => (
                 <>
                   <dt>{item.label[L]}</dt>
-                  <dd>{item.body[L]}</dd>
+                  <dd set:html={renderDiceText(item.body[L])} />
                 </>
               ))}
             </dl>
@@ -59,7 +58,7 @@ const related = systemPage.relatedIds
     }
 
     <section>
-      <h2>{t(L, "systemRelatedTitle")}</h2>
+      <h2>{t(L, 'systemRelatedTitle')}</h2>
       <ul class="entity-list">
         {
           related.map((entry) =>
@@ -68,9 +67,7 @@ const related = systemPage.relatedIds
                 <a class="title" href={entityHref(L, entry.data.id)}>
                   {displayTitle(entry, L)}
                 </a>
-                {displaySummary(entry, L) && (
-                  <p class="summary">{displaySummary(entry, L)}</p>
-                )}
+                {displaySummary(entry, L) && <p class="summary">{displaySummary(entry, L)}</p>}
               </li>
             ) : null,
           )
@@ -79,13 +76,13 @@ const related = systemPage.relatedIds
     </section>
 
     <p class="system-footer-links">
-      <a href={gameHref(L)}>{t(L, "navGame")}</a>
+      <a href={gameHref(L)}>{t(L, 'navGame')}</a>
       ·
-      <a href={aboutHref(L)}>{t(L, "navAbout")}</a>
+      <a href={aboutHref(L)}>{t(L, 'navAbout')}</a>
       ·
-      <a href={glossaryHref(L)}>{t(L, "navGlossary")}</a>
+      <a href={glossaryHref(L)}>{t(L, 'navGlossary')}</a>
       ·
-      <a href={langHome(L)}>{t(L, "backHome")}</a>
+      <a href={langHome(L)}>{t(L, 'backHome')}</a>
     </p>
   </article>
 </BaseLayout>

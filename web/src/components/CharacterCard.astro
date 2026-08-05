@@ -1,11 +1,13 @@
 ---
-import type { GalleryCharacter } from "../lib/characters";
+import type { GalleryCharacter } from '../lib/characters'
 
-interface Props {
-  character: GalleryCharacter;
+interface Properties {
+  character: GalleryCharacter
 }
 
-const { character } = Astro.props;
+const { character } = Astro.props
+const isAscended = character.id.startsWith('ascended-')
+const cardNumber = character.numberLabel.split(' · ', 1)[0]
 ---
 
 <article class="character-card">
@@ -23,16 +25,22 @@ const { character } = Astro.props;
       character.image ? (
         <img src={character.image} alt={character.imageAlt} loading="lazy" width="1024" height="1024" />
       ) : (
-        <div class="character-placeholder" aria-hidden="true">{character.name.slice(0, 1)}</div>
+        <div class="character-placeholder" aria-hidden="true">
+          {character.name.slice(0, 1)}
+        </div>
       )
     }
     <div class="character-card__body">
-      <span class="character-number">{character.numberLabel}</span>
+      <span class="character-number">{cardNumber}</span>
       <h2>{character.name}</h2>
       <p class="character-card__meta">{character.primaryMeta}</p>
       <p class="character-card__secondary">{character.secondaryMeta}</p>
       <div class="character-card__footer">
-        <span class:list={["character-badge", `character-badge--${character.badgeTone}`]}>{character.badge}</span>
+        {
+          !isAscended && (
+            <span class:list={['character-badge', `character-badge--${character.badgeTone}`]}>{character.badge}</span>
+          )
+        }
         <span class="character-card__open" aria-hidden="true">Подробнее →</span>
       </div>
     </div>

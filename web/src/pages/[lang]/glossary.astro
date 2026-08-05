@@ -1,29 +1,29 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { t, type Lang } from "../../i18n/ui";
-import { publishedGlossary } from "../../lib/glossary";
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { t, type Lang } from '../../i18n/ui'
+import { publishedGlossary } from '../../lib/glossary'
 
 export function getStaticPaths() {
-  return [{ params: { lang: "ru" } }];
+  return [{ params: { lang: 'ru' } }]
 }
 
-const L = Astro.params.lang as Lang;
-const terms = await publishedGlossary(L);
+const L = Astro.params.lang as Lang
+const terms = await publishedGlossary(L)
 ---
 
 <BaseLayout
   lang={L}
-  title={t(L, "glossaryTitle")}
-  description={t(L, "glossaryIntro")}
+  title={t(L, 'glossaryTitle')}
+  description={t(L, 'glossaryIntro')}
   pathAfterLang="glossary"
   activeNav="glossary"
   glossaryTooltips
 >
   <header class="page-header">
-    <h1>{t(L, "glossaryTitle")}</h1>
-    <p>{t(L, "glossaryIntro")}</p>
+    <h1>{t(L, 'glossaryTitle')}</h1>
+    <p>{t(L, 'glossaryIntro')}</p>
     <div class="meta-row">
-      <span>{terms.length} {t(L, "articles")}</span>
+      <span>{terms.length} {t(L, 'articles')}</span>
     </div>
   </header>
 
@@ -31,8 +31,8 @@ const terms = await publishedGlossary(L);
     <table class="glossary-table">
       <thead>
         <tr>
-          <th>{t(L, "glossaryTerm")}</th>
-          <th>{t(L, "glossaryDefinition")}</th>
+          <th>{t(L, 'glossaryTerm')}</th>
+          <th>{t(L, 'glossaryDefinition')}</th>
         </tr>
       </thead>
       <tbody>

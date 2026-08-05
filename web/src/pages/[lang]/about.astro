@@ -1,49 +1,50 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { t, type Lang } from "../../i18n/ui";
-import { glossaryHref, langHome, systemHref } from "../../lib/wiki";
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { t, type Lang } from '../../i18n/ui'
+import { glossaryHref, langHome, systemHref } from '../../lib/wiki'
 
 export function getStaticPaths() {
-  return [{ params: { lang: "ru" } }];
+  return [{ params: { lang: 'ru' } }]
 }
 
-const L = Astro.params.lang as Lang;
+const L = Astro.params.lang as Lang
 ---
 
 <BaseLayout
   lang={L}
-  title={t(L, "aboutTitle")}
-  description={t(L, "aboutLead")}
+  title={t(L, 'aboutTitle')}
+  description={t(L, 'aboutLead')}
   pathAfterLang="about"
   activeNav="about"
   glossaryTooltips
 >
   <article class="prose">
-    <h1>{t(L, "aboutTitle")}</h1>
-    <p>{t(L, "aboutLead")}</p>
+    <h1>{t(L, 'aboutTitle')}</h1>
+    <p>{t(L, 'aboutLead')}</p>
 
-    <h2>{t(L, "aboutThemesTitle")}</h2>
-    <p>{t(L, "aboutThemes")}</p>
+    <h2>{t(L, 'aboutThemesTitle')}</h2>
+    <p>{t(L, 'aboutThemes')}</p>
 
-    <h2>{t(L, "aboutEraTitle")}</h2>
-    <p>{t(L, "aboutEra")}</p>
+    <h2>{t(L, 'aboutEraTitle')}</h2>
+    <p>{t(L, 'aboutEra')}</p>
 
-    <h2>{t(L, "aboutMagicTitle")}</h2>
-    <p>{t(L, "aboutMagic")}</p>
+    <h2>{t(L, 'aboutMagicTitle')}</h2>
+    <p>{t(L, 'aboutMagic')}</p>
 
-    <h2>{t(L, "navSystem")}</h2>
+    <h2>{t(L, 'navSystem')}</h2>
     <p>
-      Игровые материалы построены на системе «Дневник авантюриста». Основные правила не переписываются: мир выражается через происхождения, Черты, Изъяны, Мистические дары, Силы и специальные правила.
-      {" "}
-      <a href={systemHref(L)}>{t(L, "navSystem")} →</a>
+      Игровые материалы построены на системе «Дневник авантюриста». Основные правила не переписываются: мир выражается
+      через происхождения, Черты, Изъяны, Мистические дары, Силы и специальные правила.
+      {' '}
+      <a href={systemHref(L)}>{t(L, 'navSystem')} →</a>
     </p>
 
     <p>
-      <a href={glossaryHref(L)}>{t(L, "navGlossary")}</a>
+      <a href={glossaryHref(L)}>{t(L, 'navGlossary')}</a>
       ·
-      <a href={systemHref(L)}>{t(L, "navSystem")}</a>
+      <a href={systemHref(L)}>{t(L, 'navSystem')}</a>
       ·
-      <a href={langHome(L)}>{t(L, "backHome")}</a>
+      <a href={langHome(L)}>{t(L, 'backHome')}</a>
     </p>
   </article>
 </BaseLayout>

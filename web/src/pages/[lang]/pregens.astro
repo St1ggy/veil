@@ -1,32 +1,33 @@
 ---
-import { readdirSync } from "node:fs";
-import CharacterGallery from "../../components/CharacterGallery.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { type Lang } from "../../i18n/ui";
-import { getBooks } from "../../lib/books";
-import { fieldOptions, parsePregens } from "../../lib/characters";
-import { withBase } from "../../lib/wiki";
+import { readdirSync } from 'node:fs'
+import CharacterGallery from '../../components/CharacterGallery.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { type Lang } from '../../i18n/ui'
+import { getBooks } from '../../lib/books'
+import { fieldOptions, parsePregens } from '../../lib/characters'
+import { withBase } from '../../lib/wiki'
 
 export async function getStaticPaths() {
-  return [{ params: { lang: "ru" } }];
+  return [{ params: { lang: 'ru' } }]
 }
 
-const L = Astro.params.lang as Lang;
-const books = await getBooks();
-const book = books.find((item) => item.data.id === "game.appendix.pregenerated_characters");
-if (!book) throw new Error("Книга готовых персонажей не найдена");
+const L = Astro.params.lang as Lang
+const books = await getBooks()
+const book = books.find((item) => item.data.id === 'game.appendix.pregenerated_characters')
+if (!book) throw new Error('Книга готовых персонажей не найдена')
 
-const imageFiles = readdirSync(new URL("../../../public/images/pregens", import.meta.url))
-  .filter((name) => /^\d{2}-.+\.png$/u.test(name));
+const imageFiles = readdirSync(new URL('../../../public/images/pregens', import.meta.url)).filter((name) =>
+  /^\d{2}-.+\.png$/u.test(name),
+)
 const imageByNumber = new Map(
   imageFiles.map((name) => [Number(name.match(/^(\d+)-/u)?.[1]), withBase(`images/pregens/${name}`)]),
-);
-const pregens = parsePregens(book, imageByNumber);
-const people = fieldOptions(pregens, "people");
-const genders = fieldOptions(pregens, "gender");
-const careOptions = fieldOptions(pregens, "care");
-const methodOptions = fieldOptions(pregens, "method");
-const changeOptions = fieldOptions(pregens, "change");
+)
+const pregens = await parsePregens(book, imageByNumber)
+const people = fieldOptions(pregens, 'people')
+const genders = fieldOptions(pregens, 'gender')
+const careOptions = fieldOptions(pregens, 'care')
+const methodOptions = fieldOptions(pregens, 'method')
+const changeOptions = fieldOptions(pregens, 'change')
 ---
 
 <BaseLayout
@@ -52,31 +53,41 @@ const changeOptions = fieldOptions(pregens, "change");
     searchPlaceholder="Имя, роль или профессия"
     filters={[
       {
-        key: "people",
-        label: "Народ",
-        allLabel: "Все народы",
+        key: 'people',
+        label: 'Народ',
+        allLabel: 'Все народы',
         options: people.map((value) => ({ value })),
       },
       {
-        key: "gender",
-        label: "Пол",
-        allLabel: "Любой пол",
+        key: 'gender',
+        label: 'Пол',
+        allLabel: 'Любой пол',
         options: genders.map((value) => ({ value })),
       },
       {
-        key: "ether",
-        label: "Эфир",
-        allLabel: "Любой профиль",
+        key: 'ether',
+        label: 'Эфир',
+        allLabel: 'Любой профиль',
         options: [
-          { value: "yes", label: "Взаимодействует" },
-          { value: "no", label: "Не взаимодействует" },
+          { value: 'yes', label: 'Взаимодействует' },
+          { value: 'no', label: 'Не взаимодействует' },
         ],
       },
     ]}
     compassFilters={[
-      { key: "care", label: "Круг заботы", allLabel: "Любой круг", options: careOptions.map((value) => ({ value })) },
-      { key: "method", label: "Способ действия", allLabel: "Любой способ", options: methodOptions.map((value) => ({ value })) },
-      { key: "change", label: "Отношение к переменам", allLabel: "Любое отношение", options: changeOptions.map((value) => ({ value })) },
+      { key: 'care', label: 'Круг заботы', allLabel: 'Любой круг', options: careOptions.map((value) => ({ value })) },
+      {
+        key: 'method',
+        label: 'Способ действия',
+        allLabel: 'Любой способ',
+        options: methodOptions.map((value) => ({ value })),
+      },
+      {
+        key: 'change',
+        label: 'Отношение к переменам',
+        allLabel: 'Любое отношение',
+        options: changeOptions.map((value) => ({ value })),
+      },
     ]}
   />
 </BaseLayout>

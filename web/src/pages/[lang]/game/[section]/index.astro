@@ -1,39 +1,26 @@
 ---
-import BaseLayout from "../../../../layouts/BaseLayout.astro";
-import {
-  gameSectionById,
-  gameSections,
-  type GameSectionId,
-} from "../../../../i18n/gameSections";
-import { t, type Lang } from "../../../../i18n/ui";
-import {
-  gameItemsInSection,
-  sectionReadme,
-} from "../../../../lib/gameCatalog";
-import { renderGameMarkdown } from "../../../../lib/gameMarkdown";
-import {
-  entityHref,
-  gameHref,
-  gameItemHref,
-} from "../../../../lib/wiki";
+import BaseLayout from '../../../../layouts/BaseLayout.astro'
+import { gameSectionById, gameSections, type GameSectionId } from '../../../../i18n/gameSections'
+import { t, type Lang } from '../../../../i18n/ui'
+import { gameItemsInSection, sectionReadme } from '../../../../lib/gameCatalog'
+import { renderGameMarkdown } from '../../../../lib/gameMarkdown'
+import { entityHref, gameHref, gameItemHref } from '../../../../lib/wiki'
 
 export function getStaticPaths() {
-  const langs = ["ru"] as const;
+  const langs = ['ru'] as const
   return langs.flatMap((lang) =>
     gameSections.map((section) => ({
       params: { lang, section: section.id },
     })),
-  );
+  )
 }
 
-const L = Astro.params.lang as Lang;
-const sectionId = Astro.params.section as GameSectionId;
-const section = gameSectionById(sectionId)!;
-const items = gameItemsInSection(sectionId);
-const readme = sectionReadme(sectionId);
-const readmeHtml = readme
-  ? renderGameMarkdown(readme, (id) => entityHref(L, id))
-  : "";
+const L = Astro.params.lang as Lang
+const sectionId = Astro.params.section as GameSectionId
+const section = gameSectionById(sectionId)!
+const items = gameItemsInSection(sectionId)
+const readme = sectionReadme(sectionId)
+const readmeHtml = readme ? await renderGameMarkdown(readme, (id) => entityHref(L, id)) : ''
 ---
 
 <BaseLayout
@@ -46,21 +33,17 @@ const readmeHtml = readme
 >
   <header class="page-header">
     <div class="meta-row">
-      <a href={gameHref(L)}>{t(L, "gameBack")}</a>
+      <a href={gameHref(L)}>{t(L, 'gameBack')}</a>
     </div>
     <h1>{section.label[L]}</h1>
     <p>{section.description[L]}</p>
   </header>
 
-  {
-    readmeHtml && (
-      <article class="prose game-readme" set:html={readmeHtml} />
-    )
-  }
+  {readmeHtml && <article class="prose game-readme" set:html={readmeHtml} />}
 
   {
     items.length === 0 ? (
-      <p class="muted">{t(L, "gameEmpty")}</p>
+      <p class="muted">{t(L, 'gameEmpty')}</p>
     ) : (
       <ul class="entity-list">
         {items.map((item) => (

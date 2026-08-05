@@ -1,65 +1,160 @@
 ---
-import CharacterCard from "./CharacterCard.astro";
-import CharacterDialog from "./CharacterDialog.astro";
-import type { GalleryCharacter } from "../lib/characters";
+import CharacterCard from './CharacterCard.astro'
+import CharacterDialog from './CharacterDialog.astro'
+import FilterIcon from './FilterIcon.astro'
+import type { GalleryCharacter } from '../lib/characters'
 
 export interface CharacterFilter {
-  key: string;
-  label: string;
-  allLabel: string;
-  options: Array<{ value: string; label?: string }>;
+  key: string
+  label: string
+  allLabel: string
+  options: { value: string; label?: string }[]
 }
 
-interface Props {
-  id: string;
-  characters: GalleryCharacter[];
-  filters: CharacterFilter[];
-  compassFilters?: CharacterFilter[];
-  searchPlaceholder: string;
+export interface CharacterGroup {
+  value: string
+  title: string
 }
 
-const { id, characters, filters, compassFilters = [], searchPlaceholder } = Astro.props;
-const compassIcons: Record<string, string> = { care: "◎", method: "⚖", change: "↻" };
+interface Properties {
+  id: string
+  characters: GalleryCharacter[]
+  filters: CharacterFilter[]
+  compassFilters?: CharacterFilter[]
+  groupBy?: { key: string; groups: CharacterGroup[] }
+  searchPlaceholder: string
+}
+
+const { id, characters, filters, compassFilters = [], groupBy, searchPlaceholder } = Astro.props
+const filterCount = filters.length + Number(compassFilters.length > 0)
+const compassIcons: Record<string, string> = { care: '◎', method: '⚖', change: '↻' }
+const compassPointIcons: Record<string, Record<string, string>> = {
+  care: { '': '⊘', Солидарность: '◌', Избирательность: '◐', Самоцентричность: '◉' },
+  method: { '': '⊘', Равновесие: '⚖', Свобода: '〰', Структура: '▦' },
+  change: { '': '⊘', Адаптация: '↻', Преобразование: '✦', Сохранение: '◇' },
+}
+const compassPointDescriptions: Record<string, Record<string, string>> = {
+  care: {
+    '': 'Не ограничивает круг заботы.',
+    Солидарность: 'Забота распространяется на всех разумных существ.',
+    Избирательность: 'Прежде всего важны свои: семья, сообщество, народ или клятва.',
+    Самоцентричность: 'Личная цель и воля важнее чужих интересов.',
+  },
+  method: {
+    '': 'Не ограничивает способ действия.',
+    Равновесие: 'Средства выбираются по обстоятельствам.',
+    Свобода: 'Личная воля важнее навязанного контроля.',
+    Структура: 'Опора на обязательства, институты и предсказуемость.',
+  },
+  change: {
+    '': 'Не ограничивает отношение к переменам.',
+    Адаптация: 'Менять необходимое, сохраняя жизнеспособное.',
+    Преобразование: 'Создавать новое и отказываться от устаревшего.',
+    Сохранение: 'Защищать преемственность и устойчивость.',
+  },
+}
 ---
 
 <div class="character-gallery" data-character-gallery id={id}>
-  <form class="character-filters" aria-label="Фильтры персонажей">
-    {filters.map((filter) => (
-      <label>
-        <span>{filter.label}</span>
-        <span class="custom-select">
-          <select data-character-filter={filter.key}>
-            <option value="">{filter.allLabel}</option>
-            {filter.options.map((option) => <option value={option.value}>{option.label ?? option.value}</option>)}
-          </select>
-        </span>
-      </label>
-    ))}
+  <form class:list={['character-filters', `character-filters--${filterCount}`]} aria-label="Фильтры персонажей">
+    {
+      filters.map((filter) => (
+        <div class="character-filter">
+          <span class="character-filter__label">{filter.label}</span>
+          <span class="custom-select">
+            <input type="hidden" data-character-filter={filter.key} value="" />
+            <button
+              type="button"
+              class="custom-select__toggle"
+              data-custom-select-toggle
+              aria-expanded="false"
+              aria-haspopup="listbox"
+            >
+              <span class="custom-select__icon" data-custom-select-icon>
+                <FilterIcon filter={filter.key} value="" />
+              </span>
+              <span data-custom-select-value>{filter.allLabel}</span>
+            </button>
+            <span class="custom-select__menu" data-custom-select-menu role="listbox" hidden>
+              <button type="button" role="option" aria-selected="true" data-custom-select-option data-value="">
+                <FilterIcon filter={filter.key} value="" />
+                <span data-custom-select-option-label>{filter.allLabel}</span>
+              </button>
+              {filter.options.map((option) => (
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected="false"
+                  data-custom-select-option
+                  data-value={option.value}
+                >
+                  <FilterIcon filter={filter.key} value={option.value} />
+                  <span data-custom-select-option-label>{option.label ?? option.value}</span>
+                </button>
+              ))}
+            </span>
+          </span>
+        </div>
+      ))
+    }
     {
       compassFilters.length > 0 && (
         <div class="compass-filter" data-compass-filter>
-          <button type="button" class="compass-filter__toggle" data-compass-toggle aria-expanded="false">
-            <span aria-hidden="true">◈</span>
-            Куб выбора
-          </button>
+          <span class="compass-filter__label">Мировоззрение</span>
+          <span class="custom-select">
+            <button
+              type="button"
+              class="compass-filter__toggle"
+              data-compass-toggle
+              data-tooltip="Открыть настройки фильтра мировоззрения."
+              data-tooltip-kind="control"
+              data-tooltip-title="Куб выбора"
+              aria-label="Открыть фильтр Куба выбора"
+              aria-expanded="false"
+            >
+              Настроить
+            </button>
+          </span>
           <div class="compass-filter__panel" data-compass-panel hidden>
-            <p>Выберите конкретную точку для каждой оси или оставьте ось без ограничения.</p>
+            <div class="compass-filter__panel-heading">
+              <strong>Настройка мировоззрения</strong>
+              <p>Выберите точку на каждой оси или оставьте её без ограничения.</p>
+            </div>
             <div class="compass-filter__sliders">
-            {compassFilters.map((filter) => {
-              const options = [{ value: "", label: "Все" }, ...filter.options.map((option) => ({ value: option.value, label: option.label ?? option.value }))];
-              return (
-                <label>
-                  <span><i class="compass-filter__axis-icon" aria-hidden="true">{compassIcons[filter.key] ?? "◈"}</i>{filter.label}</span>
-                  <div class="compass-picker" data-character-picker={filter.key} role="group" aria-label={filter.label}>
-                    {options.map((option) => (
-                      <button type="button" data-picker-value={option.value} aria-pressed={option.value ? "false" : "true"}>
-                        <i aria-hidden="true"></i>{option.label}
-                      </button>
-                    ))}
-                  </div>
-                </label>
-              );
-            })}
+              {compassFilters.map((filter) => {
+                const options = [{ value: '', label: filter.allLabel }, ...filter.options]
+                return (
+                  <label class="compass-filter__axis">
+                    <span class="compass-filter__axis-label">
+                      <i class="compass-filter__axis-icon" aria-hidden="true">
+                        {compassIcons[filter.key] ?? '◈'}
+                      </i>
+                      {filter.label}
+                    </span>
+                    <span class="compass-picker" role="radiogroup" aria-label={filter.label}>
+                      {options.map((option) => (
+                        <label
+                          class="compass-radio"
+                          data-tooltip={compassPointDescriptions[filter.key]?.[option.value] ?? ''}
+                          data-tooltip-kind="control"
+                          data-tooltip-title={option.label ?? option.value}
+                        >
+                          <input
+                            type="radio"
+                            name={`${id}-${filter.key}`}
+                            value={option.value}
+                            data-character-compass={filter.key}
+                            checked={option.value === ''}
+                          />
+                          <span class="compass-radio__icon" aria-hidden="true">
+                            {compassPointIcons[filter.key]?.[option.value] ?? '●'}
+                          </span>
+                        </label>
+                      ))}
+                    </span>
+                  </label>
+                )
+              })}
             </div>
           </div>
         </div>
@@ -72,18 +167,45 @@ const compassIcons: Record<string, string> = { care: "◎", method: "⚖", chang
     <output data-character-count>Показано: {characters.length}</output>
   </form>
 
-  <section class="character-grid">
-    {characters.map((character) => <CharacterCard character={character} />)}
-  </section>
+  {
+    groupBy ? (
+      <section class="character-groups">
+        {groupBy.groups.map((group) => {
+          const groupCharacters = characters.filter((character) => character.filters[groupBy.key] === group.value)
+
+          if (groupCharacters.length === 0) return null
+
+          return (
+            <section class="character-group" data-character-group>
+              <h2>{group.title}</h2>
+              <div class="character-grid">
+                {groupCharacters.map((character) => (
+                  <CharacterCard character={character} />
+                ))}
+              </div>
+            </section>
+          )
+        })}
+      </section>
+    ) : (
+      <section class="character-grid">
+        {characters.map((character) => (
+          <CharacterCard character={character} />
+        ))}
+      </section>
+    )
+  }
 
   {characters.map((character) => <CharacterDialog character={character} />)}
 
   <dialog class="character-image-dialog" data-character-image-dialog aria-label="Портрет в полном размере">
-    <button type="button" class="character-image-dialog__close" data-character-image-close aria-label="Закрыть портрет">×</button>
+    <button type="button" class="character-image-dialog__close" data-character-image-close aria-label="Закрыть портрет"
+      >×</button
+    >
     <img data-character-image-element alt="" />
   </dialog>
 </div>
 
 <script>
-  import "../scripts/character-gallery";
+  import '../scripts/character-gallery'
 </script>

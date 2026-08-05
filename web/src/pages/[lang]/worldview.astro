@@ -1,0 +1,150 @@
+---
+import CategoryIcon from '../../components/CategoryIcon.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { type Lang } from '../../i18n/ui'
+import { bookHref, getBooks, sectionsOf } from '../../lib/books'
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'ru' } }]
+}
+
+const lang = Astro.params.lang as Lang
+const characterCreation = (await getBooks()).find(
+  (book) => book.data.id === 'game.character_creation.character_creation',
+)
+
+if (!characterCreation) {
+  throw new Error('Каноническая книга о создании персонажа не найдена')
+}
+
+const cubeSection = sectionsOf(characterCreation).find((section) => section.title === 'Куб выбора')
+
+if (!cubeSection) {
+  throw new Error('Раздел «Куб выбора» не найден в канонической книге')
+}
+
+const worldviewAxes = [
+  {
+    icon: '◎',
+    title: 'Круг заботы',
+    question: 'Ради кого действует персонаж?',
+    values: [
+      ['Солидарность', 'Забота распространяется на всех разумных существ.'],
+      ['Избирательность', 'Прежде всего важны свои: семья, сообщество, народ или клятва.'],
+      ['Самоцентричность', 'Личная цель, воля или судьба важнее чужих интересов.'],
+    ],
+  },
+  {
+    icon: '⚖',
+    title: 'Способ действия',
+    question: 'Как персонаж привык достигать цели?',
+    values: [
+      ['Структура', 'Опора на обязательства, институты и предсказуемость.'],
+      ['Равновесие', 'Средства выбираются по обстоятельствам.'],
+      ['Свобода', 'Личная воля важнее навязанного контроля.'],
+    ],
+  },
+  {
+    icon: '↻',
+    title: 'Отношение к переменам',
+    question: 'Что персонаж делает с устоявшимся порядком?',
+    values: [
+      ['Сохранение', 'Защищает преемственность и устойчивость.'],
+      ['Адаптация', 'Меняет необходимое, сохраняя жизнеспособное.'],
+      ['Преобразование', 'Создаёт новое и отказывается от устаревшего.'],
+    ],
+  },
+]
+---
+
+<BaseLayout
+  lang={lang}
+  title="Мировоззрение"
+  description="Куб выбора — три координаты ценностных ориентиров персонажей, сообществ и организаций."
+  pathAfterLang="worldview"
+  activeCategory="worldview"
+  glossaryTooltips
+>
+  <header class="page-header">
+    <div class="meta-row">
+      <span class="icon-chip icon-chip--header" aria-hidden="true">
+        <CategoryIcon id="worldview" size={22} />
+      </span>
+      <span>Раздел</span>
+    </div>
+    <h1>Мировоззрение</h1>
+    <p>Куб выбора — каноническая модель ценностных ориентиров для персонажей, сообществ и организаций.</p>
+  </header>
+
+  <article class="worldview-page">
+    <section class="worldview-intro" aria-labelledby="worldview-purpose">
+      <p class="eyebrow">Каноническая модель</p>
+      <h2 id="worldview-purpose">Три координаты выбора</h2>
+      <p>
+        Куб выбора описывает ценностные ориентиры персонажа, сообщества или организации. Он не выносит моральный
+        приговор, а показывает, чьи интересы важнее, как принимаются решения и как воспринимаются перемены.
+      </p>
+    </section>
+
+    <section class="worldview-section" aria-labelledby="worldview-axes-title">
+      <div class="worldview-section__heading">
+        <p class="eyebrow">Координаты</p>
+        <h2 id="worldview-axes-title">Три оси</h2>
+      </div>
+      <div class="worldview-axis-grid">
+        {
+          worldviewAxes.map((axis) => (
+            <section class="worldview-axis">
+              <div class="worldview-axis__heading">
+                <span aria-hidden="true">{axis.icon}</span>
+                <div>
+                  <h3>{axis.title}</h3>
+                  <p>{axis.question}</p>
+                </div>
+              </div>
+              <dl>
+                {axis.values.map(([term, description]) => (
+                  <div>
+                    <dt>{term}</dt>
+                    <dd>{description}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          ))
+        }
+      </div>
+    </section>
+
+    <div class="worldview-detail-grid">
+      <section class="worldview-note" aria-labelledby="worldview-reading">
+        <p class="eyebrow">Формат записи</p>
+        <h2 id="worldview-reading">Как читать Куб</h2>
+        <p class="worldview-note__example">Солидарность · Свобода · Преобразование</p>
+        <p>Координаты всегда записываются в порядке: круг заботы, способ действия, отношение к переменам.</p>
+      </section>
+      <section class="worldview-note" aria-labelledby="worldview-limits">
+        <p class="eyebrow">Границы модели</p>
+        <h2 id="worldview-limits">Чем Куб не является</h2>
+        <p>
+          Он не измеряет доброту, законопослушность, психическое здоровье или репутацию и не даёт игровых преимуществ
+          либо штрафов.
+        </p>
+      </section>
+      <section class="worldview-note worldview-note--wide" aria-labelledby="worldview-change">
+        <p class="eyebrow">Развитие</p>
+        <h2 id="worldview-change">Координаты могут меняться</h2>
+        <p>
+          Опыт кампании, последствия решений и новые связи способны сдвигать отдельную координату. Это не обязательная
+          механика, а инструмент для осмысленного развития персонажа.
+        </p>
+      </section>
+    </div>
+  </article>
+
+  <p class="system-footer-links">
+    Источник: <a href={`${bookHref(lang, characterCreation.data.id)}#${cubeSection.slug}`}
+      >«{characterCreation.data.title}»</a
+    >.
+  </p>
+</BaseLayout>

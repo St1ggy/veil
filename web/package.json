@@ -3,23 +3,38 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^22.22.3 || ^24.16.0 || >=26.3.0"
+  },
   "scripts": {
     "generate:wiki": "../.venv/bin/python3 ../scripts/generate/sync_wiki_from_raw_books.py",
     "predev": "npm run generate:wiki",
     "dev": "astro dev",
     "prebuild": "npm run generate:wiki",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "lint": "npm run lint:eslint && npm run lint:stylelint && npm run lint:prettier",
+    "lint:eslint": "eslint .",
+    "lint:stylelint": "stylelint \"src/**/*.{css,scss}\"",
+    "lint:prettier": "prettier --check \"src/**/*.{astro,ts,scss,css}\" \"*.{js,json}\"",
+    "format": "npm run lint:eslint -- --fix && npm run lint:stylelint -- --fix && prettier --write \"src/**/*.{astro,ts,scss,css}\" \"*.{js,json}\""
   },
   "dependencies": {
-    "@lucide/astro": "^1.27.0",
-    "astro": "^5.12.0",
-    "marked": "^18.0.7",
-    "unist-util-visit": "^5.0.0",
+    "@astrojs/markdown-satteri": "^0.3.5",
+    "@bruits/satteri-wasm32-wasi": "^0.9.5",
+    "@lucide/astro": "^1.28.0",
+    "astro": "^7.1.6",
+    "satteri": "^0.9.5",
     "yaml": "^2.9.0"
   },
   "devDependencies": {
+    "@st1ggy/linter-config": "^7.2.2",
     "@types/node": "^26.1.2",
-    "sass": "^1.102.0"
+    "eslint": "^10.8.0",
+    "eslint-plugin-astro": "^3.1.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "sass": "^1.102.0",
+    "stylelint": "^17.14.1"
   }
 }
